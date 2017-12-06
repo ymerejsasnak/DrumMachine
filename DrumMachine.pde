@@ -4,41 +4,44 @@ import controlP5.*;
 import ddf.minim.*;
 import ddf.minim.ugens.*;
 
+
 Minim minim;
 AudioOutput out;
-
-Sampler sample1;  // will have 3 or 4 at least eventually (maybe even more?!?!?)
-
-SampleWindow window1, window2;
 
 ControlP5 cp5;
 
 
+
+SamplerListener[] samplerListener = new SamplerListener[4];
+SamplerGUI[] samplerGUI = new SamplerGUI[4];
+SamplerAudio[] samplerAudio = new SamplerAudio[4];
+
+
+
 void setup() {
-  size(960, 600);
+  size(1000, 800);
   background(50);
   
   minim = new Minim(this);
   out = minim.getLineOut();
   
-  sample1 = new Sampler("1.wav", 4, minim); //4 is # of voices
-  
-  sample1.patch(out); //will probably have to patch through other stuff 1st eventually
-  
-  
-  
   cp5 = new ControlP5(this);
   
-  window1 = new SampleWindow(20, 20, 1);
-  window2 = new SampleWindow(275, 20, 2);
+  for (int i = 0; i < 4; i++) {
+    samplerListener[i] = new SamplerListener(i + 1); //give it the index
+    samplerGUI[i] = new SamplerGUI(i * 200 + 20, 20, i + 1);
+  }
+  samplerAudio[0] = new SamplerAudio("BD.wav");
+  samplerAudio[1] = new SamplerAudio("SNR.wav");
+  samplerAudio[2] = new SamplerAudio("CHH.wav");
+  samplerAudio[3] = new SamplerAudio("OHH.wav");
+    
+  
 }
 
 
 void draw() {
-  window1.display();
-  window2.display();
-}
-
-void mousePressed() {
-  sample1.trigger(); 
+  for (int i = 0; i < 4; i++) {
+    samplerGUI[i].display();
+  }
 }
