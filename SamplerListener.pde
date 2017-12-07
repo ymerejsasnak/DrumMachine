@@ -13,7 +13,7 @@ public class SamplerListener implements ControlListener {
       samplerAudio[index].play();
     } 
     else if (event.getController().getId() == index + 10) {
-      selectInput("Select a sample to load:", "loadfile", null, this); 
+      selectInput("Select a sample to load:", "loadfile", dataFile("data"), this); 
     }
   }
   
@@ -22,7 +22,8 @@ public class SamplerListener implements ControlListener {
      
        String path = selection.getAbsolutePath();
        samplerAudio[index] = new SamplerAudio(path);
-       samplerGUI[index].redrawSamplerText(path.substring(path.lastIndexOf("/") + 1));
+       samplerGUI[index].needsToDraw = true;
+      
       
     }
     

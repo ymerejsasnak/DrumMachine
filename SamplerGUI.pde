@@ -2,26 +2,28 @@
 class SamplerGUI{
  
   int x, y, index;
-  int h = 75;
-  int w = 150;
+  int h = SAMPLER_HEIGHT;
+  int w = SAMPLER_WIDTH;
+  
+  boolean needsToDraw = true;
   
   
-  SamplerGUI(int x, int y, int index){
-    this.x = x;
-    this.y = y;
+  SamplerGUI(int index){
+    this.x = w * index;
+    this.y = 0;
     this.index = index;
     
     cp5.addButton("play " + index)
        .setCaptionLabel("play")
-       .setPosition(x, y)
-       .setSize(20, 20)
+       .setPosition(x + PADDING, y + PADDING)
+       .setSize(BUTTON_SIZE, BUTTON_SIZE)
        .setId(index)
        .addListener(samplerListener[index]);
        ;
     cp5.addButton("load " + index)
        .setCaptionLabel("load")
-       .setPosition(x, y + 40)
-       .setSize(20, 20)
+       .setPosition(x + w - PADDING - BUTTON_SIZE  , y + PADDING)
+       .setSize(BUTTON_SIZE, BUTTON_SIZE)
        .setId(10 + index)
        .addListener(samplerListener[index]);
        ;
@@ -31,25 +33,20 @@ class SamplerGUI{
   
  
   
-  void redrawSampler() {
-    fill(50);
-    noStroke();
-    rect(x, y, w, h + 20);
+  void drawGUI() {
+    // draw over old first
+    fill(BG_COLOR);
+    strokeWeight(1);
+    rect(x, y, w - 1, h);
     
-    fill(30);
-    stroke(70);
-    strokeWeight(2);
-    rect(x + 30, y, w, h, 5);
-    
-    redrawSamplerText(samplerAudio[index].filename);
+     String text = samplerAudio[index].getFilename();
 
-  }
-  
-  void redrawSamplerText(String text) {
-    fill(200);
-    textSize(10);
-    //ugly way to extract  filename from full path/file name....butonly linux w/ the '/'?
-    text(text, x + 45, y + h + 20);
+    fill(TEXT_COLOR);
+    textSize(TEXT_SIZE);
+    textAlign(CENTER, CENTER);
+    text(text, x + w / 2, (y + h) / 2);
+    
+    needsToDraw = false;
   }
   
  

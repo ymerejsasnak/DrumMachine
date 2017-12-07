@@ -2,6 +2,7 @@ class SamplerAudio {
   
   Sampler sampler;
   String filename;
+  float[] sampleData;
 
   
   SamplerAudio(String newFilename) {
@@ -16,5 +17,9 @@ class SamplerAudio {
     sampler.trigger(); 
   }
   
+  String getFilename() {
+    //ugly way to extract  filename from full path/file name....butonly linux w/ the '/'?
+    return filename.substring(filename.lastIndexOf("/") + 1);
+  } 
 
 }

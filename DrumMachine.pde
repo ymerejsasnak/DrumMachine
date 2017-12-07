@@ -1,5 +1,11 @@
 // IDM: Idiosyncratic Drum Machine
 
+/* TO DO:
+save file path from loading file so selection dialog goes back to last folder used
+
+
+*/
+
 import controlP5.*;
 import ddf.minim.*;
 import ddf.minim.ugens.*;
@@ -20,7 +26,7 @@ SamplerGUI[] samplerGUI = new SamplerGUI[4];
 
 void setup() {
   size(1000, 800);
-  background(50);
+  background(BG_COLOR);
   
   minim = new Minim(this);
   out = minim.getLineOut();
@@ -28,12 +34,12 @@ void setup() {
   cp5 = new ControlP5(this);
   
   samplerAudio[0] = new SamplerAudio("BD.wav");
-  samplerAudio[1] = new SamplerAudio("SNR.wav");
-  samplerAudio[2] = new SamplerAudio("CHH.wav");
-  samplerAudio[3] = new SamplerAudio("OHH.wav");
+  samplerAudio[1] = new SamplerAudio("SN1.wav");
+  samplerAudio[2] = new SamplerAudio("SN2.wav");
+  samplerAudio[3] = new SamplerAudio("CHH.wav");
   for (int i = 0; i < 4; i++) {
     samplerListener[i] = new SamplerListener(i); //give it the index
-    samplerGUI[i] = new SamplerGUI(i * 200 + 20, 20, i);
+    samplerGUI[i] = new SamplerGUI(i);
   }
  
     
@@ -42,9 +48,9 @@ void setup() {
 
 
 void draw() {
-  if (frameCount == 1) {
-    for (int i = 0; i < 4; i++) {
-      samplerGUI[i].redrawSampler();
+  for (int i = 0; i < 4; i++) {
+    if (samplerGUI[i].needsToDraw) {
+      samplerGUI[i].drawGUI();
     }
   }
 }
