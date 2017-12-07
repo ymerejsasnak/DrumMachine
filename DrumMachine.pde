@@ -21,6 +21,9 @@ SamplerAudio[] samplerAudio = new SamplerAudio[4];
 SamplerListener[] samplerListener = new SamplerListener[4];
 SamplerGUI[] samplerGUI = new SamplerGUI[4];
 
+SequencerRowGUI[] sequencerRowGUI = new SequencerRowGUI[4];
+
+
 
 
 
@@ -40,6 +43,8 @@ void setup() {
   for (int i = 0; i < 4; i++) {
     samplerListener[i] = new SamplerListener(i); //give it the index
     samplerGUI[i] = new SamplerGUI(i);
+    
+    sequencerRowGUI[i] = new SequencerRowGUI(i);
   }
  
     
