@@ -1,6 +1,5 @@
 class SequencerAudio {
   
-  boolean isPlaying = false;
   int index;
   
   SequencerAudio(int index) {

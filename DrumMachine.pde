@@ -62,9 +62,8 @@ void draw() {
       samplerGUI[i].drawGUI();
     }
     sequencerGUI[i].drawGUI();
-    
   }
-  
+
  
   
 }

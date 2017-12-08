@@ -3,6 +3,8 @@ class MasterGUI {
   int tempo = 120;
   boolean playing = false;
   
+  boolean needsToDraw = true;
+  
   MasterGUI() {
     
     cp5.addButton("play")
@@ -14,8 +16,17 @@ class MasterGUI {
        .setPosition(0, height - 120)
        .plugTo(this)
     ;
+    cp5.addSlider("tempo")
+       .setPosition(100, height - 140)
+       .setSliderMode(Slider.FLEXIBLE)
+       .setRange(MIN_TEMPO, MAX_TEMPO)
+       .setValue(tempo)
+       .plugTo(this)
+    ;
+    
   }
   
+ 
   
   
   public void play() {
@@ -33,6 +44,10 @@ class MasterGUI {
       sequencerGUI[i].steps[sequencerGUI[i].currentStep].playing = false;
       sequencerGUI[i].currentStep = 0;
     }
+    
   }
   
+  
+ 
+
 }

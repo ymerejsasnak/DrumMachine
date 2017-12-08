@@ -16,14 +16,14 @@ class SamplerGUI{
     cp5.addButton("play " + index)
        .setCaptionLabel("play")
        .setPosition(x + PADDING, y + PADDING)
-       .setSize(BUTTON_SIZE, BUTTON_SIZE)
+       .setSize(SAMPLER_BUTTON_SIZE, SAMPLER_BUTTON_SIZE)
        .setId(index)
        .addListener(samplerListener[index]);
        ;
     cp5.addButton("load " + index)
        .setCaptionLabel("load")
-       .setPosition(x + w - PADDING - BUTTON_SIZE  , y + PADDING)
-       .setSize(BUTTON_SIZE, BUTTON_SIZE)
+       .setPosition(x + w - PADDING - SAMPLER_BUTTON_SIZE  , y + PADDING)
+       .setSize(SAMPLER_BUTTON_SIZE, SAMPLER_BUTTON_SIZE)
        .setId(10 + index)
        .addListener(samplerListener[index]);
        ;
