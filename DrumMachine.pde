@@ -21,9 +21,10 @@ SamplerAudio[] samplerAudio = new SamplerAudio[4];
 SamplerListener[] samplerListener = new SamplerListener[4];
 SamplerGUI[] samplerGUI = new SamplerGUI[4];
 
-SequencerRowGUI[] sequencerRowGUI = new SequencerRowGUI[4];
+SequencerAudio[] sequencerAudio = new SequencerAudio[4];
+SequencerGUI[] sequencerGUI = new SequencerGUI[4];
 
-
+MasterGUI masterGUI;
 
 
 
@@ -33,6 +34,7 @@ void setup() {
   
   minim = new Minim(this);
   out = minim.getLineOut();
+  
   
   cp5 = new ControlP5(this);
   
@@ -44,27 +46,26 @@ void setup() {
     samplerListener[i] = new SamplerListener(i); //give it the index
     samplerGUI[i] = new SamplerGUI(i);
     
-    sequencerRowGUI[i] = new SequencerRowGUI(i);
+    sequencerAudio[i] = new SequencerAudio(i);
+    sequencerGUI[i] = new SequencerGUI(i);
   }
+  masterGUI = new MasterGUI();
  
-  frameRate(60); // higher framerate = more precise beat timing
-  
+   
 }
 
 
 void draw() {
-  println(frameRate);
   
   for (int i = 0; i < 4; i++) {
     if (samplerGUI[i].needsToDraw) {
       samplerGUI[i].drawGUI();
     }
-    if (sequencerRowGUI[i].needsToDraw) {
-      sequencerRowGUI[i].drawGUI();
-    }
+    sequencerGUI[i].drawGUI();
+    
   }
   
-  
+ 
   
 }
 
@@ -72,6 +73,6 @@ void draw() {
 
 void mousePressed() {
   for(int i = 0; i < 4; i++) {
-    sequencerRowGUI[i].clickCheck(mouseX, mouseY); 
+    sequencerGUI[i].clickCheck(mouseX, mouseY); 
   }
 }

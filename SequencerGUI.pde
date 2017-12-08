@@ -1,4 +1,4 @@
-class SequencerRowGUI {
+class SequencerGUI {
   
    
   int x, y, index;
@@ -7,11 +7,11 @@ class SequencerRowGUI {
   
   Step[] steps = new Step[16];  
   
+  int currentStep = 0;
   
-  boolean needsToDraw = true;
+   
   
-  
-  SequencerRowGUI(int index) {
+  SequencerGUI(int index) {
     this.index = index;
     x = 0;
     y = index * (h + PADDING) + 400;
@@ -27,18 +27,25 @@ class SequencerRowGUI {
      steps[i].display(); 
     }
     
-    needsToDraw = false;
   }
   
   
   void clickCheck(int _mouseX, int _mouseY) {
     for (int i = 0; i < 16; i++) {
-      needsToDraw = needsToDraw || steps[i].clickCheck(_mouseX, _mouseY); 
+      steps[i].clickCheck(_mouseX, _mouseY); 
     }
   }
   
-  void play() {
-    samplerAudio[index].play();
+  boolean getStep() {
+    steps[currentStep].playing = true;
+    return steps[currentStep].on;
+    
+  }
+  
+  void nextStep() {
+    steps[currentStep].playing = false;
+    currentStep = (currentStep + 1) % 16;
+    
   }
   
   
@@ -63,6 +70,7 @@ class Step {
   
   
   void display() {
+    noStroke();
     if (!active) {
       fill(100);
     }
@@ -76,12 +84,9 @@ class Step {
     }
     
     if (playing) {
-      stroke(255);
-      strokeWeight(2);
-    }
-    else {
-      noStroke();
-    }
+      fill(150, 150, 150);
+    }  
+    
     
     rect(x, y, STEP_SIZE, STEP_SIZE);
       
@@ -90,13 +95,9 @@ class Step {
   }
   
   
-  boolean clickCheck(int _mouseX, int _mouseY) {
+  void clickCheck(int _mouseX, int _mouseY) {
     if (_mouseX >= x && _mouseX <= x + STEP_SIZE && _mouseY >= y && _mouseY <= y + STEP_SIZE && active){
        on = !on;
-       return true;
-    }
-    else {
-      return false;
     }
   }
 }

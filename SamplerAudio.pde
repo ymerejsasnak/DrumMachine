@@ -23,3 +23,25 @@ class SamplerAudio {
   } 
 
 }
+
+
+class SampleInstrument implements Instrument {
+  
+  void noteOn(float dur) {
+    for (int i = 0; i < 4; i++) {
+      if (sequencerGUI[i].getStep()) { samplerAudio[i].play(); } 
+    }
+    
+  }
+  
+  void noteOff() {
+    if (!masterGUI.playing) { return; }
+    for (int i = 0; i < 4; i++) {
+      sequencerGUI[i].nextStep(); 
+    }
+    out.setTempo(masterGUI.tempo);
+    out.playNote(0, 0.25f, this); //play next note immediately (dur 16th)    
+    
+  }
+  
+}
