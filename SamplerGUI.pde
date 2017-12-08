@@ -36,6 +36,7 @@ class SamplerGUI{
   void drawGUI() {
     // draw over old first
     fill(BG_COLOR);
+    stroke(20);
     strokeWeight(1);
     rect(x, y, w - 1, h);
     

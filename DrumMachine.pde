@@ -47,15 +47,31 @@ void setup() {
     sequencerRowGUI[i] = new SequencerRowGUI(i);
   }
  
-    
+  frameRate(60); // higher framerate = more precise beat timing
   
 }
 
 
 void draw() {
+  println(frameRate);
+  
   for (int i = 0; i < 4; i++) {
     if (samplerGUI[i].needsToDraw) {
       samplerGUI[i].drawGUI();
     }
+    if (sequencerRowGUI[i].needsToDraw) {
+      sequencerRowGUI[i].drawGUI();
+    }
+  }
+  
+  
+  
+}
+
+
+
+void mousePressed() {
+  for(int i = 0; i < 4; i++) {
+    sequencerRowGUI[i].clickCheck(mouseX, mouseY); 
   }
 }

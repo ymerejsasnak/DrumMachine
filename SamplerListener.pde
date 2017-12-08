@@ -7,7 +7,6 @@ public class SamplerListener implements ControlListener {
   }
     
   void controlEvent(ControlEvent event) {
-    println(event.getController().getId());
     
     if (event.getController().getId() == index) {
       samplerAudio[index].play();
