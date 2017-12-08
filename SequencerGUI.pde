@@ -8,6 +8,7 @@ class SequencerGUI {
   Step[] steps = new Step[16];  
   
   int currentStep = 0;
+  int activeSteps = 16;
   
    
   
@@ -19,6 +20,17 @@ class SequencerGUI {
     for (int i = 0; i < 16; i++) {
       steps[i] = new Step(i, y); 
     }
+    
+    cp5.addButton("addStep" + index)
+       .setPosition(width - 200, y)
+       .plugTo(this, "addStep")
+    
+    ;
+    cp5.addButton("removeStep" + index)
+       .setPosition(width - 100, y)
+       .plugTo(this, "removeStep")
+    ;
+    
   }
   
   
@@ -44,10 +56,24 @@ class SequencerGUI {
   
   void nextStep() {
     steps[currentStep].playing = false;
-    currentStep = (currentStep + 1) % 16;
+    currentStep = (currentStep + 1) % activeSteps;
     
   }
   
+  
+  void addStep() {
+    if (activeSteps < 16) {
+      activeSteps += 1;
+      steps[activeSteps-1].active = true;
+    }
+  }
+  
+  void removeStep() {
+    if (activeSteps > 1) {
+      activeSteps -= 1;
+      steps[activeSteps].active = false;
+    }
+  }
   
 }
 
@@ -72,7 +98,7 @@ class Step {
   void display() {
     noStroke();
     if (!active) {
-      fill(100);
+      fill(60);
     }
     else {
       if (on) {
