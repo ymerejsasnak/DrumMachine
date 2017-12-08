@@ -2,22 +2,23 @@ class MasterGUI {
   
   int tempo = 120;
   boolean playing = false;
+  int y = SEQUENCER_VERTICAL_OFFSET + (SEQUENCER_TRACK_HEIGHT + PADDING) * 4 + PADDING;
   
   boolean needsToDraw = true;
   
   MasterGUI() {
     
     cp5.addButton("play")
-       .setPosition(0, height - 140)
+       .setPosition(PADDING, y)
        .plugTo(this)
     ;
     cp5.addButton("stopIt") //can't name it stop
        .setCaptionLabel("stop")
-       .setPosition(0, height - 120)
+       .setPosition(100, y)
        .plugTo(this)
     ;
     cp5.addSlider("tempo")
-       .setPosition(100, height - 140)
+       .setPosition(200, y)
        .setSliderMode(Slider.FLEXIBLE)
        .setRange(MIN_TEMPO, MAX_TEMPO)
        .setValue(tempo)

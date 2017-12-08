@@ -29,7 +29,7 @@ MasterGUI masterGUI;
 
 
 void setup() {
-  size(1000, 800);
+  size(1200, 800);
   background(BG_COLOR);
   
   minim = new Minim(this);

@@ -2,32 +2,36 @@ class SequencerGUI {
   
    
   int x, y, index;
-  int h = 50;
+  int h = SEQUENCER_TRACK_HEIGHT;
   int w = width;
   
-  Step[] steps = new Step[16];  
+  Step[] steps = new Step[MAX_STEPS];  
   
   int currentStep = 0;
-  int activeSteps = 16;
+  int activeSteps = MAX_STEPS;
   
    
   
   SequencerGUI(int index) {
     this.index = index;
     x = 0;
-    y = index * (h + PADDING) + 400;
+    y = index * (h + PADDING) + SEQUENCER_VERTICAL_OFFSET;
     
-    for (int i = 0; i < 16; i++) {
+    for (int i = 0; i < MAX_STEPS; i++) {
       steps[i] = new Step(i, y); 
     }
     
     cp5.addButton("addStep" + index)
-       .setPosition(width - 200, y)
+       .setCaptionLabel("+")
+       .setSize(STEP_BUTTON_WIDTH, STEP_BUTTON_HEIGHT)
+       .setPosition((STEP_WIDTH + PADDING) * MAX_STEPS + PADDING + STEP_BUTTON_WIDTH, y)
        .plugTo(this, "addStep")
     
     ;
     cp5.addButton("removeStep" + index)
-       .setPosition(width - 100, y)
+       .setCaptionLabel("-")
+       .setSize(STEP_BUTTON_WIDTH, STEP_BUTTON_HEIGHT)
+       .setPosition((STEP_WIDTH + PADDING) * MAX_STEPS + PADDING, y)
        .plugTo(this, "removeStep")
     ;
     
@@ -35,7 +39,7 @@ class SequencerGUI {
   
   
   void drawGUI() {
-    for (int i = 0; i < 16; i++) {
+    for (int i = 0; i < MAX_STEPS; i++) {
      steps[i].display(); 
     }
     
@@ -43,7 +47,7 @@ class SequencerGUI {
   
   
   void clickCheck(int _mouseX, int _mouseY) {
-    for (int i = 0; i < 16; i++) {
+    for (int i = 0; i < activeSteps; i++) {
       steps[i].clickCheck(_mouseX, _mouseY); 
     }
   }
@@ -62,7 +66,7 @@ class SequencerGUI {
   
   
   void addStep() {
-    if (activeSteps < 16) {
+    if (activeSteps < MAX_STEPS) {
       activeSteps += 1;
       steps[activeSteps-1].active = true;
     }
@@ -90,13 +94,19 @@ class Step {
   
   Step(int stepIndex, int y) {
     this.stepIndex = stepIndex;
-    this.x = PADDING + stepIndex * STEP_SIZE + PADDING * stepIndex;
+    this.x = PADDING + stepIndex * STEP_WIDTH + PADDING * stepIndex;
     this.y = y;
   }
   
   
   void display() {
-    noStroke();
+    if (stepIndex % 4 == 0) {
+      stroke(100);
+    }
+    else {
+      noStroke();
+    }
+    
     if (!active) {
       fill(60);
     }
@@ -114,7 +124,7 @@ class Step {
     }  
     
     
-    rect(x, y, STEP_SIZE, STEP_SIZE);
+    rect(x, y, STEP_WIDTH, STEP_HEIGHT);
       
       
     
@@ -122,7 +132,7 @@ class Step {
   
   
   void clickCheck(int _mouseX, int _mouseY) {
-    if (_mouseX >= x && _mouseX <= x + STEP_SIZE && _mouseY >= y && _mouseY <= y + STEP_SIZE && active){
+    if (_mouseX >= x && _mouseX <= x + STEP_WIDTH && _mouseY >= y && _mouseY <= y + STEP_HEIGHT){
        on = !on;
     }
   }
