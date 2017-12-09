@@ -26,6 +26,7 @@ class SequencerGUI {
        .setSize(STEP_BUTTON_WIDTH, STEP_BUTTON_HEIGHT)
        .setPosition((STEP_WIDTH + PADDING) * MAX_STEPS + PADDING + STEP_BUTTON_WIDTH, y)
        .plugTo(this, "addStep")
+       .moveTo("Sequencer")
     
     ;
     cp5.addButton("removeStep" + index)
@@ -33,6 +34,7 @@ class SequencerGUI {
        .setSize(STEP_BUTTON_WIDTH, STEP_BUTTON_HEIGHT)
        .setPosition((STEP_WIDTH + PADDING) * MAX_STEPS + PADDING, y)
        .plugTo(this, "removeStep")
+       .moveTo("Sequencer")
     ;
     
   }
@@ -47,6 +49,9 @@ class SequencerGUI {
   
   
   void clickCheck(int _mouseX, int _mouseY) {
+    if (!sequencerTab.isActive()) {
+      return;
+    }
     for (int i = 0; i < activeSteps; i++) {
       steps[i].clickCheck(_mouseX, _mouseY); 
     }

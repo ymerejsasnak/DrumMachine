@@ -5,7 +5,6 @@ class SamplerGUI{
   int h = SAMPLER_HEIGHT;
   int w = SAMPLER_WIDTH;
   
-  boolean needsToDraw = true;
   
   
   SamplerGUI(int index){
@@ -18,14 +17,16 @@ class SamplerGUI{
        .setPosition(x + PADDING, y + PADDING)
        .setSize(SAMPLER_BUTTON_SIZE, SAMPLER_BUTTON_SIZE)
        .setId(index)
-       .addListener(samplerListener[index]);
+       .addListener(samplerListener[index])
+       .moveTo("Samples")
        ;
     cp5.addButton("load " + index)
        .setCaptionLabel("load")
        .setPosition(x + w - PADDING - SAMPLER_BUTTON_SIZE  , y + PADDING)
        .setSize(SAMPLER_BUTTON_SIZE, SAMPLER_BUTTON_SIZE)
        .setId(10 + index)
-       .addListener(samplerListener[index]);
+       .addListener(samplerListener[index])
+       .moveTo("Samples")
        ;
   }
  
@@ -34,11 +35,7 @@ class SamplerGUI{
  
   
   void drawGUI() {
-    // draw over old first
-    fill(BG_COLOR);
-    stroke(20);
-    strokeWeight(1);
-    rect(x, y, w - 1, h);
+    
     
      String text = samplerAudio[index].getFilename();
 
@@ -47,7 +44,6 @@ class SamplerGUI{
     textAlign(CENTER, CENTER);
     text(text, x + w / 2, (y + h) / 2);
     
-    needsToDraw = false;
   }
   
  

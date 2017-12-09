@@ -1,3 +1,5 @@
+//can probably just use plugto and get rid of this whole class (written before I fully understood using plugto)
+
 public class SamplerListener implements ControlListener {
   
   int index;
@@ -21,7 +23,6 @@ public class SamplerListener implements ControlListener {
      
        String path = selection.getAbsolutePath();
        samplerAudio[index] = new SamplerAudio(path);
-       samplerGUI[index].needsToDraw = true;
       
       
     }

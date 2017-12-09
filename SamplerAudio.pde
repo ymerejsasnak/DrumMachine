@@ -28,7 +28,7 @@ class SamplerAudio {
 class SampleInstrument implements Instrument {
   
   void noteOn(float dur) {
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < TOTAL_TRACKS; i++) {
       if (sequencerGUI[i].getStep()) { samplerAudio[i].play(); } 
     }
     
@@ -36,7 +36,7 @@ class SampleInstrument implements Instrument {
   
   void noteOff() {
     if (!masterGUI.playing) { return; }
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < TOTAL_TRACKS; i++) {
       sequencerGUI[i].nextStep(); 
     }
     out.setTempo(masterGUI.tempo);
