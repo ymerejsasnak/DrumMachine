@@ -1,7 +1,8 @@
-final int SAMPLER_WIDTH = 150;
-final int SAMPLER_HEIGHT = 50;
+final int SAMPLER_WIDTH = 300;
+final int SAMPLER_HEIGHT = 300;
 final int PADDING = 10;
 final int SAMPLER_BUTTON_SIZE = 30;
+final int SAMPLES_PER_SAMPLER = 4;
 
 final int TEXT_SIZE = 15;
 

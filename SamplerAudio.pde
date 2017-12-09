@@ -1,25 +1,26 @@
 class SamplerAudio {
   
-  Sampler sampler;
-  String filename;
-  float[] sampleData;
+  Sampler[] samplers = new Sampler[SAMPLES_PER_SAMPLER];
+  String[] filenames = new String[SAMPLES_PER_SAMPLER];
 
-  
-  SamplerAudio(String newFilename) {
-    this.filename = newFilename;
-    sampler = new Sampler(filename, 4, minim); //4 is # of voices
-    sampler.patch(out); //will probably have to patch through other stuff 1st eventually 
-  
+  // temporary constructor for loading defaults
+  SamplerAudio(String baseName) {
+    for (int i = 0; i < SAMPLES_PER_SAMPLER; i++) {
+      filenames[i] = baseName + (i + 1) + ".wav";
+      samplers[i] = new Sampler(filenames[i], 4, minim); //4 is # of voices
+      samplers[i].patch(out); //will probably have to patch through other stuff 1st eventually 
+    }
     
   }
   
   void play() {
-    sampler.trigger(); 
+    // TEMP - pure random trigger of four loaded samples
+    samplers[int(random(0, SAMPLES_PER_SAMPLER))].trigger(); 
   }
   
-  String getFilename() {
+  String getFilename(int sampleIndex) {
     //ugly way to extract  filename from full path/file name....butonly linux w/ the '/'?
-    return filename.substring(filename.lastIndexOf("/") + 1);
+    return filenames[sampleIndex].substring(filenames[sampleIndex].lastIndexOf("/") + 1);
   } 
 
 }

@@ -18,7 +18,7 @@ ControlP5 cp5;
 
 
 SamplerAudio[] samplerAudio = new SamplerAudio[8];
-SamplerListener[] samplerListener = new SamplerListener[8];
+//SamplerListener[] samplerListener = new SamplerListener[8];
 SamplerGUI[] samplerGUI = new SamplerGUI[8];
 
 SequencerAudio[] sequencerAudio = new SequencerAudio[8];
@@ -40,17 +40,18 @@ void setup() {
   
   cp5 = new ControlP5(this);
   
-  samplerAudio[0] = new SamplerAudio("BD.wav");
-  samplerAudio[1] = new SamplerAudio("SN1.wav");
-  samplerAudio[2] = new SamplerAudio("SN2.wav");
-  samplerAudio[3] = new SamplerAudio("CHH.wav");
-  samplerAudio[4] = new SamplerAudio("BD.wav");
-  samplerAudio[5] = new SamplerAudio("SN1.wav");
-  samplerAudio[6] = new SamplerAudio("SN2.wav");
-  samplerAudio[7] = new SamplerAudio("CHH.wav");
+  // hardcoded default loading for now
+  samplerAudio[0] = new SamplerAudio("kick");
+  samplerAudio[1] = new SamplerAudio("snareA");
+  samplerAudio[2] = new SamplerAudio("snareB");
+  samplerAudio[3] = new SamplerAudio("hihat");
+  samplerAudio[4] = new SamplerAudio("bongo");
+  samplerAudio[5] = new SamplerAudio("shaker");
+  samplerAudio[6] = new SamplerAudio("stick");
+  samplerAudio[7] = new SamplerAudio("can");
   
   for (int i = 0; i < TOTAL_TRACKS; i++) {
-    samplerListener[i] = new SamplerListener(i); //give it the index
+    //samplerListener[i] = new SamplerListener(i); //give it the index
     samplerGUI[i] = new SamplerGUI(i);
     
     sequencerAudio[i] = new SequencerAudio(i);
@@ -75,9 +76,7 @@ void draw() {
   background(BG_COLOR);
   
   for (int i = 0; i < TOTAL_TRACKS; i++) {
-    if (samplerTab.isActive()) {
-      samplerGUI[i].drawGUI();
-    }
+   
     if (sequencerTab.isActive()) {
       sequencerGUI[i].drawGUI();
     }
