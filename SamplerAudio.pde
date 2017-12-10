@@ -13,15 +13,17 @@ class SamplerAudio {
     
   }
   
+  void load(int sampleIndex, String filename) {
+    samplers[sampleIndex] = new Sampler(filename, 4, minim);
+    samplers[sampleIndex].patch(out);
+  }
+  
   void play() {
     // TEMP - pure random trigger of four loaded samples
     samplers[int(random(0, SAMPLES_PER_SAMPLER))].trigger(); 
   }
   
-  String getFilename(int sampleIndex) {
-    //ugly way to extract  filename from full path/file name....butonly linux w/ the '/'?
-    return filenames[sampleIndex].substring(filenames[sampleIndex].lastIndexOf("/") + 1);
-  } 
+  
 
 }
 

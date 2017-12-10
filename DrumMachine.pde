@@ -67,7 +67,7 @@ void setup() {
   samplerTab = cp5.addTab("Samples")
   ;
   
-  cp5.getWindow().setPositionOfTabs(0, height - 20);
+  cp5.getWindow().setPositionOfTabs(0, height - 50);
   
 }
 
