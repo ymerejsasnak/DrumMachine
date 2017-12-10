@@ -38,6 +38,7 @@ SEQUENCER - individual
 - +/- active steps by larger amount too (highlight interval amount?)
 (or switch to slider for how many steps are active?)
 -? % turn random step on each loop/ % turn random step off each loop
+-? % trigger on an off note / % don't trigger an on note
 
 
 SEQUENCER - all (but maybe would work on individual ones too?)
@@ -55,9 +56,18 @@ MASTER
 -add limiter to end of audio chain for all?
 
 
+WAVS/PRESETS:
+-drum n bass
+-idm
+-experimental/glitch/noise(but rhythmic)
+-extreme chaotic abstract/noise/sound collage
+-ambient (tonal samples)
+-minimalist (drums + tonal)
+
 FUTURE/OTHER
 -add midi output
 -maybe? - have multiple sequencers in subtab setup (use group? accordion?)
+      -and then have 3rd tab(song?) for sequencing the sequencers! (using completely configurable step#s and loop times?)
 */
 
 import controlP5.*;

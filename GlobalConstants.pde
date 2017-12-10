@@ -13,8 +13,9 @@ final int STEP_BUTTON_HEIGHT = 20;
 
 final int MASTER_HEIGHT = 150;
 
-final int MAX_STEPS = 32;
-final int STEP_WIDTH = 15;
+final int MAX_STEPS = 64;
+final int STEP_WIDTH = 10;
+final int STEP_SPACING = 2;
 final int STEP_HEIGHT = 30;
 
 final int TOTAL_TRACKS = 8;

@@ -24,7 +24,7 @@ class SequencerGUI {
     cp5.addButton("addStep" + index)
        .setCaptionLabel("+")
        .setSize(STEP_BUTTON_WIDTH, STEP_BUTTON_HEIGHT)
-       .setPosition((STEP_WIDTH + PADDING) * MAX_STEPS + PADDING + STEP_BUTTON_WIDTH, y)
+       .setPosition((STEP_WIDTH + STEP_SPACING) * MAX_STEPS + PADDING + STEP_BUTTON_WIDTH, y)
        .plugTo(this, "addStep")
        .moveTo("Sequencer")
     
@@ -32,7 +32,7 @@ class SequencerGUI {
     cp5.addButton("removeStep" + index)
        .setCaptionLabel("-")
        .setSize(STEP_BUTTON_WIDTH, STEP_BUTTON_HEIGHT)
-       .setPosition((STEP_WIDTH + PADDING) * MAX_STEPS + PADDING, y)
+       .setPosition((STEP_WIDTH + STEP_SPACING) * MAX_STEPS + PADDING, y)
        .plugTo(this, "removeStep")
        .moveTo("Sequencer")
     ;
@@ -99,7 +99,7 @@ class Step {
   
   Step(int stepIndex, int y) {
     this.stepIndex = stepIndex;
-    this.x = PADDING + stepIndex * STEP_WIDTH + PADDING * stepIndex;
+    this.x = PADDING + stepIndex * STEP_WIDTH + STEP_SPACING * stepIndex;
     this.y = y;
   }
   
