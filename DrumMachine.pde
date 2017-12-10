@@ -1,9 +1,56 @@
 // IDM: Idiosyncratic Drum Machine
 
 /* TO DO:
+
+GENERAL/NEXT
+cleanup and comment code
+make sure with multiple samples there are no issues (ie some empty, none loaded, etc)
 save file path from loading file so selection dialog goes back to last folder used 
 
 
+SAMPLER
+-choice between pure random, avoid previous, and cycle
+-use sDrop for drag+drop of samples into sampler (much easier!) -- maybe even make a file browser window as part of this if possible?
+-settings should probably be visible at same time as sampler...maybe make it tabbed/grouped/accordion/whatever and only
+ show 1 or 2 samplers (with settings!) at a time
+
+
+SAMPLER SETTINGS
+-volume, pan, start offset, pitch, filt type, filt freq, filt rez, decay, bit rate, bit depth, delay fback, delay time
+-3 knobs for each - base value (slider/knob?), # steps per change (tick slider?), min/max random amount (range)
+-initialize settings/randomize settings
+
+
+SEQUENCER - individual
+-volume per step!!
+-mute button (solo button too?)
+-step note value (not just 16th, also 8th, dotted, triplet, etc)
+-settable beat highlighting interval (not just every 4)
+-clear track/randomize track
+-insert every X beat?
+- +/- active steps by larger amount too (highlight interval amount?)
+(or switch to slider for how many steps are active?)
+-? % turn random step on each loop/ % turn random step off each loop
+
+
+SEQUENCER - all (but maybe would work on individual ones too?)
+% jump to random step (settable multiple so can jump to random 2steps or random 4steps, etc)
+% restart at step 0
+% repeat current (# of repeats, steps per repeat)
+-clear all tracks/randomize all tracks
+
+
+MASTER
+-pause button? (or add this to play button if playing)
+-record to file
+-preset saving/loading
+-initialize all/randomize all
+-add limiter to end of audio chain for all?
+
+
+FUTURE/OTHER
+-add midi output
+-maybe? - have multiple sequencers in subtab setup (use group? accordion?)
 */
 
 import controlP5.*;
