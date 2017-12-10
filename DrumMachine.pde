@@ -2,13 +2,20 @@
 
 /* TO DO:
 
-GENERAL/NEXT
-cleanup and comment code
-make sure with multiple samples there are no issues (ie some empty, none loaded, etc)
-save file path from loading file so selection dialog goes back to last folder used 
+NEXT
+-cleanup and comment code
+-implement sampler settings
+   -first routing ugens
+   -next setting base levels
+   -THEN doing the stepped randomness with its controls
+
 
 
 SAMPLER
+-save file path from loading file so selection dialog goes back to last folder used 
+-unload/clear sample, unload/clear all samples, unload/clear all samplers
+-make sure with multiple samples there are no issues (ie some empty, none loaded, etc) (maybe use arraylist instead?)
+-better/cleaner loading of default samples
 -choice between pure random, avoid previous, and cycle
 -use sDrop for drag+drop of samples into sampler (much easier!) -- maybe even make a file browser window as part of this if possible?
 -settings should probably be visible at same time as sampler...maybe make it tabbed/grouped/accordion/whatever and only
@@ -74,6 +81,7 @@ SequencerGUI[] sequencerGUI = new SequencerGUI[8];
 MasterGUI masterGUI;
 
 Tab sequencerTab, samplerTab;
+Accordion samplerAccordion;
 
 
 
@@ -87,7 +95,7 @@ void setup() {
   
   cp5 = new ControlP5(this);
   
-  // hardcoded default loading for now
+  // hardcoded default loading for now, depends on names being the same with different indexs as part of filenmaes
   samplerAudio[0] = new SamplerAudio("kick");
   samplerAudio[1] = new SamplerAudio("snareA");
   samplerAudio[2] = new SamplerAudio("snareB");
@@ -96,6 +104,21 @@ void setup() {
   samplerAudio[5] = new SamplerAudio("shaker");
   samplerAudio[6] = new SamplerAudio("stick");
   samplerAudio[7] = new SamplerAudio("can");
+  
+  
+  cp5.getTab("default").hide(); //not using default tab
+   
+  sequencerTab = cp5.addTab("Sequencer").setActive(true);
+  ;
+  samplerTab = cp5.addTab("Samples")
+  ;
+  
+  cp5.getWindow().setPositionOfTabs(0, height - 50);
+  
+  samplerAccordion = cp5.addAccordion("samplerAccordion")
+                        .moveTo("Samples")
+                    ;
+                    
   
   for (int i = 0; i < TOTAL_TRACKS; i++) {
     //samplerListener[i] = new SamplerListener(i); //give it the index
@@ -107,14 +130,7 @@ void setup() {
   masterGUI = new MasterGUI();
  
  
-  cp5.getTab("default").hide(); 
-   
-  sequencerTab = cp5.addTab("Sequencer").setActive(true);
-  ;
-  samplerTab = cp5.addTab("Samples")
-  ;
   
-  cp5.getWindow().setPositionOfTabs(0, height - 50);
   
 }
 

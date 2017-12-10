@@ -8,13 +8,15 @@ public class SamplerGUI{
   
   int currentSampleIndex; // can't think of a workable way to transfer between loadfile and selector methods below 
   
-  
+  Group samplerGroup;
   
   SamplerGUI(int index){
     
+    samplerGroup = cp5.addGroup("sampler " + index);
+    
     for (int sampleIndex = 0; sampleIndex < SAMPLES_PER_SAMPLER; sampleIndex++) {
-      this.x = w * index % width;
-      this.y = h * int(index / (width/w)) + sampleIndex * 50;
+      this.x = 200;
+      this.y = sampleIndex * 50;
       this.index = index;
       
       cp5.addButton("play " + index * 10 + sampleIndex)
@@ -23,7 +25,7 @@ public class SamplerGUI{
          .setPosition(x + PADDING * 2 + SAMPLER_BUTTON_SIZE, y + PADDING)
          .setSize(SAMPLER_BUTTON_SIZE, SAMPLER_BUTTON_SIZE)
          .plugTo(this, "playFile")
-         .moveTo("Samples")
+         .moveTo(samplerGroup)
          ;
       cp5.addButton("load " + index * 10 + sampleIndex)
          .setValue(sampleIndex)
@@ -31,16 +33,18 @@ public class SamplerGUI{
          .setPosition(x + PADDING, y + PADDING)
          .setSize(SAMPLER_BUTTON_SIZE, SAMPLER_BUTTON_SIZE)
          .plugTo(this, "loadFile")
-         .moveTo("Samples")
+         .moveTo(samplerGroup)
          ;
          
        sampleLabels[sampleIndex] = cp5.addTextlabel("filename " + index * 10 + sampleIndex)
           .setText(samplerAudio[index].filenames[sampleIndex])
           .setPosition(x + SAMPLER_BUTTON_SIZE * 2 + PADDING * 3, y + PADDING)
           .setFont(createFont("Arial", 20))
-          .moveTo("Samples")
+          .moveTo(samplerGroup)
        ;
     }
+    
+    samplerAccordion.addItem(samplerGroup);
        
   }
  
