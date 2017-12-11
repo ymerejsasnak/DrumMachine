@@ -10,7 +10,6 @@ class SequencerGUI {
   int currentStep = 0;
   int activeSteps = MAX_STEPS;
   
-   
   
   SequencerGUI(int index) {
     this.index = index;
@@ -19,9 +18,7 @@ class SequencerGUI {
     
     for (int i = 0; i < MAX_STEPS; i++) {
       steps[i] = new Step(i, y); 
-    }
-    
-    
+    }    
   }
   
   
@@ -39,22 +36,19 @@ class SequencerGUI {
     }
   }
   
+  
   boolean getStep() {
     steps[currentStep].playing = true;
-    return steps[currentStep].on;
-    
+    return steps[currentStep].on;  
   }
+  
   
   void nextStep() {
     steps[currentStep].playing = false;
-    currentStep = (currentStep + 1) % activeSteps;
-    
+    currentStep = (currentStep + 1) % activeSteps;  
   }
   
-  
-  
 }
-
 
 
 class Step {
@@ -64,6 +58,7 @@ class Step {
   
   boolean on = false;
   boolean playing = false;
+
   
   Step(int stepIndex, int y) {
     this.stepIndex = stepIndex;
@@ -106,9 +101,7 @@ class Step {
     
     strokeWeight(2);
     rect(x, y, STEP_WIDTH, STEP_HEIGHT);
-      
-      
-    
+        
   }
   
   
@@ -122,4 +115,5 @@ class Step {
       }
     }
   }
+  
 }

@@ -4,7 +4,6 @@ class MasterGUI {
   boolean playing = false;
   int y = height - MASTER_HEIGHT;
   
-  boolean needsToDraw = true;
   
   MasterGUI() {
     
@@ -31,27 +30,21 @@ class MasterGUI {
   }
   
  
-  
-  
   public void play() {
     if (!playing) {
       out.setTempo(tempo);
       out.playNote(0, 0.25f, new SampleInstrument());
       playing = true;
-    }
-    
+    }   
   }
+  
   
   public void stopIt() {
     playing = false;
     for (int i = 0; i < TOTAL_TRACKS; i++) {
       sequencerGUI[i].steps[sequencerGUI[i].currentStep].playing = false;
       sequencerGUI[i].currentStep = 0;
-    }
-    
-  }
-  
-  
- 
+    }    
+  } 
 
 }

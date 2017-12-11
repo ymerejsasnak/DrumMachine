@@ -3,7 +3,6 @@
 /* TO DO:
 
 NEXT
--RIGHT CLICK TO SET END OF STEPS!! (no more buttons)
 -cleanup and comment code
 -implement sampler settings
    -first routing ugens
@@ -35,7 +34,7 @@ SEQUENCER - individual
 -step note value (not just 16th, also 8th, dotted, triplet, etc)
 -settable beat highlighting interval (not just every 4)
 -clear track/randomize track
--insert every X beat?
+-convenience stuff: insert every X beat?, copy/past track, etc 
 -? % turn random step on each loop/ % turn random step off each loop
 -? % trigger on an off note / % don't trigger an on note
 
@@ -84,6 +83,8 @@ SamplerAudio[] samplerAudio = new SamplerAudio[8];
 //SamplerListener[] samplerListener = new SamplerListener[8];
 SamplerGUI[] samplerGUI = new SamplerGUI[8];
 
+SettingsGUI[] settingsGUI = new SettingsGUI[8];
+
 SequencerAudio[] sequencerAudio = new SequencerAudio[8];
 SequencerGUI[] sequencerGUI = new SequencerGUI[8];
 
@@ -125,13 +126,18 @@ void setup() {
   cp5.getWindow().setPositionOfTabs(0, height - 50);
   
   samplerAccordion = cp5.addAccordion("samplerAccordion")
+                        .setMinItemHeight(0)
                         .moveTo("Samples")
                     ;
+   
+   println(samplerAccordion.getBarHeight());
                     
   
   for (int i = 0; i < TOTAL_TRACKS; i++) {
-    //samplerListener[i] = new SamplerListener(i); //give it the index
+    
     samplerGUI[i] = new SamplerGUI(i);
+    
+    settingsGUI[i] = new SettingsGUI(i);
     
     sequencerAudio[i] = new SequencerAudio(i);
     sequencerGUI[i] = new SequencerGUI(i);

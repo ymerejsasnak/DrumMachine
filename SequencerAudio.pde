@@ -1,3 +1,5 @@
+// this is probably superfluous (but wait until implementing more, some of it may make sense to go here)
+
 class SequencerAudio {
   
   int index;
@@ -10,8 +12,7 @@ class SequencerAudio {
   void play() {
     if (sequencerGUI[index].getStep()) {
         samplerAudio[index].play(); 
-      } 
-    
+    } 
   }
   
 }

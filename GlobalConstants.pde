@@ -4,7 +4,7 @@ final int PADDING = 10;
 final int SAMPLER_BUTTON_SIZE = 30;
 final int SAMPLES_PER_SAMPLER = 4;
 
-final int TEXT_SIZE = 15;
+final int SETTINGS_SLIDER_WIDTH = 100;
 
 final int SEQUENCER_VERTICAL_OFFSET = 100;
 final int SEQUENCER_TRACK_HEIGHT = 50;
@@ -22,4 +22,4 @@ final int MIN_TEMPO = 30;
 final int MAX_TEMPO = 350;
 
 final color BG_COLOR = color(30);
-final color TEXT_COLOR = color(200);
+//final color TEXT_COLOR = color(200);

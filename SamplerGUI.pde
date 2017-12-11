@@ -6,17 +6,18 @@ public class SamplerGUI{
   int w = SAMPLER_WIDTH;
   Textlabel[] sampleLabels = new Textlabel[SAMPLES_PER_SAMPLER];
   
-  int currentSampleIndex; // can't think of a workable way to transfer between loadfile and selector methods below 
+  int currentSampleIndex; // can't think of a workable way to send index from loadfile to selector method below so using this var
   
   Group samplerGroup;
   
+  
   SamplerGUI(int index){
     
-    samplerGroup = cp5.addGroup("sampler " + index);
+    samplerGroup = cp5.addGroup("sampler " + index).setBarHeight(50).hideArrow();
     
     for (int sampleIndex = 0; sampleIndex < SAMPLES_PER_SAMPLER; sampleIndex++) {
       this.x = 200;
-      this.y = sampleIndex * 50;
+      this.y = sampleIndex * 50 - index * 50;
       this.index = index;
       
       cp5.addButton("play " + index * 10 + sampleIndex)
@@ -53,13 +54,12 @@ public class SamplerGUI{
     samplerAudio[index].samplers[sampleIndex].trigger();
   }
  
+ 
   void loadFile(int sampleIndex) {
     currentSampleIndex = sampleIndex; // save it 'globally' in class to use in other method below (bad way? but how else??)
-    selectInput("Select a sample to load:", "selector", dataFile("data"), this); 
-    
-      
-    
+    selectInput("Select a sample to load:", "selector", dataFile("data"), this);   
   }
+
 
   public void selector(File selection) {
     if (selection != null) {
@@ -67,11 +67,8 @@ public class SamplerGUI{
        String path = selection.getAbsolutePath();    
        samplerAudio[index].load(currentSampleIndex, path); 
        String text = path.substring(path.lastIndexOf("/") + 1);
-       samplerGUI[index].sampleLabels[currentSampleIndex].setText(text);
-      
-      
+       samplerGUI[index].sampleLabels[currentSampleIndex].setText(text);      
     }
-    
   }
  
 }
