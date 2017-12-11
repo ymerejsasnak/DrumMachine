@@ -3,6 +3,7 @@
 /* TO DO:
 
 NEXT
+-RIGHT CLICK TO SET END OF STEPS!! (no more buttons)
 -cleanup and comment code
 -implement sampler settings
    -first routing ugens
@@ -35,8 +36,6 @@ SEQUENCER - individual
 -settable beat highlighting interval (not just every 4)
 -clear track/randomize track
 -insert every X beat?
-- +/- active steps by larger amount too (highlight interval amount?)
-(or switch to slider for how many steps are active?)
 -? % turn random step on each loop/ % turn random step off each loop
 -? % trigger on an off note / % don't trigger an on note
 
@@ -162,7 +161,10 @@ void draw() {
 
 
 void mousePressed() {
+  if (!sequencerTab.isActive()) {
+    return;
+  }
   for(int i = 0; i < TOTAL_TRACKS; i++) {
-    sequencerGUI[i].clickCheck(mouseX, mouseY); 
+    sequencerGUI[i].clickCheck(mouseX, mouseY, mouseButton); 
   }
 }

@@ -1,6 +1,6 @@
 class MasterGUI {
   
-  int tempo = 120;
+  int tempo = 160;
   boolean playing = false;
   int y = height - MASTER_HEIGHT;
   

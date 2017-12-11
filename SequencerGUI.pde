@@ -21,39 +21,21 @@ class SequencerGUI {
       steps[i] = new Step(i, y); 
     }
     
-    cp5.addButton("addStep" + index)
-       .setCaptionLabel("+")
-       .setSize(STEP_BUTTON_WIDTH, STEP_BUTTON_HEIGHT)
-       .setPosition((STEP_WIDTH + STEP_SPACING) * MAX_STEPS + PADDING + STEP_BUTTON_WIDTH, y)
-       .plugTo(this, "addStep")
-       .moveTo("Sequencer")
-    
-    ;
-    cp5.addButton("removeStep" + index)
-       .setCaptionLabel("-")
-       .setSize(STEP_BUTTON_WIDTH, STEP_BUTTON_HEIGHT)
-       .setPosition((STEP_WIDTH + STEP_SPACING) * MAX_STEPS + PADDING, y)
-       .plugTo(this, "removeStep")
-       .moveTo("Sequencer")
-    ;
     
   }
   
   
   void drawGUI() {
     for (int i = 0; i < MAX_STEPS; i++) {
-     steps[i].display(); 
+     steps[i].display(activeSteps); 
     }
     
   }
   
   
-  void clickCheck(int _mouseX, int _mouseY) {
-    if (!sequencerTab.isActive()) {
-      return;
-    }
-    for (int i = 0; i < activeSteps; i++) {
-      steps[i].clickCheck(_mouseX, _mouseY); 
+  void clickCheck(int _mouseX, int _mouseY, int _mouseButton) {
+    for (int i = 0; i < MAX_STEPS; i++) {
+      steps[i].clickCheck(_mouseX, _mouseY, _mouseButton, index); 
     }
   }
   
@@ -70,19 +52,6 @@ class SequencerGUI {
   }
   
   
-  void addStep() {
-    if (activeSteps < MAX_STEPS) {
-      activeSteps += 1;
-      steps[activeSteps-1].active = true;
-    }
-  }
-  
-  void removeStep() {
-    if (activeSteps > 1) {
-      activeSteps -= 1;
-      steps[activeSteps].active = false;
-    }
-  }
   
 }
 
@@ -94,7 +63,6 @@ class Step {
   int stepIndex;
   
   boolean on = false;
-  boolean active = true;
   boolean playing = false;
   
   Step(int stepIndex, int y) {
@@ -104,16 +72,24 @@ class Step {
   }
   
   
-  void display() {
-    if (stepIndex % 4 == 0) {
-      stroke(100);
+  void display(int activeSteps) {
+    if (stepIndex % 16 == 0) {
+      stroke(120, 120, 250);
+    }
+    else if (stepIndex % 4 == 0) {
+      stroke(80, 80, 170); 
     }
     else {
       noStroke();
     }
     
-    if (!active) {
-      fill(60);
+    if (stepIndex > activeSteps - 1) {
+      if (on) {
+        fill(100);
+      }
+      else {
+        fill(60);
+      }
     }
     else {
       if (on) {
@@ -128,7 +104,7 @@ class Step {
       fill(150, 150, 150);
     }  
     
-    
+    strokeWeight(2);
     rect(x, y, STEP_WIDTH, STEP_HEIGHT);
       
       
@@ -136,9 +112,14 @@ class Step {
   }
   
   
-  void clickCheck(int _mouseX, int _mouseY) {
+  void clickCheck(int _mouseX, int _mouseY, int _mouseButton, int sequencerIndex) {
     if (_mouseX >= x && _mouseX <= x + STEP_WIDTH && _mouseY >= y && _mouseY <= y + STEP_HEIGHT){
-       on = !on;
+      if (_mouseButton == LEFT) {
+        on = !on;
+      }
+      else if (_mouseButton == RIGHT) {
+        sequencerGUI[sequencerIndex].activeSteps = stepIndex + 1;
+      }
     }
   }
 }
