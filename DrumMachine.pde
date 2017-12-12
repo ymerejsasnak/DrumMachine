@@ -12,6 +12,7 @@ NEXT
 
 
 SAMPLER
+-each *individual* sample should also at least have it's own volume knob (if not a couple other things too)
 -save file path from loading file so selection dialog goes back to last folder used 
 -unload/clear sample, unload/clear all samples, unload/clear all samplers
 -make sure with multiple samples there are no issues (ie some empty, none loaded, etc) (maybe use arraylist instead?)
@@ -100,7 +101,7 @@ void setup() {
   background(BG_COLOR);
   
   minim = new Minim(this);
-  out = minim.getLineOut();
+  out = minim.getLineOut(Minim.STEREO);
   
   
   cp5 = new ControlP5(this);
@@ -130,7 +131,6 @@ void setup() {
                         .moveTo("Samples")
                     ;
    
-   println(samplerAccordion.getBarHeight());
                     
   
   for (int i = 0; i < TOTAL_TRACKS; i++) {

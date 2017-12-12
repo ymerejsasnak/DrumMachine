@@ -1,22 +1,7 @@
-/*
-volume
-decay
-pitch
-pan
-start offset
+enum Setting {
+  VOLUME, DECAY, PITCH, PAN, START, FILTER_TYPE, FILTER_FREQ, FILTER_REZ, BIT_DEPTH, BIT_RATE, DELAY_TIME, DELAY_FEEDBACK 
+}
 
-filt type
-filt freq
-filt rez
-
-bit rate
-bit depth
-
-delay fback
-delay time
-
-
-*/
 class SettingsGUI {
   
   int x, y, index;
@@ -52,13 +37,25 @@ class SettingsGUI {
          //.plugTo(this, "playFile")
          .moveTo(samplerGUI[index].samplerGroup)
          ;
+         
+       cp5.addLabel(Setting.values()[i].toString() + index)
+          .setPosition(x, y + 50 * i) //very rough
+          .moveTo(samplerGUI[index].samplerGroup)
+         ;
     }
+    
+    cp5.getController("base" + index + Setting.VOLUME.ordinal()).plugTo(this, "volume");
     
     //settingsGroup.moveTo(samplerGUI[index].samplerGroup);
   }
   
-  
-  
+  //temporary I think, just testing
+  void volume(int value) {
+     for (int i = 0; i < SAMPLES_PER_SAMPLER; i++) {
+      new Constant(map(value, 0, 100, 0, 1.0)).patch(samplerAudio[index].samplers[i].amplitude);
+      
+    }
+  }
   
   
 }
