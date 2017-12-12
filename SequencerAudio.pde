@@ -3,6 +3,7 @@
 class SequencerAudio {
   
   int index;
+  int stepCounter = 0;
   
   SequencerAudio(int index) {
     this.index = index;
@@ -10,6 +11,7 @@ class SequencerAudio {
   
   
   void play() {
+   
     if (sequencerGUI[index].getStep()) {
         samplerAudio[index].play(); 
     } 

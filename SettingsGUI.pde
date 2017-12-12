@@ -7,8 +7,7 @@ class SettingsGUI {
   int x, y, index;
   int h = 500;
   int w = 300;
-  
-  //Group settingsGroup;
+  Range[] rangeSettings = new Range[12];
   
   
   SettingsGUI(int index) {
@@ -16,16 +15,19 @@ class SettingsGUI {
     this.x = 200 + SAMPLER_WIDTH;
     this.y = index * -50;
     
-    //settingsGroup = cp5.addGroup("settings" + index).setBarHeight(100);
+    
+    // note try using array of ints to connect with range values and use THOSE in other class?????
+    
+    
     
     for (int i = 0; i < 12; i++) {
-      cp5.addSlider("base" + index + i)
-         .setPosition(x + PADDING, y + 50 * i + PADDING)
-         .setSize(SETTINGS_SLIDER_WIDTH, SAMPLER_BUTTON_SIZE)
+    //  cp5.addSlider("base" + index + i)
+     //    .setPosition(x + PADDING, y + 50 * i + PADDING)
+     //    .setSize(SETTINGS_SLIDER_WIDTH, SAMPLER_BUTTON_SIZE)
          //.plugTo(this, "playFile")
-         .moveTo(samplerGUI[index].samplerGroup)
-         ;
-      cp5.addRange("randrange" + index + i)
+    //     .moveTo(samplerGUI[index].samplerGroup)
+     //    ;
+      rangeSettings[i] = cp5.addRange("randrange" + index + i)
          .setPosition(x + PADDING * 10 + SETTINGS_SLIDER_WIDTH, y + 50 * i + PADDING)
          .setSize(SETTINGS_SLIDER_WIDTH, SAMPLER_BUTTON_SIZE)
          //.plugTo(this, "playFile")
@@ -35,6 +37,11 @@ class SettingsGUI {
          .setPosition(x + PADDING * 20 + SETTINGS_SLIDER_WIDTH * 2, y + 50 * i + PADDING)
          .setSize(SETTINGS_SLIDER_WIDTH, SAMPLER_BUTTON_SIZE)
          //.plugTo(this, "playFile")
+         .setRange(1, 64)
+         .setValue(16)
+         .setNumberOfTickMarks(64)
+         .snapToTickMarks(true)
+         .showTickMarks(false)
          .moveTo(samplerGUI[index].samplerGroup)
          ;
          
@@ -44,18 +51,19 @@ class SettingsGUI {
          ;
     }
     
-    cp5.getController("base" + index + Setting.VOLUME.ordinal()).plugTo(this, "volume");
+    //cp5.getController("randrange" + index + Setting.VOLUME.ordinal())
+      // .setRange(0.0, 1.0)
+      //.plugTo(this, "volume");
     
-    //settingsGroup.moveTo(samplerGUI[index].samplerGroup);
   }
   
   //temporary I think, just testing
-  void volume(int value) {
-     for (int i = 0; i < SAMPLES_PER_SAMPLER; i++) {
-      new Constant(map(value, 0, 100, 0, 1.0)).patch(samplerAudio[index].samplers[i].amplitude);
+ // void volume(int value) {
+  //   for (int i = 0; i < SAMPLES_PER_SAMPLER; i++) {
+    //  new Constant(map(value, 0, 100, 0, 1.0)).patch(samplerAudio[index].samplers[i].amplitude);
       
-    }
-  }
+   // }
+  //}
   
   
 }

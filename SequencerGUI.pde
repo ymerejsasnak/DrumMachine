@@ -9,6 +9,7 @@ class SequencerGUI {
   
   int currentStep = 0;
   int activeSteps = MAX_STEPS;
+  int[] stepCounters = new int[12];
   
   
   SequencerGUI(int index) {
@@ -44,6 +45,28 @@ class SequencerGUI {
   
   
   void nextStep() {
+    for (int i = 0; i < 12; i++) {
+      stepCounters[i]++;
+      
+      if (stepCounters[i] == cp5.getController("stepschange" + index + i).getValue()) {
+        stepCounters[i] = 0; 
+        Setting setting = Setting.values()[i];
+        
+        
+        float value = random(settingsGUI[index].rangeSettings[i].getLowValue(),
+                             settingsGUI[index].rangeSettings[i].getHighValue());
+        if (index == 0) {println(settingsGUI[index].rangeSettings[i].getLowValue(),
+                             settingsGUI[index].rangeSettings[i].getHighValue());}
+        switch (setting) {
+          
+          case VOLUME:
+            samplerAudio[index].volume.setConstant(value/100); 
+            
+            break;
+        }
+      }
+    
+    }
     steps[currentStep].playing = false;
     currentStep = (currentStep + 1) % activeSteps;  
   }
