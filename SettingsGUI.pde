@@ -1,5 +1,5 @@
 enum Setting {
-  VOLUME, DECAY, PITCH, PAN, START, FILTER_TYPE, FILTER_FREQ, FILTER_REZ, BIT_DEPTH, BIT_RATE, DELAY_TIME, DELAY_FEEDBACK 
+  VOLUME, PITCH, PAN, START, FILTER_TYPE, FILTER_FREQ, FILTER_REZ, BIT_DEPTH, BIT_RATE, DELAY_TIME, DELAY_FEEDBACK 
 }
 
 class SettingsGUI {
@@ -7,7 +7,7 @@ class SettingsGUI {
   int x, y, index;
   int h = 500;
   int w = 300;
-  Range[] rangeSettings = new Range[12];
+  Range[] rangeSettings = new Range[11];
   
   
   SettingsGUI(int index) {
@@ -20,7 +20,7 @@ class SettingsGUI {
     
     
     
-    for (int i = 0; i < 12; i++) {
+    for (int i = 0; i < 11; i++) {
     //  cp5.addSlider("base" + index + i)
      //    .setPosition(x + PADDING, y + 50 * i + PADDING)
      //    .setSize(SETTINGS_SLIDER_WIDTH, SAMPLER_BUTTON_SIZE)
@@ -38,7 +38,7 @@ class SettingsGUI {
          .setSize(SETTINGS_SLIDER_WIDTH, SAMPLER_BUTTON_SIZE)
          //.plugTo(this, "playFile")
          .setRange(1, 64)
-         .setValue(16)
+         .setValue(4)
          .setNumberOfTickMarks(64)
          .snapToTickMarks(true)
          .showTickMarks(false)
@@ -51,9 +51,38 @@ class SettingsGUI {
          ;
     }
     
-    //cp5.getController("randrange" + index + Setting.VOLUME.ordinal())
-      // .setRange(0.0, 1.0)
-      //.plugTo(this, "volume");
+    //set specific ranges and default values (ie off)
+    rangeSettings[Setting.VOLUME.ordinal()]
+      .setRange(0.0, 1.0)
+      .setRangeValues(1.0, 1.0);
+    rangeSettings[Setting.PITCH.ordinal()]
+      .setRange(0.5, 2.0)
+      .setRangeValues(1.0, 1.0);
+    rangeSettings[Setting.PAN.ordinal()]
+      .setRange(-1.0, 1.0)
+      .setRangeValues(0, 0);
+       
+    
+    rangeSettings[Setting.FILTER_FREQ.ordinal()]
+      .setRange(0.0, 22050)
+      .setRangeValues(22050, 22050);
+    rangeSettings[Setting.FILTER_REZ.ordinal()]
+      .setRange(0.0, 1.0)
+      .setRangeValues(0, 0);
+      
+    rangeSettings[Setting.BIT_DEPTH.ordinal()]
+      .setRange(0.0, 16)
+      .setRangeValues(16, 16);
+    rangeSettings[Setting.BIT_RATE.ordinal()]
+      .setRange(0.0, 44100)
+      .setRangeValues(44100, 44100);
+      
+    rangeSettings[Setting.DELAY_TIME.ordinal()]
+      .setRange(0.1, 1.0)
+      .setRangeValues(1.0, 1.0);
+    rangeSettings[Setting.DELAY_FEEDBACK.ordinal()]
+      .setRange(0, 0.99)
+      .setRangeValues(0, 0);
     
   }
   

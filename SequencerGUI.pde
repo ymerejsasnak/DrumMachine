@@ -45,24 +45,52 @@ class SequencerGUI {
   
   
   void nextStep() {
-    for (int i = 0; i < 12; i++) {
+    for (int i = 0; i < 11; i++) {
       stepCounters[i]++;
       
-      if (stepCounters[i] == cp5.getController("stepschange" + index + i).getValue()) {
+      if (stepCounters[i] >= cp5.getController("stepschange" + index + i).getValue()) {
         stepCounters[i] = 0; 
         Setting setting = Setting.values()[i];
         
         
         float value = random(settingsGUI[index].rangeSettings[i].getLowValue(),
                              settingsGUI[index].rangeSettings[i].getHighValue());
-        if (index == 0) {println(settingsGUI[index].rangeSettings[i].getLowValue(),
-                             settingsGUI[index].rangeSettings[i].getHighValue());}
+        
         switch (setting) {
           
           case VOLUME:
-            samplerAudio[index].volume.setConstant(value/100); 
-            
+            samplerAudio[index].volume.setConstant(value); 
             break;
+          case PITCH:
+            samplerAudio[index].pitch.setConstant(value);
+            break;
+          case PAN:
+            samplerAudio[index].panning.setConstant(value);
+            break;
+            
+            
+          case FILTER_FREQ:
+            samplerAudio[index].filterFreq.setConstant(value);
+            break;
+          case FILTER_REZ:
+            samplerAudio[index].filterRez.setConstant(value);
+            break;
+            
+          case BIT_DEPTH:
+            samplerAudio[index].bitDepth.setConstant(value);
+            break;
+          case BIT_RATE:
+            samplerAudio[index].bitRate.setConstant(value);
+            break;
+            
+          case DELAY_TIME:
+            samplerAudio[index].delayTime.setConstant(value);
+            println(samplerAudio[index].delay.delTime.getLastValue());
+            break;
+          case DELAY_FEEDBACK:
+            samplerAudio[index].delayFeedback.setConstant(value);
+            break;
+            
         }
       }
     
