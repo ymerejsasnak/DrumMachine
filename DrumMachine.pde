@@ -3,17 +3,16 @@
 /* TO DO:
 
 NEXT
--cleanup and comment code
--implement sampler settings
-   -first routing ugens
-   -next setting base levels
-   -THEN doing the stepped randomness with its controls
-
-
+-cleanup and comment code (ESPECIALLY GLOBALS for magic numbers)!!
+-implement last settings: start offset and filter type
+-put filter AFTER bitcrush?
+-fix up all values/ranges/etc for settings
+-begin gui improvements
+-begin making more samples to use (and hardcode an easy way to load themfor now)
 
 SAMPLER
 -each *individual* sample should also at least have it's own volume knob (if not a couple other things too)
--save file path from loading file so selection dialog goes back to last folder used 
+-save file path from loading file so selection dialog goes back to last folder used (maybe not if sdrop)
 -unload/clear sample, unload/clear all samples, unload/clear all samplers
 -make sure with multiple samples there are no issues (ie some empty, none loaded, etc) (maybe use arraylist instead?)
 -better/cleaner loading of default samples
@@ -24,16 +23,14 @@ SAMPLER
 
 
 SAMPLER SETTINGS
--volume, pan, start offset, pitch, filt type, filt freq, filt rez, decay, bit rate, bit depth, delay fback, delay time
--3 knobs for each - base value (slider/knob?), # steps per change (tick slider?), min/max random amount (range)
 -initialize settings/randomize settings
 
 
 SEQUENCER - individual
 -volume per step!!
 -mute button (solo button too?)
--step note value (not just 16th, also 8th, dotted, triplet, etc)
--settable beat highlighting interval (not just every 4)
+-step note value (not just 16th, also 8th, dotted, triplet, etc) - even more complex ones? (5/7/etc)
+-settable measure/beat highlighting interval (not just every 16/4)
 -clear track/randomize track
 -convenience stuff: insert every X beat?, copy/past track, etc 
 -? % turn random step on each loop/ % turn random step off each loop
@@ -55,7 +52,7 @@ MASTER
 -add limiter to end of audio chain for all?
 
 
-WAVS/PRESETS:
+WAVS/PRESETS: (and so many more possible)
 -drum n bass
 -idm
 -experimental/glitch/noise(but rhythmic)
@@ -67,6 +64,7 @@ FUTURE/OTHER
 -add midi output
 -maybe? - have multiple sequencers in subtab setup (use group? accordion?)
       -and then have 3rd tab(song?) for sequencing the sequencers! (using completely configurable step#s and loop times?)
+      -each sequencer can have its own tempo?
 */
 
 import controlP5.*;
