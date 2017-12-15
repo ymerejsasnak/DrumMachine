@@ -1,10 +1,12 @@
-//  VOLUME, PITCH, PAN, START, FILTER_TYPE, FILTER_FREQ, FILTER_REZ, BIT_DEPTH, BIT_RATE, DELAY_TIME, DELAY_FEEDBACK 
-
+/*
+  Controls the loading, routing, and actual triggering of audio samples 
+  (with help from SamplerInstrument class below it)
+*/
 
 class SamplerAudio {
   
-  Sampler[] samplers = new Sampler[SAMPLES_PER_SAMPLER];
-  String[] filenames = new String[SAMPLES_PER_SAMPLER];
+  Sampler[] samplers = new Sampler[SAMPLES_PER_SAMPLEGROUP];
+  String[] filenames = new String[SAMPLES_PER_SAMPLEGROUP];
   
   Summer summer = new Summer();
   Pan panner = new Pan(0); // pan to center (assumes mono sound---any issues if not? use balance ugen if stereo??)
@@ -31,10 +33,10 @@ class SamplerAudio {
   SamplerAudio(String baseName) {
     
     //println(volume);
-    for (int i = 0; i < SAMPLES_PER_SAMPLER; i++) {
-      filenames[i] = baseName + (i + 1) + ".wav";
-      samplers[i] = new Sampler(filenames[i], 4, minim); //4 is # of voices
-      samplers[i].patch(summer); //patch all 4 samples to summer first 
+    for (int samplerIndex = 0; samplerIndex < SAMPLES_PER_SAMPLEGROUP; samplerIndex++) {
+      filenames[samplerIndex] = baseName + (samplerIndex + 1) + ".wav";
+      samplers[samplerIndex] = new Sampler(filenames[samplerIndex], SAMPLER_VOICES, minim); //4 is # of voices
+      samplers[samplerIndex].patch(summer); //patch all 4 samples to summer first 
     }
     
     //patching constants
@@ -71,7 +73,7 @@ class SamplerAudio {
   
   
   void load(int sampleIndex, String filename) {
-    samplers[sampleIndex] = new Sampler(filename, 4, minim);
+    samplers[sampleIndex] = new Sampler(filename, SAMPLER_VOICES, minim);
     samplers[sampleIndex].patch(summer);
     volume.patch(samplers[sampleIndex].amplitude);
   }
@@ -79,7 +81,7 @@ class SamplerAudio {
   
   void play() { //(split this into 3 diff methods, called based on selection in sampler group
     // TEMP - pure random trigger of four loaded samples 
-    samplers[int(random(0, SAMPLES_PER_SAMPLER))].trigger(); 
+    samplers[int(random(0, SAMPLES_PER_SAMPLEGROUP))].trigger(); 
   }
   
 }
@@ -88,19 +90,19 @@ class SamplerAudio {
 class SampleInstrument implements Instrument {
   
   void noteOn(float dur) {
-    for (int i = 0; i < TOTAL_TRACKS; i++) {
-      if (sequencerGUI[i].getStep()) { samplerAudio[i].play(); } 
+    for (int trackIndex = 0; trackIndex < TOTAL_TRACKS; trackIndex++) {
+      if (sequencerGUI[trackIndex].getStep()) { samplerAudio[trackIndex].play(); } 
     }
   }
   
   
   void noteOff() {
     if (!masterGUI.playing) { return; }
-    for (int i = 0; i < TOTAL_TRACKS; i++) {
-      sequencerGUI[i].nextStep(); 
+    for (int trackIndex = 0; trackIndex < TOTAL_TRACKS; trackIndex++) {
+      sequencerGUI[trackIndex].nextStep(); 
     }
     out.setTempo(masterGUI.tempo);
-    out.playNote(0, 0.25f, this); //play next note immediately (dur 16th)       
+    out.playNote(0, QUARTER_NOTE, this); //play next note immediately (dur 16th)       
   }
   
 }

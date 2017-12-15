@@ -1,45 +1,48 @@
+/* 
+  Defines/displays the GUI components for the samplers
+*/
 
 public class SamplerGUI{
  
-  int x, y, index;
-  int h = SAMPLER_HEIGHT;
-  int w = SAMPLER_WIDTH;
-  Textlabel[] sampleLabels = new Textlabel[SAMPLES_PER_SAMPLER];
+  int x, y, trackIndex;
+  int h = SAMPLEGROUP_HEIGHT;
+  int w = SAMPLEGROUP_WIDTH;
+  Textlabel[] sampleLabels = new Textlabel[SAMPLES_PER_SAMPLEGROUP];
   
   int currentSampleIndex; // can't think of a workable way to send index from loadfile to selector method below so using this var
   
   Group samplerGroup;
   
   
-  SamplerGUI(int index){
+  SamplerGUI(int trackIndex){
     
-    samplerGroup = cp5.addGroup("sampler " + index).setBarHeight(50).hideArrow();
+    samplerGroup = cp5.addGroup("sampler " + trackIndex).setBarHeight(SAMPLEGROUP_TAB_HEIGHT).setFont(sampleBarFont).hideArrow();
     
-    for (int sampleIndex = 0; sampleIndex < SAMPLES_PER_SAMPLER; sampleIndex++) {
+    for (int sampleIndex = 0; sampleIndex < SAMPLES_PER_SAMPLEGROUP; sampleIndex++) {
       this.x = 200;
-      this.y = sampleIndex * 50 - index * 50;
-      this.index = index;
+      this.y = trackIndex * -(SAMPLEGROUP_TAB_HEIGHT+1) + sampleIndex * 50;
+      this.trackIndex = trackIndex;
       
-      cp5.addButton("play " + index * 10 + sampleIndex)
+      cp5.addButton("play " + trackIndex * 10 + sampleIndex)
          .setValue(sampleIndex)
          .setCaptionLabel("play")
-         .setPosition(x + PADDING * 2 + SAMPLER_BUTTON_SIZE, y + PADDING)
-         .setSize(SAMPLER_BUTTON_SIZE, SAMPLER_BUTTON_SIZE)
+         .setPosition(x + PADDING * 2 + SAMPLEGROUP_BUTTON_SIZE, y + PADDING)
+         .setSize(SAMPLEGROUP_BUTTON_SIZE, SAMPLEGROUP_BUTTON_SIZE)
          .plugTo(this, "playFile")
          .moveTo(samplerGroup)
          ;
-      cp5.addButton("load " + index * 10 + sampleIndex)
+      cp5.addButton("load " + trackIndex * 10 + sampleIndex)
          .setValue(sampleIndex)
          .setCaptionLabel("load")
          .setPosition(x + PADDING, y + PADDING)
-         .setSize(SAMPLER_BUTTON_SIZE, SAMPLER_BUTTON_SIZE)
+         .setSize(SAMPLEGROUP_BUTTON_SIZE, SAMPLEGROUP_BUTTON_SIZE)
          .plugTo(this, "loadFile")
          .moveTo(samplerGroup)
          ;
          
-       sampleLabels[sampleIndex] = cp5.addTextlabel("filename " + index * 10 + sampleIndex)
-          .setText(samplerAudio[index].filenames[sampleIndex])
-          .setPosition(x + SAMPLER_BUTTON_SIZE * 2 + PADDING * 3, y + PADDING)
+       sampleLabels[sampleIndex] = cp5.addTextlabel("filename " + trackIndex * 10 + sampleIndex)
+          .setText(samplerAudio[trackIndex].filenames[sampleIndex])
+          .setPosition(x + SAMPLEGROUP_BUTTON_SIZE * 2 + PADDING * 3, y + PADDING)
           .setFont(createFont("Arial", 20))
           .moveTo(samplerGroup)
        ;
@@ -51,7 +54,7 @@ public class SamplerGUI{
  
     
   void playFile(int sampleIndex) {
-    samplerAudio[index].samplers[sampleIndex].trigger();
+    samplerAudio[trackIndex].samplers[sampleIndex].trigger();
   }
  
  
@@ -65,9 +68,9 @@ public class SamplerGUI{
     if (selection != null) {
      
        String path = selection.getAbsolutePath();    
-       samplerAudio[index].load(currentSampleIndex, path); 
+       samplerAudio[trackIndex].load(currentSampleIndex, path); 
        String text = path.substring(path.lastIndexOf("/") + 1);
-       samplerGUI[index].sampleLabels[currentSampleIndex].setText(text);      
+       samplerGUI[trackIndex].sampleLabels[currentSampleIndex].setText(text);      
     }
   }
  

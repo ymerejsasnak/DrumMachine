@@ -1,7 +1,12 @@
-class SequencerGUI {
+/*
+  Defines/displays the sequencer tab GUI components (steps and related controls)
+  (uses step class below for individual steps in the sequencer)
+*/
+
+class SequencerGUI { //rename/refactor?  this is actually gui for individual track
   
    
-  int x, y, index;
+  int x, y, trackIndex;
   int h = SEQUENCER_TRACK_HEIGHT;
   int w = width;
   
@@ -9,31 +14,31 @@ class SequencerGUI {
   
   int currentStep = 0;
   int activeSteps = MAX_STEPS;
-  int[] stepCounters = new int[12];
+  int[] stepCounters = new int[12]; //total # of settings that need to count steps
   
   
-  SequencerGUI(int index) {
-    this.index = index;
+  SequencerGUI(int trackIndex) {
+    this.trackIndex = trackIndex;
     x = 0;
-    y = index * (h + PADDING) + SEQUENCER_VERTICAL_OFFSET;
+    y = trackIndex * (h + PADDING) + SEQUENCER_VERTICAL_OFFSET;
     
-    for (int i = 0; i < MAX_STEPS; i++) {
-      steps[i] = new Step(i, y); 
+    for (int stepIndex = 0; stepIndex < MAX_STEPS; stepIndex++) {
+      steps[stepIndex] = new Step(stepIndex, y); 
     }    
   }
   
   
   void drawGUI() {
-    for (int i = 0; i < MAX_STEPS; i++) {
-     steps[i].display(activeSteps); 
+    for (int stepIndex = 0; stepIndex < MAX_STEPS; stepIndex++) {
+     steps[stepIndex].display(activeSteps); 
     }
     
   }
   
   
   void clickCheck(int _mouseX, int _mouseY, int _mouseButton) {
-    for (int i = 0; i < MAX_STEPS; i++) {
-      steps[i].clickCheck(_mouseX, _mouseY, _mouseButton, index); 
+    for (int stepIndex = 0; stepIndex < MAX_STEPS; stepIndex++) {
+      steps[stepIndex].clickCheck(_mouseX, _mouseY, _mouseButton, trackIndex); 
     }
   }
   
@@ -48,47 +53,47 @@ class SequencerGUI {
     for (int i = 0; i < 11; i++) {
       stepCounters[i]++;
       
-      if (stepCounters[i] >= cp5.getController("stepschange" + index + i).getValue()) {
+      if (stepCounters[i] >= cp5.getController("stepschange" + trackIndex + i).getValue()) {
         stepCounters[i] = 0; 
         Setting setting = Setting.values()[i];
         
         
-        float value = random(settingsGUI[index].rangeSettings[i].getLowValue(),
-                             settingsGUI[index].rangeSettings[i].getHighValue());
+        float value = random(settingsGUI[trackIndex].rangeSettings[i].getLowValue(),
+                             settingsGUI[trackIndex].rangeSettings[i].getHighValue());
         
         switch (setting) {
           
           case VOLUME:
-            samplerAudio[index].volume.setConstant(value); 
+            samplerAudio[trackIndex].volume.setConstant(value); 
             break;
           case PITCH:
-            samplerAudio[index].pitch.setConstant(value);
+            samplerAudio[trackIndex].pitch.setConstant(value);
             break;
           case PAN:
-            samplerAudio[index].panning.setConstant(value);
+            samplerAudio[trackIndex].panning.setConstant(value);
             break;
             
             
           case FILTER_FREQ:
-            samplerAudio[index].filterFreq.setConstant(value);
+            samplerAudio[trackIndex].filterFreq.setConstant(value);
             break;
           case FILTER_REZ:
-            samplerAudio[index].filterRez.setConstant(value);
+            samplerAudio[trackIndex].filterRez.setConstant(value);
             break;
             
           case BIT_DEPTH:
-            samplerAudio[index].bitDepth.setConstant(value);
+            samplerAudio[trackIndex].bitDepth.setConstant(value);
             break;
           case BIT_RATE:
-            samplerAudio[index].bitRate.setConstant(value);
+            samplerAudio[trackIndex].bitRate.setConstant(value);
             break;
             
           case DELAY_TIME:
-            samplerAudio[index].delayTime.setConstant(value);
-            println(samplerAudio[index].delay.delTime.getLastValue());
+            samplerAudio[trackIndex].delayTime.setConstant(value);
+            println(samplerAudio[trackIndex].delay.delTime.getLastValue());
             break;
           case DELAY_FEEDBACK:
-            samplerAudio[index].delayFeedback.setConstant(value);
+            samplerAudio[trackIndex].delayFeedback.setConstant(value);
             break;
             
         }
