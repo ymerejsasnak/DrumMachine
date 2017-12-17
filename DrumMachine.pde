@@ -5,6 +5,9 @@
 NEXT
 -REWORK PLANS/STREAMLINE WHOLE THING - FOCUS ON CORE IDEA OF UNIQUE, USEFUL, CONVENIENT NON-REPETETIVE DRUM MACHINE
 -cleanup and comment code (ESPECIALLY GLOBALS for magic numbers and rename some things for clarity)!!
+-work on easiest stuff first so as to cut down on 'to do' list faster
+
+
 -implement last settings: start offset and filter type
 -put filter AFTER bitcrush?
 -fix up all values/ranges/etc for settings

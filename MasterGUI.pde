@@ -14,21 +14,21 @@ class MasterGUI {
     cp5.addButton("play")
        .setCaptionLabel("PLAY")
        .setPosition(PADDING, y + PADDING)
-       .setSize(100, 25)
+       .setSize(MASTER_BUTTON_WIDTH, MASTER_BUTTON_HEIGHT)
        .plugTo(this)
        .moveTo("global") // always visible (tabs)
     ;
     cp5.addButton("stopIt") //can't name it stop
        .setCaptionLabel("STOP")
-       .setPosition(150, y + PADDING)
-       .setSize(100, 25)
+       .setPosition(MASTER_BUTTON_WIDTH + PADDING * 2, y + PADDING)
+       .setSize(MASTER_BUTTON_WIDTH, MASTER_BUTTON_HEIGHT)
        .plugTo(this)
        .moveTo("global")
     ;
     cp5.addSlider("tempo")
        .setCaptionLabel("TEMPO")
-       .setPosition(300, y + PADDING)
-       .setSize(150, 20)
+       .setPosition(MASTER_BUTTON_WIDTH * 2 + PADDING * 3, y + PADDING)
+       .setSize(TEMPO_WIDTH, TEMPO_HEIGHT)
        .setSliderMode(Slider.FLEXIBLE)
        .setRange(MIN_TEMPO, MAX_TEMPO)
        .setValue(tempo)
@@ -42,7 +42,7 @@ class MasterGUI {
   public void play() {
     if (!playing) {
       out.setTempo(tempo);
-      out.playNote(0, 0.25f, new SampleInstrument());
+      out.playNote(0, QUARTER_NOTE, new SampleInstrument());
       playing = true;
     }   
   }
@@ -50,9 +50,10 @@ class MasterGUI {
   
   public void stopIt() {
     playing = false;
-    for (int i = 0; i < TOTAL_TRACKS; i++) {
-      sequencerGUI[i].steps[sequencerGUI[i].currentStep].playing = false;
-      sequencerGUI[i].currentStep = 0;
+    for (int trackIndex = 0; trackIndex < TOTAL_TRACKS; trackIndex++) {
+      SequencerGUI thisTrack = sequencerGUI[trackIndex];
+      thisTrack.steps[thisTrack.currentStep].playing = false;
+      thisTrack.currentStep = 0;
     }    
   } 
 

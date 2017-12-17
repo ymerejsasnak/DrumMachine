@@ -90,7 +90,7 @@ class SequencerGUI { //rename/refactor?  this is actually gui for individual tra
             
           case DELAY_TIME:
             samplerAudio[trackIndex].delayTime.setConstant(value);
-            println(samplerAudio[trackIndex].delay.delTime.getLastValue());
+            
             break;
           case DELAY_FEEDBACK:
             samplerAudio[trackIndex].delayFeedback.setConstant(value);

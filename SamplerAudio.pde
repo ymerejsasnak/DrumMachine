@@ -8,11 +8,14 @@ class SamplerAudio {
   Sampler[] samplers = new Sampler[SAMPLES_PER_SAMPLEGROUP];
   String[] filenames = new String[SAMPLES_PER_SAMPLEGROUP];
   
-  Summer summer = new Summer();
-  Pan panner = new Pan(0); // pan to center (assumes mono sound---any issues if not? use balance ugen if stereo??)
-  MoogFilter filter = new MoogFilter(22050, 0); // default cutoff, rez
-  BitCrush crush = new BitCrush(16, 44100);
-  Delay delay = new Delay(1.0, 0.0, true, true); //??
+  RandomType randomType = RandomType.RANDOM;
+  int lastPlayedIndex = -1;
+  
+  Summer sumUgen = new Summer();
+  Pan panUgen = new Pan(0); // pan to center (assumes mono sound---any issues if not? use balance ugen if stereo??)
+  MoogFilter filterUgen = new MoogFilter(22050, 0); // default cutoff, rez
+  BitCrush crushUgen = new BitCrush(16, 44100);
+  Delay delayUgen = new Delay(1.0, 0.0, true, true); //??
   
   // constant ugens to control settings of above ugens
   Constant volume = new Constant(1);
@@ -36,52 +39,63 @@ class SamplerAudio {
     for (int samplerIndex = 0; samplerIndex < SAMPLES_PER_SAMPLEGROUP; samplerIndex++) {
       filenames[samplerIndex] = baseName + (samplerIndex + 1) + ".wav";
       samplers[samplerIndex] = new Sampler(filenames[samplerIndex], SAMPLER_VOICES, minim); //4 is # of voices
-      samplers[samplerIndex].patch(summer); //patch all 4 samples to summer first 
+      samplers[samplerIndex].patch(sumUgen); //patch all 4 samples to summer first 
     }
     
     //patching constants
-    volume.patch(samplers[0].amplitude);
-    volume.patch(samplers[1].amplitude);
-    volume.patch(samplers[2].amplitude);
-    volume.patch(samplers[3].amplitude);
+    for (int sampleIndex = 0; sampleIndex < SAMPLES_PER_SAMPLEGROUP; sampleIndex++) {
+      volume.patch(samplers[sampleIndex].amplitude);
+      pitch.patch(samplers[sampleIndex].rate);
+    }
     
-    pitch.patch(samplers[0].rate);
-    pitch.patch(samplers[1].rate);
-    pitch.patch(samplers[2].rate);
-    pitch.patch(samplers[3].rate);
-    
-    panning.patch(panner.pan);
-    filterFreq.patch(filter.frequency);
-    filterRez.patch(filter.resonance);
-    bitDepth.patch(crush.bitRes);
-    bitRate.patch(crush.bitRate);
-    delayTime.patch(delay.delTime);
-    delayFeedback.patch(delay.delAmp);
+    panning.patch(panUgen.pan);
+    filterFreq.patch(filterUgen.frequency);
+    filterRez.patch(filterUgen.resonance);
+    bitDepth.patch(crushUgen.bitRes);
+    bitRate.patch(crushUgen.bitRate);
+    delayTime.patch(delayUgen.delTime);
+    delayFeedback.patch(delayUgen.delAmp);
     
     //audio path
-    filter.setChannelCount(2);
-    crush.setChannelCount(2);
-    delay.setChannelCount(2);
+    filterUgen.setChannelCount(2);
+    crushUgen.setChannelCount(2);
+    delayUgen.setChannelCount(2);
     
-    summer.patch(panner);
-    panner.patch(filter);
-    filter.patch(crush);
-    crush.patch(delay);
-    delay.patch(out);
+    sumUgen.patch(panUgen);
+    panUgen.patch(filterUgen);
+    filterUgen.patch(crushUgen);
+    crushUgen.patch(delayUgen);
+    delayUgen.patch(out);
     
   }
   
   
   void load(int sampleIndex, String filename) {
     samplers[sampleIndex] = new Sampler(filename, SAMPLER_VOICES, minim);
-    samplers[sampleIndex].patch(summer);
+    samplers[sampleIndex].patch(sumUgen);
     volume.patch(samplers[sampleIndex].amplitude);
   }
   
   
-  void play() { //(split this into 3 diff methods, called based on selection in sampler group
-    // TEMP - pure random trigger of four loaded samples 
-    samplers[int(random(0, SAMPLES_PER_SAMPLEGROUP))].trigger(); 
+  void play() { 
+    int indexToTrigger = int(random(0, SAMPLES_PER_SAMPLEGROUP));
+    switch (randomType) {
+      case RANDOM:
+        //do nothing, pure random
+        break;
+      case AVOID_PREVIOUS:
+        //if same sample was played last time, incremement index by 1 (mod to cycle to 0)
+        if (indexToTrigger == lastPlayedIndex) {
+          indexToTrigger = (indexToTrigger + 1) % SAMPLES_PER_SAMPLEGROUP;
+        }
+        break;
+      case CYCLE:
+        // cycle just increments sample index, no randomness
+        indexToTrigger = (lastPlayedIndex + 1) % SAMPLES_PER_SAMPLEGROUP;
+        break;     
+    }
+    samplers[indexToTrigger].trigger();
+    lastPlayedIndex = indexToTrigger;
   }
   
 }

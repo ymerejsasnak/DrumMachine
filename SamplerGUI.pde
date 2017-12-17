@@ -4,8 +4,8 @@
 
 public class SamplerGUI{
  
-  int x, y, trackIndex;
-  int h = SAMPLEGROUP_HEIGHT;
+  int x = SAMPLEGROUP_XPOS;
+  int y, trackIndex;
   int w = SAMPLEGROUP_WIDTH;
   Textlabel[] sampleLabels = new Textlabel[SAMPLES_PER_SAMPLEGROUP];
   
@@ -18,15 +18,16 @@ public class SamplerGUI{
     
     samplerGroup = cp5.addGroup("sampler " + trackIndex).setBarHeight(SAMPLEGROUP_TAB_HEIGHT).setFont(sampleBarFont).hideArrow();
     
+    this.y = trackIndex * -(SAMPLEGROUP_TAB_HEIGHT + 1); // need to adjust otherwise accordion shifts each 1 down more and more
+    
     for (int sampleIndex = 0; sampleIndex < SAMPLES_PER_SAMPLEGROUP; sampleIndex++) {
-      this.x = 200;
-      this.y = trackIndex * -(SAMPLEGROUP_TAB_HEIGHT+1) + sampleIndex * 50;
+      int sampleY = y + sampleIndex * SAMPLE_HEIGHT; 
       this.trackIndex = trackIndex;
       
       cp5.addButton("play " + trackIndex * 10 + sampleIndex)
          .setValue(sampleIndex)
          .setCaptionLabel("play")
-         .setPosition(x + PADDING * 2 + SAMPLEGROUP_BUTTON_SIZE, y + PADDING)
+         .setPosition(x + PADDING * 2 + SAMPLEGROUP_BUTTON_SIZE, sampleY + PADDING)
          .setSize(SAMPLEGROUP_BUTTON_SIZE, SAMPLEGROUP_BUTTON_SIZE)
          .plugTo(this, "playFile")
          .moveTo(samplerGroup)
@@ -34,7 +35,7 @@ public class SamplerGUI{
       cp5.addButton("load " + trackIndex * 10 + sampleIndex)
          .setValue(sampleIndex)
          .setCaptionLabel("load")
-         .setPosition(x + PADDING, y + PADDING)
+         .setPosition(x + PADDING, sampleY + PADDING)
          .setSize(SAMPLEGROUP_BUTTON_SIZE, SAMPLEGROUP_BUTTON_SIZE)
          .plugTo(this, "loadFile")
          .moveTo(samplerGroup)
@@ -42,11 +43,22 @@ public class SamplerGUI{
          
        sampleLabels[sampleIndex] = cp5.addTextlabel("filename " + trackIndex * 10 + sampleIndex)
           .setText(samplerAudio[trackIndex].filenames[sampleIndex])
-          .setPosition(x + SAMPLEGROUP_BUTTON_SIZE * 2 + PADDING * 3, y + PADDING)
+          .setPosition(x + SAMPLEGROUP_BUTTON_SIZE * 2 + PADDING * 3, sampleY + PADDING)
           .setFont(createFont("Arial", 20))
           .moveTo(samplerGroup)
        ;
     }
+    
+    
+    cp5.addRadioButton("randomType" + trackIndex)
+       .setItemsPerRow(1)
+       .addItem("Random" + trackIndex, RandomType.RANDOM.ordinal())
+       .addItem("Avoid Previous" + trackIndex, RandomType.AVOID_PREVIOUS.ordinal())
+       .addItem("Cycle" + trackIndex, RandomType.CYCLE.ordinal())
+       .setPosition(x + PADDING, y + (SAMPLE_HEIGHT + PADDING) * 4)
+       .plugTo(this, "chooseRandom")
+       .moveTo(samplerGroup)
+    ;
     
     samplerAccordion.addItem(samplerGroup);
        
@@ -72,6 +84,12 @@ public class SamplerGUI{
        String text = path.substring(path.lastIndexOf("/") + 1);
        samplerGUI[trackIndex].sampleLabels[currentSampleIndex].setText(text);      
     }
+  }
+  
+  
+  void chooseRandom(int randomTypeIndex) {
+    samplerAudio[trackIndex].randomType = RandomType.values()[randomTypeIndex];
+    println(samplerAudio[trackIndex].randomType);
   }
  
 }

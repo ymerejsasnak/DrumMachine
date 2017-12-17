@@ -5,8 +5,6 @@
 class SettingsGUI {
   
   int x, y, trackIndex;
-  int h = 500;
-  int w = 300;
   Range[] rangeSettings = new Range[11];
   
   
