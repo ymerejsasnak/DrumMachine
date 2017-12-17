@@ -50,16 +50,16 @@ class SequencerGUI { //rename/refactor?  this is actually gui for individual tra
   
   
   void nextStep() {
-    for (int i = 0; i < 11; i++) {
-      stepCounters[i]++;
+    for (int settingsIndex = 0; settingsIndex < Setting.values().length; settingsIndex++) {
+      stepCounters[settingsIndex]++;
       
-      if (stepCounters[i] >= cp5.getController("stepschange" + trackIndex + i).getValue()) {
-        stepCounters[i] = 0; 
-        Setting setting = Setting.values()[i];
+      if (stepCounters[settingsIndex] >= cp5.getController("stepschange" + trackIndex + settingsIndex).getValue()) {
+        stepCounters[settingsIndex] = 0; 
+        Setting setting = Setting.values()[settingsIndex];
         
         
-        float value = random(settingsGUI[trackIndex].rangeSettings[i].getLowValue(),
-                             settingsGUI[trackIndex].rangeSettings[i].getHighValue());
+        float value = random(settingsGUI[trackIndex].rangeSettings[settingsIndex].getLowValue(),
+                             settingsGUI[trackIndex].rangeSettings[settingsIndex].getHighValue());
         
         switch (setting) {
           

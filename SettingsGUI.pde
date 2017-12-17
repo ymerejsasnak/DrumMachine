@@ -5,7 +5,7 @@
 class SettingsGUI {
   
   int x, y, trackIndex;
-  Range[] rangeSettings = new Range[11];
+  Range[] rangeSettings = new Range[Setting.values().length];
   
   
   SettingsGUI(int trackIndex) {
@@ -18,26 +18,31 @@ class SettingsGUI {
     
     
     
-    for (int rangeIndex = 0; rangeIndex < 11; rangeIndex++) {
+    for (int rangeIndex = 0; rangeIndex < Setting.values().length; rangeIndex++) {
     
       rangeSettings[rangeIndex] = cp5.addRange("randrange" + trackIndex + rangeIndex)
-         .setPosition(x + PADDING * 10 + SETTINGS_SLIDER_WIDTH, y + 50 * rangeIndex + PADDING)
-         .setSize(SETTINGS_SLIDER_WIDTH, SAMPLEGROUP_BUTTON_SIZE)
+         .setCaptionLabel("")
+         .setPosition(x + SETTINGS_LABEL_WIDTH, y + (SETTINGS_SLIDER_HEIGHT + PADDING) * rangeIndex)
+         .setSize(SETTINGS_SLIDER_WIDTH, SETTINGS_SLIDER_HEIGHT)
          .moveTo(samplerGUI[trackIndex].samplerGroup)
          ;
+         
        cp5.addSlider("stepschange" + trackIndex + rangeIndex)
-         .setPosition(x + PADDING * 20 + SETTINGS_SLIDER_WIDTH * 2, y + 50 * rangeIndex + PADDING)
-         .setSize(SETTINGS_SLIDER_WIDTH, SAMPLEGROUP_BUTTON_SIZE)
+         .setCaptionLabel("")
+         .setPosition(x + SETTINGS_LABEL_WIDTH + SETTINGS_SLIDER_WIDTH + PADDING * 2,
+                      y + (SETTINGS_SLIDER_HEIGHT + PADDING) * rangeIndex)
+         .setSize(SETTINGS_SLIDER_WIDTH, SETTINGS_SLIDER_HEIGHT)
          .setRange(1, 64)
          .setValue(4)
          .setNumberOfTickMarks(64)
          .snapToTickMarks(true)
          .showTickMarks(false)
+         .setSliderMode(Slider.FLEXIBLE)
          .moveTo(samplerGUI[trackIndex].samplerGroup)
          ;
          
        cp5.addLabel(Setting.values()[rangeIndex].toString() + trackIndex)
-          .setPosition(x, y + 50 * rangeIndex + PADDING) //very rough
+          .setPosition(x, y + (SETTINGS_SLIDER_HEIGHT + PADDING) * rangeIndex + (SETTINGS_SLIDER_HEIGHT / 3))
           .moveTo(samplerGUI[trackIndex].samplerGroup)
          ;
     }
@@ -52,25 +57,24 @@ class SettingsGUI {
     rangeSettings[Setting.PAN.ordinal()]
       .setRange(-1.0, 1.0)
       .setRangeValues(0, 0);
-       
-    
+            
+    rangeSettings[Setting.BIT_DEPTH.ordinal()]
+      .setRange(1.0, 16)
+      .setRangeValues(16, 16);
+    rangeSettings[Setting.BIT_RATE.ordinal()]
+      .setRange(10.0, 44100)
+      .setRangeValues(44100, 44100);
+      
     rangeSettings[Setting.FILTER_FREQ.ordinal()]
       .setRange(0.0, 22050)
       .setRangeValues(22050, 22050);
     rangeSettings[Setting.FILTER_REZ.ordinal()]
-      .setRange(0.0, 1.0)
+      .setRange(0.0, .9)
       .setRangeValues(0, 0);
       
-    rangeSettings[Setting.BIT_DEPTH.ordinal()]
-      .setRange(0.0, 16)
-      .setRangeValues(16, 16);
-    rangeSettings[Setting.BIT_RATE.ordinal()]
-      .setRange(0.0, 44100)
-      .setRangeValues(44100, 44100);
-      
     rangeSettings[Setting.DELAY_TIME.ordinal()]
-      .setRange(0.1, 1.0)
-      .setRangeValues(1.0, 1.0);
+      .setRange(0.001, 0.2)
+      .setRangeValues(0.2, 0.2);
     rangeSettings[Setting.DELAY_FEEDBACK.ordinal()]
       .setRange(0, 0.99)
       .setRangeValues(0, 0);

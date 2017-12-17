@@ -3,23 +3,16 @@
 /* TO DO:
 
 NEXT
--REWORK PLANS/STREAMLINE WHOLE THING - FOCUS ON CORE IDEA OF UNIQUE, USEFUL, CONVENIENT NON-REPETETIVE DRUM MACHINE
--cleanup and comment code (ESPECIALLY GLOBALS for magic numbers and rename some things for clarity)!!
--work on easiest stuff first so as to cut down on 'to do' list faster
+-endless: code cleanup, comments, refactoring, gui improvements
 
-
--implement last settings: start offset and filter type
--put filter AFTER bitcrush?
--fix up all values/ranges/etc for settings
--begin gui improvements
+-implement last settings: start offset and filter type (just do filter type per samplegroup, not in 'settings')
 -begin making more samples to use (and hardcode an easy way to load themfor now)
--delay values should be short! (not typical echo sound but more ringing comb filterish sound
 -implement line ugens for value changes so as to avoid sudden sharp changes (and thus clicks in more pure sounds)
--should filter type be per sample or per sample group?
 -reversable samples
 -for some of above: initially also(?) load file as audiosample in order to get sample array information
    (or figure out how to do this w/ buffer?)
 -patch and unpatch new ugens for each setting so changes don't affect samples already playing?
+    (actually, having it be an option either way is good, both sound good in certain situations)
 
 SAMPLER
 -each *individual* sample should also at least have it's own volume knob (if not a couple other things too)
@@ -27,16 +20,14 @@ SAMPLER
 -unload/clear sample, unload/clear all samples, unload/clear all samplers
 -make sure with multiple samples there are no issues (ie some empty, none loaded, etc) (maybe use arraylist instead?)
 -better/cleaner loading of default samples
--choice between pure random, avoid previous, and cycle
 -use sDrop for drag+drop of samples into sampler (much easier!) -- maybe even make a file browser window as part of this if possible?
 
 
 SAMPLER SETTINGS
 -initialize settings/randomize settings
--note retrigger (% prob, rate, # retrigs) (maybe? similar, but not same, effect as short delay -- also probability makes it diff)
 
 
-SEQUENCER - individual
+SEQUENCER - individual track
 -volume per step!!
 -mute button (solo button too?)
 -step note value (not just 16th, also 8th, dotted, triplet, etc) - even more complex ones? (5/7/etc)
@@ -44,6 +35,7 @@ SEQUENCER - individual
 -clear track/randomize track
 -convenience stuff: insert every X beat?, copy/past track, etc 
 -? % trigger on an off note / % don't trigger an on note (maybe options for each of step, beat, and measure, based on settings above)
+--note retrigger (% prob, rate, # retrigs)
 
 
 SEQUENCER - all (but maybe would work on individual ones too?)

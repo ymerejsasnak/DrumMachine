@@ -49,10 +49,13 @@ class SamplerAudio {
     }
     
     panning.patch(panUgen.pan);
-    filterFreq.patch(filterUgen.frequency);
-    filterRez.patch(filterUgen.resonance);
+    
     bitDepth.patch(crushUgen.bitRes);
     bitRate.patch(crushUgen.bitRate);
+    
+    filterFreq.patch(filterUgen.frequency);
+    filterRez.patch(filterUgen.resonance);
+    
     delayTime.patch(delayUgen.delTime);
     delayFeedback.patch(delayUgen.delAmp);
     
@@ -62,9 +65,9 @@ class SamplerAudio {
     delayUgen.setChannelCount(2);
     
     sumUgen.patch(panUgen);
-    panUgen.patch(filterUgen);
-    filterUgen.patch(crushUgen);
-    crushUgen.patch(delayUgen);
+    panUgen.patch(crushUgen);
+    crushUgen.patch(filterUgen);
+    filterUgen.patch(delayUgen);
     delayUgen.patch(out);
     
   }
