@@ -16,7 +16,7 @@ final int SAMPLES_PER_SAMPLEGROUP = 4;
 final int SAMPLER_VOICES = 4;
 
 enum RandomType {
-  RANDOM(), AVOID_PREVIOUS, CYCLE
+  RANDOM, AVOID_PREVIOUS, CYCLE
 }
 
 // for SETTINGS options in sampler
@@ -30,13 +30,22 @@ enum Setting {
 
 
 // for SEQUENCER
-final int SEQUENCER_VERTICAL_OFFSET = 100;
+//final int SEQUENCER_VERTICAL_OFFSET = 100;
 final int SEQUENCER_TRACK_HEIGHT = 50;
 
 final int MAX_STEPS = 64;
 final int STEP_WIDTH = 14;
 final int STEP_SPACING = 2;
 final int STEP_HEIGHT = 30;
+
+final int SLIDER_WIDTH = 49;
+
+final int DEFAULT_STEPS_PER_BEAT = 4;
+final int DEFAULT_BEATS_PER_MEASURE = 4;
+final int MIN_STEPS_PER_BEAT = 2;
+final int MAX_STEPS_PER_BEAT = 8; //maybe
+final int MIN_BEATS_PER_MEASURE = 2;
+final int MAX_BEATS_PER_MEASURE = 8; // maybe?
 
 
 // for MASTER CONTROLS

@@ -16,21 +16,54 @@ class SequencerGUI { //rename/refactor?  this is actually gui for individual tra
   int activeSteps = MAX_STEPS;
   int[] stepCounters = new int[12]; //total # of settings that need to count steps
   
+  int stepsPerBeat = DEFAULT_STEPS_PER_BEAT;    // for now just pass these along to step class
+  int beatsPerMeasure = DEFAULT_BEATS_PER_MEASURE;
+  
   
   SequencerGUI(int trackIndex) {
     this.trackIndex = trackIndex;
     x = 0;
-    y = trackIndex * (h + PADDING) + SEQUENCER_VERTICAL_OFFSET;
+    y = trackIndex * (h + PADDING) + PADDING;
     
     for (int stepIndex = 0; stepIndex < MAX_STEPS; stepIndex++) {
       steps[stepIndex] = new Step(stepIndex, y); 
     }    
+    
+    cp5.addSlider("stepsPerBeat" + trackIndex)
+       .setPosition(x + (STEP_WIDTH + STEP_SPACING) * MAX_STEPS + PADDING * 2, y)
+       .setSize(SLIDER_WIDTH, 20)
+       .setRange(MIN_STEPS_PER_BEAT, MAX_STEPS_PER_BEAT)
+       .setNumberOfTickMarks(MAX_STEPS_PER_BEAT - MIN_STEPS_PER_BEAT + 1)
+       .setSliderMode(Slider.FLEXIBLE)
+       .setValue(4)
+       .plugTo(this, "setStepsPerBeat")
+       .moveTo("Sequencer")
+    ;
+    cp5.addSlider("beatsPerMeasure" + trackIndex) 
+       .setPosition(x + (STEP_WIDTH + STEP_SPACING) * MAX_STEPS + SLIDER_WIDTH + PADDING * 3, y)
+       .setSize(SLIDER_WIDTH, 20)
+       .setRange(MIN_BEATS_PER_MEASURE, MAX_BEATS_PER_MEASURE)
+       .setNumberOfTickMarks(MAX_STEPS_PER_BEAT - MIN_STEPS_PER_BEAT + 1)
+       .setSliderMode(Slider.FLEXIBLE)
+       .setValue(4)
+       .plugTo(this, "setBeatsPerMeasure")
+       .moveTo("Sequencer")
+    ;
+  }
+
+  
+  void setStepsPerBeat(int stepsNumber) {
+    stepsPerBeat = stepsNumber;
   }
   
+  void setBeatsPerMeasure(int beatsNumber) {
+    beatsPerMeasure = beatsNumber;
+  }
+
   
   void drawGUI() {
     for (int stepIndex = 0; stepIndex < MAX_STEPS; stepIndex++) {
-     steps[stepIndex].display(activeSteps); 
+     steps[stepIndex].display(activeSteps, stepsPerBeat, beatsPerMeasure); 
     }
     
   }
@@ -114,8 +147,8 @@ class Step {
   
   boolean on = false;
   boolean playing = false;
-
   
+   
   Step(int stepIndex, int y) {
     this.stepIndex = stepIndex;
     this.x = PADDING + stepIndex * STEP_WIDTH + STEP_SPACING * stepIndex;
@@ -123,17 +156,21 @@ class Step {
   }
   
   
-  void display(int activeSteps) {
-    if (stepIndex % 16 == 0) {
+  void display(int activeSteps, int stepsPerBeat, int beatsPerMeasure) {
+    // highlight start of each 'measure'
+    if (stepIndex % (stepsPerBeat * beatsPerMeasure) == 0) {
       stroke(120, 120, 250);
     }
-    else if (stepIndex % 4 == 0) {
+    // highlight start of each beat
+    else if (stepIndex % stepsPerBeat == 0) {
       stroke(80, 80, 170); 
     }
+    // no highlight for other steps
     else {
       noStroke();
     }
     
+    // gray out inactive steps
     if (stepIndex > activeSteps - 1) {
       if (on) {
         fill(100);
@@ -142,6 +179,8 @@ class Step {
         fill(60);
       }
     }
+    
+    // active steps are blue-ish
     else {
       if (on) {
         fill(100, 100, 200);
@@ -151,11 +190,12 @@ class Step {
       }
     }
     
+    // light gray to highlight playing step
     if (playing) {
       fill(150, 150, 150);
     }  
     
-    strokeWeight(2);
+    strokeWeight(1);
     rect(x, y, STEP_WIDTH, STEP_HEIGHT);
         
   }
