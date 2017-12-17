@@ -31,12 +31,14 @@ enum Setting {
 
 // for SEQUENCER
 //final int SEQUENCER_VERTICAL_OFFSET = 100;
-final int SEQUENCER_TRACK_HEIGHT = 50;
+
 
 final int MAX_STEPS = 64;
-final int STEP_WIDTH = 14;
+final int STEP_WIDTH = 10;
 final int STEP_SPACING = 2;
-final int STEP_HEIGHT = 30;
+final int STEP_HEIGHT = 20;
+
+final int SEQUENCER_TRACK_HEIGHT = STEP_HEIGHT * 2 + PADDING * 2;
 
 final int SLIDER_WIDTH = 49;
 
@@ -49,7 +51,7 @@ final int MAX_BEATS_PER_MEASURE = 8; // maybe?
 
 
 // for MASTER CONTROLS
-final int MASTER_HEIGHT = 150; // ??
+final int MASTER_HEIGHT = 100; // ??
 final int MASTER_BUTTON_WIDTH = 100;
 final int MASTER_BUTTON_HEIGHT = 25;
 final int TEMPO_WIDTH = 200;

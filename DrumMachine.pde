@@ -28,10 +28,12 @@ SAMPLER SETTINGS
 
 
 SEQUENCER - individual track
--volume per step!!
+total controls: (volume per each step, mute, solo, step value, clear track, random?,
+copy, paste, insert step, insrt beat, ins measure, shift left, shift right, 3 for retrig, 2 or 6 for % triggers)
+
+-volume per step!! (redo STEP class, build this in, volume based on where you click y value)
 -mute button (solo button too?)
 -step note value (not just 16th, also 8th, dotted, triplet, etc) - even more complex ones? (5/7/etc)
--settable measure/beat highlighting interval (not just every 16/4)
 -clear track/randomize track
 -convenience stuff: insert every X beat?, copy/past track, etc 
 -? % trigger on an off note / % don't trigger an on note (maybe options for each of step, beat, and measure, based on settings above)
