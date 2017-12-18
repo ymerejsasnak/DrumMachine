@@ -11,6 +11,7 @@ class SamplerAudio {
   RandomType randomType = RandomType.RANDOM;
   int lastPlayedIndex = -1;
   
+  
   Summer sumUgen = new Summer();
   Pan panUgen = new Pan(0); // pan to center (assumes mono sound---any issues if not? use balance ugen if stereo??)
   MoogFilter filterUgen = new MoogFilter(22050, 0); // default cutoff, rez
@@ -106,6 +107,9 @@ class SamplerAudio {
 
 class SampleInstrument implements Instrument {
   
+  
+  float stepValue = SIXTEENTH;
+  
   void noteOn(float dur) {
     for (int trackIndex = 0; trackIndex < TOTAL_TRACKS; trackIndex++) {
       if (sequencerGUI[trackIndex].getStep()) { samplerAudio[trackIndex].play(); } 
@@ -119,7 +123,7 @@ class SampleInstrument implements Instrument {
       sequencerGUI[trackIndex].nextStep(); 
     }
     out.setTempo(masterGUI.tempo);
-    out.playNote(0, QUARTER_NOTE, this); //play next note immediately (dur 16th)       
+    out.playNote(0, stepValue, this); //play next note immediately        
   }
   
 }

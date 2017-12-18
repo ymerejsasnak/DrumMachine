@@ -34,13 +34,13 @@ enum Setting {
 
 
 final int MAX_STEPS = 64;
-final int STEP_WIDTH = 10;
-final int STEP_SPACING = 2;
-final int STEP_HEIGHT = 20;
+final int STEP_WIDTH = 15;
+final int STEP_SPACING = 3;
+final int STEP_HEIGHT = 30;
 
-final int SEQUENCER_TRACK_HEIGHT = STEP_HEIGHT * 2 + PADDING * 2;
+final int SEQUENCER_TRACK_HEIGHT = STEP_HEIGHT;
 
-final int SLIDER_WIDTH = 49;
+final int SLIDER_WIDTH = 35;
 
 final int DEFAULT_STEPS_PER_BEAT = 4;
 final int DEFAULT_BEATS_PER_MEASURE = 4;
@@ -65,7 +65,17 @@ final int DEFAULT_TEMPO = 160;
 // GENERAL
 final int TOTAL_TRACKS = 8;
 
-final float QUARTER_NOTE = 0.25f;
+final float SIXTEENTH = 0.25f;
+final float EIGHTH = 0.5f;
+final float QUARTER = 1.0f;
+
+final float DOTTED_SIXTEENTH = 0.375f;
+final float DOTTED_EIGHTH = 0.75f;
+final float DOTTED_QUARTER = 1.5f;
+
+final float TRIPLET = 0.333333f;
+
+//need triplets...also maybe put all these in enum
 
 
 // COLORS

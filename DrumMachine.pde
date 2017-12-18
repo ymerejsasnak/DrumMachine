@@ -15,9 +15,9 @@ NEXT
     (actually, having it be an option either way is good, both sound good in certain situations)
 
 SAMPLER
--each *individual* sample should also at least have it's own volume knob (if not a couple other things too)
+-each *individual* sample should also at least have it's own volume knob ... and filter TYPE
 -save file path from loading file so selection dialog goes back to last folder used (maybe not if sdrop)
--unload/clear sample, unload/clear all samples, unload/clear all samplers
+-unload/clear sample, unload/clear samplegroup, unload/clear all samplegroups
 -make sure with multiple samples there are no issues (ie some empty, none loaded, etc) (maybe use arraylist instead?)
 -better/cleaner loading of default samples
 -use sDrop for drag+drop of samples into sampler (much easier!) -- maybe even make a file browser window as part of this if possible?
@@ -25,22 +25,24 @@ SAMPLER
 
 SAMPLER SETTINGS
 -initialize settings/randomize settings
-
+--note retrigger (% prob, rate, # retrigs) (best way - make second instrument that does the retrigger, calls itself x times)
+  (while internally more of a seq thing, acts like more of an effect, so at least gui-wise put it in settings...
+     ... but internally maybe handle it in sequencer???)
 
 SEQUENCER - individual track
-total controls: (volume per each step, mute, solo, step value, clear track, random?,
-copy, paste, insert step, insrt beat, ins measure, shift left, shift right, 3 for retrig, 2 or 6 for % triggers)
+total controls/buttons need to add: mute, solo, step value, clear track, % triggers (2) )
 
 -volume per step!! (redo STEP class, build this in, volume based on where you click y value)
--mute button (solo button too?)
+-mute / solo
 -step note value (not just 16th, also 8th, dotted, triplet, etc) - even more complex ones? (5/7/etc)
--clear track/randomize track
--convenience stuff: insert every X beat?, copy/past track, etc 
--? % trigger on an off note / % don't trigger an on note (maybe options for each of step, beat, and measure, based on settings above)
---note retrigger (% prob, rate, # retrigs)
+-clear track
+
+-? % trigger on an off note / % don't trigger an on note
 
 
-SEQUENCER - all (but maybe would work on individual ones too?)
+
+SEQUENCER - all 
+-global/all-tracks of some of above controls 
 % jump to random step/beat/measure (settable multiple so can jump to random 2steps or random 4steps, etc)
 % restart at step 0
 % repeat current (# of repeats, steps(/beats/measures?) per repeat)

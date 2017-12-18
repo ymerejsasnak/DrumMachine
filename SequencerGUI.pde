@@ -19,36 +19,67 @@ class SequencerGUI { //rename/refactor?  this is actually gui for individual tra
   int stepsPerBeat = DEFAULT_STEPS_PER_BEAT;    // for now just pass these along to step class
   int beatsPerMeasure = DEFAULT_BEATS_PER_MEASURE;
   
-  
   SequencerGUI(int trackIndex) {
     this.trackIndex = trackIndex;
     x = 0;
-    y = trackIndex * (h + PADDING) + PADDING;
+    y = trackIndex * (h + int(PADDING * 2.5) + STEP_HEIGHT) + PADDING * 2;
     
     for (int stepIndex = 0; stepIndex < MAX_STEPS; stepIndex++) {
       steps[stepIndex] = new Step(stepIndex, y); 
     }    
     
     cp5.addSlider("stepsPerBeat" + trackIndex)
-       .setPosition(x + (STEP_WIDTH + STEP_SPACING) * MAX_STEPS + PADDING * 2, y)
+       .setCaptionLabel("")
+       .setPosition(x + PADDING, y + STEP_HEIGHT + PADDING)
        .setSize(SLIDER_WIDTH, 20)
        .setRange(MIN_STEPS_PER_BEAT, MAX_STEPS_PER_BEAT)
        .setNumberOfTickMarks(MAX_STEPS_PER_BEAT - MIN_STEPS_PER_BEAT + 1)
+       .showTickMarks(false)
        .setSliderMode(Slider.FLEXIBLE)
-       .setValue(4)
+       .setValue(4.5) 
        .plugTo(this, "setStepsPerBeat")
        .moveTo("Sequencer")
     ;
     cp5.addSlider("beatsPerMeasure" + trackIndex) 
-       .setPosition(x + (STEP_WIDTH + STEP_SPACING) * MAX_STEPS + SLIDER_WIDTH + PADDING * 3, y)
+       .setCaptionLabel("")
+       .setPosition(x + SLIDER_WIDTH + PADDING * 2, y + STEP_HEIGHT + PADDING)
        .setSize(SLIDER_WIDTH, 20)
        .setRange(MIN_BEATS_PER_MEASURE, MAX_BEATS_PER_MEASURE)
        .setNumberOfTickMarks(MAX_STEPS_PER_BEAT - MIN_STEPS_PER_BEAT + 1)
+       .showTickMarks(false)
        .setSliderMode(Slider.FLEXIBLE)
-       .setValue(4)
+       .setValue(4.5)
        .plugTo(this, "setBeatsPerMeasure")
        .moveTo("Sequencer")
     ;
+    
+    //step value
+    
+    cp5.addButton("mute" + trackIndex)
+       .setPosition(200, y + STEP_HEIGHT + PADDING)
+       
+       .moveTo("Sequencer")
+       ;
+    cp5.addButton("solo" + trackIndex)
+       .setPosition(300, y + STEP_HEIGHT + PADDING)
+       
+       .moveTo("Sequencer")
+       ;
+    cp5.addSlider("%triggeroff" + trackIndex)
+       .setPosition(400, y +  STEP_HEIGHT + PADDING)
+       
+       .moveTo("Sequencer")
+       ;
+    cp5.addSlider("%nottriggeron" + trackIndex)
+       .setPosition(500, y + STEP_HEIGHT + PADDING)
+       
+       .moveTo("Sequencer")
+       ;
+    cp5.addButton("clear" + trackIndex)
+       .setPosition(600, y + STEP_HEIGHT + PADDING)
+       
+       .moveTo("Sequencer")
+       ;
   }
 
   
@@ -195,7 +226,7 @@ class Step {
       fill(150, 150, 150);
     }  
     
-    strokeWeight(1);
+    strokeWeight(4);
     rect(x, y, STEP_WIDTH, STEP_HEIGHT);
         
   }

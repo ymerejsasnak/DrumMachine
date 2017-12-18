@@ -42,7 +42,7 @@ class MasterGUI {
   public void play() {
     if (!playing) {
       out.setTempo(tempo);
-      out.playNote(0, QUARTER_NOTE, new SampleInstrument());
+      out.playNote(0, SIXTEENTH, new SampleInstrument());
       playing = true;
     }   
   }
