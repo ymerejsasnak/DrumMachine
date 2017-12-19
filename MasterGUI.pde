@@ -8,6 +8,9 @@ class MasterGUI {
   boolean playing = false;
   int y = height - MASTER_HEIGHT;
   
+  int restartOnStep = 0;
+  int restartOnBeat = 0;
+  int restartOnMeasure = 0;
   
   MasterGUI() {
     
@@ -34,6 +37,34 @@ class MasterGUI {
        .setValue(tempo)
        .plugTo(this)
        .moveTo("global")
+    ;
+    
+   
+    
+    cp5.addSlider("restartOnStep")
+      
+      .setPosition(500, 700)
+      .setRange(0, 50)
+      .setValue(0)
+      .plugTo(this)
+      .moveTo("global")
+    ;
+    
+    cp5.addSlider("restartOnBeat")
+      
+      .setPosition(600, 700)
+      .setValue(0)
+      .plugTo(this)
+      .moveTo("global")
+    ;
+    
+    cp5.addSlider("restartOnMeasure")
+      
+      .setPosition(700, 700)
+      //.setRange(0, 50)
+      .setValue(0)
+      .plugTo(this)
+      .moveTo("global")
     ;
     
   }

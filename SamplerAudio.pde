@@ -125,9 +125,27 @@ class SampleInstrument implements Instrument {
   
   void noteOff() {
     if (!masterGUI.playing) { return; }
+    
+    boolean measureRestart = masterGUI.restartOnMeasure >= random(100);
+    boolean beatRestart = masterGUI.restartOnBeat >= random(100);
+    boolean stepRestart = masterGUI.restartOnStep >= random(100);
+    
     for (int trackIndex = 0; trackIndex < TOTAL_TRACKS; trackIndex++) {
-      sequencerGUI[trackIndex].nextStep(); 
+      SequencerGUI currentTrack = sequencerGUI[trackIndex];
+      
+      if (((currentTrack.currentStep + 1) % (currentTrack.beatsPerMeasure * currentTrack.stepsPerBeat) == 0 && measureRestart) ||
+         ((currentTrack.currentStep + 1) % (currentTrack.stepsPerBeat) == 0 && beatRestart) ||
+         (stepRestart)) {
+         currentTrack.nextStep(true); //true that it's restarting
+      }      
+      
+      else {
+        currentTrack.nextStep(false);   //do normal 'nextstep'  
+      }
     }
+    
+    
+    
     out.setTempo(masterGUI.tempo);
     out.playNote(0, stepValue, this); //play next note immediately        
   }

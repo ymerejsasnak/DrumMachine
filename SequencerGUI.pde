@@ -116,7 +116,7 @@ class SequencerGUI { //rename/refactor?  this is actually gui for individual tra
   }
   
   
-  void nextStep() {
+  void nextStep(boolean restart) {
     for (int settingsIndex = 0; settingsIndex < Setting.values().length; settingsIndex++) {
       stepCounters[settingsIndex]++;
       
@@ -167,8 +167,16 @@ class SequencerGUI { //rename/refactor?  this is actually gui for individual tra
       }
     
     }
+    
     steps[currentStep].playing = false;
-    currentStep = (currentStep + 1) % activeSteps;  
+    
+    if (restart) {
+      currentStep = 0;
+    }
+    else {
+      currentStep = (currentStep + 1) % activeSteps;  
+    }
+    
   }
   
   float getCurrentVolume() {

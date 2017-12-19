@@ -29,7 +29,8 @@ SAMPLER SETTINGS
   (while internally more of a seq thing, acts like more of an effect, so at least gui-wise put it in settings...
      ... but internally maybe handle it in sequencer???)
 
-SEQUENCER - individual track
+
+SEQUENCER - really should be TRACK?
 -add per-note probability similar to per-note volume 
 (but how to keep control of this simple/easy?) -- think about using 3rd button and/or mousewheel 
 (may have to rethink buttons for seq)
@@ -37,17 +38,15 @@ SEQUENCER - individual track
  (how do i do this cleanly???)
 
 
-SEQUENCER - all 
--global/all-tracks of some of above controls 
-% jump to random step/beat/measure (settable multiple so can jump to random 2steps or random 4steps, etc)
-% restart at step 0
-% repeat current (# of repeats, steps(/beats/measures?) per repeat)
+MASTER (really just SEQUENCER?)
+% jump to random step/beat/measure
+% repeat current step/beat/measure (# of repeats also?)
 -clear all tracks/randomize all tracks (smart random based on beats/measures)
 
 --randomize tempo slider (subtle to CRAZY)  (maybe a # of steps per change option too?)
 
 
-MASTER
+MASTER (or is this seq stuff and seq individual stuff is really TRACK class????)
 -pause button? (or add this to play button if playing)
 -record to file
 -preset saving/loading
