@@ -19,15 +19,12 @@ class SequencerGUI { //rename/refactor?  this is actually gui for individual tra
   int stepsPerBeat = DEFAULT_STEPS_PER_BEAT;    // for now just pass these along to step class
   int beatsPerMeasure = DEFAULT_BEATS_PER_MEASURE;
   
-  int triggerOn = 100;
-  int triggerOff = 0; // values from 0 to 100 (ie percent) to determine probability of triggering on and off steps  
-  
-  
+    
   
   SequencerGUI(int trackIndex) {
     this.trackIndex = trackIndex;
     x = 0;
-    y = trackIndex * (h + PADDING) * 2 + PADDING * 2;
+    y = trackIndex * (h + PADDING * 2) + PADDING * 2;
     
     for (int stepIndex = 0; stepIndex < MAX_STEPS; stepIndex++) {
       steps[stepIndex] = new Step(stepIndex, y); 
@@ -36,8 +33,8 @@ class SequencerGUI { //rename/refactor?  this is actually gui for individual tra
     
     cp5.addSlider("stepsPerBeat" + trackIndex)
        .setCaptionLabel("")
-       .setPosition(x + PADDING, y + STEP_HEIGHT + PADDING)
-       .setSize(SLIDER_WIDTH, 20)
+       .setPosition(SEQUENCER_TRACK_WIDTH + CLEAR_BUTTON_WIDTH + PADDING * 3, y + STEP_HEIGHT / 2)
+       .setSize(SLIDER_WIDTH, SLIDER_HEIGHT)
        .setRange(MIN_STEPS_PER_BEAT, MAX_STEPS_PER_BEAT)
        .setNumberOfTickMarks(MAX_STEPS_PER_BEAT - MIN_STEPS_PER_BEAT + 1)
        .showTickMarks(false)
@@ -48,8 +45,8 @@ class SequencerGUI { //rename/refactor?  this is actually gui for individual tra
     ;
     cp5.addSlider("beatsPerMeasure" + trackIndex) 
        .setCaptionLabel("")
-       .setPosition(x + SLIDER_WIDTH + PADDING * 2, y + STEP_HEIGHT + PADDING)
-       .setSize(SLIDER_WIDTH, 20)
+       .setPosition(SEQUENCER_TRACK_WIDTH + CLEAR_BUTTON_WIDTH + PADDING * 3, y)
+       .setSize(SLIDER_WIDTH, SLIDER_HEIGHT)
        .setRange(MIN_BEATS_PER_MEASURE, MAX_BEATS_PER_MEASURE)
        .setNumberOfTickMarks(MAX_STEPS_PER_BEAT - MIN_STEPS_PER_BEAT + 1)
        .showTickMarks(false)
@@ -63,25 +60,13 @@ class SequencerGUI { //rename/refactor?  this is actually gui for individual tra
     //step value
     
    
-    cp5.addSlider("%triggeroff" + trackIndex)
-       .setPosition(width - 400, y +  STEP_HEIGHT + PADDING)
-       .setWidth(200)
-       .setValue(0)
-       .plugTo(this, "setTriggerOff")
-       .moveTo("Sequencer")
-       ;
-       
-    cp5.addSlider("%triggeron" + trackIndex)
-       .setPosition(width - 200, y + STEP_HEIGHT + PADDING)
-       .setWidth(200)
-       .setValue(100)
-       .plugTo(this, "setTriggerOn")
-       .moveTo("Sequencer")
-       ;
+   
        
     cp5.addButton("clear" + trackIndex)
-       .setPosition(width/2, y + STEP_HEIGHT + PADDING)
+       .setCaptionLabel("X")
+       .setPosition(PADDING, y + PADDING)
        
+       .setWidth(CLEAR_BUTTON_WIDTH)
        .plugTo(this, "clearTrack")
        .moveTo("Sequencer")
        ;
@@ -97,13 +82,7 @@ class SequencerGUI { //rename/refactor?  this is actually gui for individual tra
   }
 
 
-  void setTriggerOff(int percent) {
-     triggerOff = percent;
-  }
   
-  void setTriggerOn(int percent) {
-    triggerOn = percent; 
-  }
   
   void clearTrack() {
     for (int stepIndex = 0; stepIndex < MAX_STEPS; stepIndex++) {
@@ -192,6 +171,10 @@ class SequencerGUI { //rename/refactor?  this is actually gui for individual tra
     currentStep = (currentStep + 1) % activeSteps;  
   }
   
+  float getCurrentVolume() {
+    return steps[currentStep].volume;
+  }
+  
 }
 
 
@@ -203,10 +186,12 @@ class Step {
   boolean on = false;
   boolean playing = false;
   
+  float volume = 0.0;
+  
    
   Step(int stepIndex, int y) {
     this.stepIndex = stepIndex;
-    this.x = PADDING + stepIndex * STEP_WIDTH + STEP_SPACING * stepIndex;
+    this.x = PADDING * 2 + CLEAR_BUTTON_WIDTH + stepIndex * STEP_WIDTH + stepIndex * STEP_SPACING;
     this.y = y;
   }
   
@@ -253,6 +238,12 @@ class Step {
     strokeWeight(2);
     rect(x, y, STEP_WIDTH, STEP_HEIGHT, 25);
         
+    // draw volume (only for on steps):
+    if (on) {
+      fill(0, 0, 100);
+      noStroke();
+      rect(x + STEP_WIDTH / 2 - 2, y + STEP_HEIGHT - STEP_HEIGHT * volume, 4, STEP_HEIGHT * volume);
+    }
   }
   
   
@@ -260,6 +251,8 @@ class Step {
     if (_mouseX >= x && _mouseX <= x + STEP_WIDTH && _mouseY >= y && _mouseY <= y + STEP_HEIGHT){
       if (_mouseButton == LEFT) {
         on = !on;
+        // set volume based on y value of click
+        volume = map(_mouseY, y + STEP_HEIGHT, y, 0.0, 1.0);
       }
       else if (_mouseButton == RIGHT) {
         sequencerGUI[sequencerIndex].activeSteps = stepIndex + 1;

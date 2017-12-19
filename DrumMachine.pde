@@ -30,16 +30,11 @@ SAMPLER SETTINGS
      ... but internally maybe handle it in sequencer???)
 
 SEQUENCER - individual track
-total controls/buttons need to add: step value, clear track, % triggers (2) )
-(decided mute/solo really not that helpful for a sequencer...kind of stupid/unecesasry)
-
---randomize tempo slider (subtle to CRAZY)  (maybe a # of steps per change option too?)
--volume per step!! (redo STEP class, build this in, volume based on where you click y value)
--step note value (not just 16th, also 8th, dotted, triplet, etc) - even more complex ones? (5/7/etc)
--clear track
-
--? % trigger on an off note / % don't trigger an on note
-
+-add per-note probability similar to per-note volume 
+(but how to keep control of this simple/easy?) -- think about using 3rd button and/or mousewheel 
+(may have to rethink buttons for seq)
+-????step note value (not just 16th, also 8th, dotted, triplet, etc) - even more complex ones? (5/7/etc)
+ (how do i do this cleanly???)
 
 
 SEQUENCER - all 
@@ -47,7 +42,9 @@ SEQUENCER - all
 % jump to random step/beat/measure (settable multiple so can jump to random 2steps or random 4steps, etc)
 % restart at step 0
 % repeat current (# of repeats, steps(/beats/measures?) per repeat)
--clear all tracks/randomize all tracks
+-clear all tracks/randomize all tracks (smart random based on beats/measures)
+
+--randomize tempo slider (subtle to CRAZY)  (maybe a # of steps per change option too?)
 
 
 MASTER
