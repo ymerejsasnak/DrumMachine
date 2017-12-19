@@ -82,6 +82,7 @@ class SamplerAudio {
   
   
   void play() { 
+    
     int indexToTrigger = int(random(0, SAMPLES_PER_SAMPLEGROUP));
     switch (randomType) {
       case RANDOM:
@@ -112,7 +113,14 @@ class SampleInstrument implements Instrument {
   
   void noteOn(float dur) {
     for (int trackIndex = 0; trackIndex < TOTAL_TRACKS; trackIndex++) {
-      if (sequencerGUI[trackIndex].getStep()) { samplerAudio[trackIndex].play(); } 
+      // play if step is on and percentage is above or eq to random (100 always plays, obv)
+      if (sequencerGUI[trackIndex].getStep() && sequencerGUI[trackIndex].triggerOn >= random(100)) {
+        samplerAudio[trackIndex].play();
+      } 
+      // play if step is off and 'trigger off' >= random (these could be one long boolean exp instead of 2 ifs)
+      else if (!sequencerGUI[trackIndex].getStep() && sequencerGUI[trackIndex].triggerOff >= random(100)) {
+        samplerAudio[trackIndex].play(); 
+      }
     }
   }
   

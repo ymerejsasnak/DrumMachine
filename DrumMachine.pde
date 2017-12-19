@@ -30,10 +30,11 @@ SAMPLER SETTINGS
      ... but internally maybe handle it in sequencer???)
 
 SEQUENCER - individual track
-total controls/buttons need to add: mute, solo, step value, clear track, % triggers (2) )
+total controls/buttons need to add: step value, clear track, % triggers (2) )
+(decided mute/solo really not that helpful for a sequencer...kind of stupid/unecesasry)
 
+--randomize tempo slider (subtle to CRAZY)  (maybe a # of steps per change option too?)
 -volume per step!! (redo STEP class, build this in, volume based on where you click y value)
--mute / solo
 -step note value (not just 16th, also 8th, dotted, triplet, etc) - even more complex ones? (5/7/etc)
 -clear track
 

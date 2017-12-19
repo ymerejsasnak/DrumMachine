@@ -19,14 +19,20 @@ class SequencerGUI { //rename/refactor?  this is actually gui for individual tra
   int stepsPerBeat = DEFAULT_STEPS_PER_BEAT;    // for now just pass these along to step class
   int beatsPerMeasure = DEFAULT_BEATS_PER_MEASURE;
   
+  int triggerOn = 100;
+  int triggerOff = 0; // values from 0 to 100 (ie percent) to determine probability of triggering on and off steps  
+  
+  
+  
   SequencerGUI(int trackIndex) {
     this.trackIndex = trackIndex;
     x = 0;
-    y = trackIndex * (h + int(PADDING * 2.5) + STEP_HEIGHT) + PADDING * 2;
+    y = trackIndex * (h + PADDING) * 2 + PADDING * 2;
     
     for (int stepIndex = 0; stepIndex < MAX_STEPS; stepIndex++) {
       steps[stepIndex] = new Step(stepIndex, y); 
     }    
+    
     
     cp5.addSlider("stepsPerBeat" + trackIndex)
        .setCaptionLabel("")
@@ -36,7 +42,7 @@ class SequencerGUI { //rename/refactor?  this is actually gui for individual tra
        .setNumberOfTickMarks(MAX_STEPS_PER_BEAT - MIN_STEPS_PER_BEAT + 1)
        .showTickMarks(false)
        .setSliderMode(Slider.FLEXIBLE)
-       .setValue(4.5) 
+       .setValue(4) 
        .plugTo(this, "setStepsPerBeat")
        .moveTo("Sequencer")
     ;
@@ -48,36 +54,35 @@ class SequencerGUI { //rename/refactor?  this is actually gui for individual tra
        .setNumberOfTickMarks(MAX_STEPS_PER_BEAT - MIN_STEPS_PER_BEAT + 1)
        .showTickMarks(false)
        .setSliderMode(Slider.FLEXIBLE)
-       .setValue(4.5)
+       .setValue(4)
        .plugTo(this, "setBeatsPerMeasure")
        .moveTo("Sequencer")
     ;
     
+    //cp5.add
     //step value
     
-    cp5.addButton("mute" + trackIndex)
-       .setPosition(200, y + STEP_HEIGHT + PADDING)
-       
-       .moveTo("Sequencer")
-       ;
-    cp5.addButton("solo" + trackIndex)
-       .setPosition(300, y + STEP_HEIGHT + PADDING)
-       
-       .moveTo("Sequencer")
-       ;
+   
     cp5.addSlider("%triggeroff" + trackIndex)
-       .setPosition(400, y +  STEP_HEIGHT + PADDING)
-       
+       .setPosition(width - 400, y +  STEP_HEIGHT + PADDING)
+       .setWidth(200)
+       .setValue(0)
+       .plugTo(this, "setTriggerOff")
        .moveTo("Sequencer")
        ;
-    cp5.addSlider("%nottriggeron" + trackIndex)
-       .setPosition(500, y + STEP_HEIGHT + PADDING)
        
+    cp5.addSlider("%triggeron" + trackIndex)
+       .setPosition(width - 200, y + STEP_HEIGHT + PADDING)
+       .setWidth(200)
+       .setValue(100)
+       .plugTo(this, "setTriggerOn")
        .moveTo("Sequencer")
        ;
+       
     cp5.addButton("clear" + trackIndex)
-       .setPosition(600, y + STEP_HEIGHT + PADDING)
+       .setPosition(width/2, y + STEP_HEIGHT + PADDING)
        
+       .plugTo(this, "clearTrack")
        .moveTo("Sequencer")
        ;
   }
@@ -90,6 +95,25 @@ class SequencerGUI { //rename/refactor?  this is actually gui for individual tra
   void setBeatsPerMeasure(int beatsNumber) {
     beatsPerMeasure = beatsNumber;
   }
+
+
+  void setTriggerOff(int percent) {
+     triggerOff = percent;
+  }
+  
+  void setTriggerOn(int percent) {
+    triggerOn = percent; 
+  }
+  
+  void clearTrack() {
+    for (int stepIndex = 0; stepIndex < MAX_STEPS; stepIndex++) {
+      steps[stepIndex].on = false; 
+    }
+  }
+  
+  
+
+
 
   
   void drawGUI() {
@@ -226,8 +250,8 @@ class Step {
       fill(150, 150, 150);
     }  
     
-    strokeWeight(4);
-    rect(x, y, STEP_WIDTH, STEP_HEIGHT);
+    strokeWeight(2);
+    rect(x, y, STEP_WIDTH, STEP_HEIGHT, 25);
         
   }
   

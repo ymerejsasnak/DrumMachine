@@ -34,13 +34,14 @@ enum Setting {
 
 
 final int MAX_STEPS = 64;
-final int STEP_WIDTH = 15;
-final int STEP_SPACING = 3;
+final int STEP_WIDTH = 16;
+final int STEP_SPACING = 2;
 final int STEP_HEIGHT = 30;
+final int SEQUENCER_TRACK_WIDTH = MAX_STEPS * (STEP_WIDTH + STEP_SPACING);
 
 final int SEQUENCER_TRACK_HEIGHT = STEP_HEIGHT;
 
-final int SLIDER_WIDTH = 35;
+final int SLIDER_WIDTH = 50;
 
 final int DEFAULT_STEPS_PER_BEAT = 4;
 final int DEFAULT_BEATS_PER_MEASURE = 4;
