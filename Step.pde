@@ -10,7 +10,8 @@ class Step {
   boolean on = false;
   boolean playing = false;
   
-  float volume = 0.0;
+  float volume = 1.0;
+  int probability = 100;
   
    
   Step(int stepIndex, int y) {
@@ -64,24 +65,41 @@ class Step {
     strokeWeight(2);
     rect(x, y, STEP_WIDTH, STEP_HEIGHT, 25);
         
-    // this draws volume bar (only for on steps):
+    // this draws volume bar and probability bar (only for on steps):
     if (on) {
-      fill(0, 0, 100);
       noStroke();
-      rect(x + STEP_WIDTH / 2 - 2, y + STEP_HEIGHT - STEP_HEIGHT * volume, 4, STEP_HEIGHT * volume);
+      fill(0, 0, 100);
+      rect(x + STEP_WIDTH / 2 - 4, y + STEP_HEIGHT - STEP_HEIGHT * volume, 4, STEP_HEIGHT * volume);
+      fill(0, 100, 150);
+      float pdraw = map(probability, 0, 100, 0, 1);
+      rect(x + STEP_WIDTH / 2, y + STEP_HEIGHT - STEP_HEIGHT * pdraw, 4, STEP_HEIGHT * pdraw);
     }
   }
   
   
   void clickCheck(int _mouseX, int _mouseY, int _mouseButton, int sequencerIndex) {
     if (_mouseX >= x && _mouseX <= x + STEP_WIDTH && _mouseY >= y && _mouseY <= y + STEP_HEIGHT){
+      // left button: step on - left half of step does volume, right half does probability (based on y)
+      // right button: step off
+      // middle button: 
+      
       if (_mouseButton == LEFT) {
-        on = !on;
-        // set volume based on y value of click
-        volume = map(_mouseY, y + STEP_HEIGHT, y, 0.0, 1.0);
+        on = true;
+        if (_mouseX <= x + STEP_WIDTH / 2) {
+          volume = map(_mouseY, y + STEP_HEIGHT, y, 0.0, 1.0);
+        }
+        else {
+          probability = int(map(_mouseY, y + STEP_HEIGHT, y, 0, 100));
+        }
       }
+        
       else if (_mouseButton == RIGHT) {
+        on = false;
+      }
+            
+      else if (_mouseButton == CENTER) {
         sequencerGUI[sequencerIndex].activeSteps = stepIndex + 1;
+        
       }
     }
   }

@@ -103,7 +103,8 @@ class SequencerGUI { //rename/refactor?  this is actually gui for individual tra
   
   boolean getStep() {
     steps[currentStep].playing = true;
-    return steps[currentStep].on;  
+    boolean triggerIt = steps[currentStep].on && steps[currentStep].probability >= random(100);
+    return triggerIt;  
   }
   
   

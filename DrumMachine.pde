@@ -3,7 +3,11 @@
 /* TO DO:
 
 NEXT
+-would it work to run mousepressed from draw loop instead (ie if mousepressed) so it can be continuous (ie drag/draw on or off notes)?
+
 -sample play button should just play straight sample, not through any of the 'settings'....right?
+
+-fix randomstep volume (gets unpatched because of patching in per-step volume) need to patch both to multiplier ugen? or something like that
 
 -implement last settings: start offset and filter type (just do filter type per samplegroup, not in 'settings')
 -begin making more samples to use (and hardcode an easy way to load themfor now)
@@ -40,7 +44,7 @@ SEQUENCER - really should be TRACK?
 MASTER (really just SEQUENCER?)
 -clear all tracks/randomize all tracks (smart random based on beats/measures)
 
---randomize tempo slider (subtle to CRAZY)  (maybe a # of steps per change option too?)
+--randomize tempo slider (subtle to CRAZY)  (maybe a # of steps per change option too?) or do by step/beat/measure like other stuff?
 
 
 MASTER (or is this seq stuff and seq individual stuff is really TRACK class????)

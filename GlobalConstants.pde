@@ -34,9 +34,9 @@ enum Setting {
 
 
 final int MAX_STEPS = 64;
-final int STEP_WIDTH = 15;
+final int STEP_WIDTH = 16;
 final int STEP_SPACING = 1;
-final int STEP_HEIGHT = 35;
+final int STEP_HEIGHT = 38;
 final int SEQUENCER_TRACK_WIDTH = MAX_STEPS * (STEP_WIDTH + STEP_SPACING);
 
 final int SEQUENCER_TRACK_HEIGHT = STEP_HEIGHT;
