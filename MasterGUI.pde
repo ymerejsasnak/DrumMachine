@@ -12,6 +12,11 @@ class MasterGUI {
   int restartOnBeat = 0;
   int restartOnMeasure = 0;
   
+  int repeatStep = 0;
+  int repeatBeat = 0;
+  int repeatMeasure = 0;
+  
+  
   MasterGUI() {
     
     cp5.addButton("play")
@@ -67,6 +72,32 @@ class MasterGUI {
       .moveTo("global")
     ;
     
+    
+    cp5.addSlider("repeatStep")
+      
+      .setPosition(500, 750)
+      .setRange(0, 90)
+      .setValue(0)
+      .plugTo(this)
+      .moveTo("global")
+    ;
+    
+    cp5.addSlider("repeatBeat")
+      
+      .setPosition(600, 750)
+      .setValue(0)
+      .plugTo(this)
+      .moveTo("global")
+    ;
+    
+    cp5.addSlider("repeatMeasure")
+      
+      .setPosition(700, 750)
+      //.setRange(0, 50)
+      .setValue(0)
+      .plugTo(this)
+      .moveTo("global")
+    ;
   }
   
  

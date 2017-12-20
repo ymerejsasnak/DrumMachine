@@ -126,28 +126,50 @@ class SampleInstrument implements Instrument {
   void noteOff() {
     if (!masterGUI.playing) { return; }
     
+    
+    
     boolean measureRestart = masterGUI.restartOnMeasure >= random(100);
     boolean beatRestart = masterGUI.restartOnBeat >= random(100);
     boolean stepRestart = masterGUI.restartOnStep >= random(100);
     
+    boolean measureRepeat = masterGUI.repeatMeasure >= random(100);
+    boolean beatRepeat = masterGUI.repeatBeat >= random(100);
+    boolean stepRepeat = masterGUI.repeatStep >= random(100);
+    
+    
+    
+    
     for (int trackIndex = 0; trackIndex < TOTAL_TRACKS; trackIndex++) {
       SequencerGUI currentTrack = sequencerGUI[trackIndex];
+      boolean onMeasure = (currentTrack.currentStep + 1) % (currentTrack.beatsPerMeasure * currentTrack.stepsPerBeat) == 0;
+      boolean onBeat = (currentTrack.currentStep + 1) % (currentTrack.stepsPerBeat) == 0;
       
-      if (((currentTrack.currentStep + 1) % (currentTrack.beatsPerMeasure * currentTrack.stepsPerBeat) == 0 && measureRestart) ||
-         ((currentTrack.currentStep + 1) % (currentTrack.stepsPerBeat) == 0 && beatRestart) ||
-         (stepRestart)) {
-         currentTrack.nextStep(true); //true that it's restarting
+      //what order precedence should these have???
+      
+      if (onMeasure && measureRepeat) {
+        currentTrack.nextStep(StepType.REPEAT_MEASURE);
+      } 
+      else if (onBeat && beatRepeat) {
+        currentTrack.nextStep(StepType.REPEAT_BEAT);
+      } 
+      else if (stepRepeat) {
+        currentTrack.nextStep(StepType.REPEAT_STEP);
+      }     
+      
+      
+      else if ((onMeasure && measureRestart) || (onBeat && beatRestart) || stepRestart) {
+         currentTrack.nextStep(StepType.RESTART); // it's restarting
       }      
       
       else {
-        currentTrack.nextStep(false);   //do normal 'nextstep'  
+        currentTrack.nextStep(StepType.STANDARD);   //do normal 'nextstep'  
       }
     }
     
     
     
     out.setTempo(masterGUI.tempo);
-    out.playNote(0, stepValue, this); //play next note immediately        
+    out.playNote(0, stepValue, this); //play next step immediately        
   }
   
 }

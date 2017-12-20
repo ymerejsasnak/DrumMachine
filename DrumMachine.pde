@@ -4,6 +4,7 @@
 
 NEXT
 -endless: code cleanup, comments, refactoring, gui improvements
+#1 - pull step class out of seq file and put it in its own file!
 
 -implement last settings: start offset and filter type (just do filter type per samplegroup, not in 'settings')
 -begin making more samples to use (and hardcode an easy way to load themfor now)

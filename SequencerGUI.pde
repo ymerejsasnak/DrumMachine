@@ -116,7 +116,7 @@ class SequencerGUI { //rename/refactor?  this is actually gui for individual tra
   }
   
   
-  void nextStep(boolean restart) {
+  void nextStep(StepType stepType) {
     for (int settingsIndex = 0; settingsIndex < Setting.values().length; settingsIndex++) {
       stepCounters[settingsIndex]++;
       
@@ -170,12 +170,26 @@ class SequencerGUI { //rename/refactor?  this is actually gui for individual tra
     
     steps[currentStep].playing = false;
     
-    if (restart) {
-      currentStep = 0;
+    switch (stepType) {
+      case STANDARD:
+        currentStep = (currentStep + 1) % activeSteps;
+        break;
+      case RESTART:
+        currentStep = 0;
+        break;
+      case REPEAT_MEASURE:
+        currentStep -= stepsPerBeat * beatsPerMeasure - 1;
+        break;
+      case REPEAT_BEAT:
+        currentStep -= stepsPerBeat - 1;
+        break;
+      case REPEAT_STEP:
+        // no need to do anything here
+        break;
     }
-    else {
-      currentStep = (currentStep + 1) % activeSteps;  
-    }
+     if (currentStep < 0) {
+          currentStep = activeSteps - currentStep; 
+     }
     
   }
   
