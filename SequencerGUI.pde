@@ -110,6 +110,7 @@ class SequencerGUI { //rename/refactor?  this is actually gui for individual tra
   // this should probably be split up into various things
   // currently it increments counters for settings randomization, then sets a new value for any setting whose counter is up,
   // then sets current to not playing, then increments beat based on steptype...yikes
+  // 1 idea: instead of steptype sent to this method, just make seperate methods based on step type and call them specifically from inst noteoff
   void nextStep(StepType stepType) {
     for (int settingsIndex = 0; settingsIndex < Setting.values().length; settingsIndex++) {
       stepCounters[settingsIndex]++;
@@ -164,21 +165,28 @@ class SequencerGUI { //rename/refactor?  this is actually gui for individual tra
     
     steps[currentStep].playing = false;
     
+        
     switch (stepType) {
       case STANDARD:
         currentStep = (currentStep + 1) % activeSteps;
         break;
+        
       case RESTART:
         currentStep = 0;
         break;
+        
       case REPEAT_MEASURE:
         currentStep -= stepsPerBeat * beatsPerMeasure - 1;
         break;
       case REPEAT_BEAT:
         currentStep -= stepsPerBeat - 1;
-        break;
+        break; 
       case REPEAT_STEP:
         // no need to do anything here
+        break;
+        
+      case RANDOM_MEASURE:
+        currentStep = int(random(activeSteps) / (stepsPerBeat * beatsPerMeasure)) * stepsPerBeat * beatsPerMeasure;
         break;
     }
      if (currentStep < 0) {

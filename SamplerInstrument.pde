@@ -35,11 +35,13 @@ class SamplerInstrument implements Instrument {
     boolean measureRestart = masterGUI.restartOnMeasure >= random(100);
     boolean beatRestart = masterGUI.restartOnBeat >= random(100);
     boolean stepRestart = masterGUI.restartOnStep >= random(100);
-        
+    
+    boolean measureRandom = masterGUI.randomMeasure >= random(100);
+            
     
     
     
-    
+      
     for (int trackIndex = 0; trackIndex < TOTAL_TRACKS; trackIndex++) {
       SequencerGUI currentTrack = sequencerGUI[trackIndex];
       
@@ -47,6 +49,9 @@ class SamplerInstrument implements Instrument {
       boolean onBeat = (currentTrack.currentStep + 1) % (currentTrack.stepsPerBeat) == 0;
       
      //be sure this is the order precedence I want...  
+     // 1st does repeats (pretty sure about this one)
+     // if no repeats does random, if no random does restart (switch these or no?)
+     // if none of above, does normal next step
       
       if (onMeasure && measureRepeat) {
         currentTrack.nextStep(StepType.REPEAT_MEASURE);
@@ -58,7 +63,10 @@ class SamplerInstrument implements Instrument {
         currentTrack.nextStep(StepType.REPEAT_STEP);
       }     
       
-      
+      else if (onMeasure && measureRandom) {
+        currentTrack.nextStep(StepType.RANDOM_MEASURE);
+      } 
+            
       else if ((onMeasure && measureRestart) || (onBeat && beatRestart) || stepRestart) {
          currentTrack.nextStep(StepType.RESTART); // it's restarting at 0
       }      

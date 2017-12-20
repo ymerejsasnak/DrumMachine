@@ -16,6 +16,8 @@ class MasterGUI {
   int repeatBeat = 0;
   int repeatMeasure = 0;
   
+  int randomMeasure = 0;
+  
   
   MasterGUI() {
     
@@ -100,6 +102,15 @@ class MasterGUI {
     ;
     
     // sliders for random probability
+    
+    cp5.addSlider("randomMeasure")
+      
+      .setPosition(700, 650)
+      //.setRange(0, 50)
+      .setValue(0)
+      .plugTo(this)
+      .moveTo("global")
+    ;
   }
   
  

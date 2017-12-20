@@ -3,8 +3,6 @@
 /* TO DO:
 
 NEXT
-MAJOR CODE CLEANUP : commenting/magic numbers/things where they should be, etc
-
 -sample play button should just play straight sample, not through any of the 'settings'....right?
 
 -implement last settings: start offset and filter type (just do filter type per samplegroup, not in 'settings')
@@ -16,6 +14,7 @@ MAJOR CODE CLEANUP : commenting/magic numbers/things where they should be, etc
    (or load files as audiosamples...and send buffer info to sampler ugen for playing)
 -patch and unpatch new ugens for each setting so changes don't affect samples already playing?
     (actually, having it be an option either way is good, both sound good in certain situations)
+
 
 SAMPLER
 -each *individual* sample should also at least have it's own volume knob ... and filter TYPE
@@ -30,7 +29,6 @@ SAMPLER SETTINGS
 -initialize settings/randomize settings
 
 
-
 SEQUENCER - really should be TRACK?
 -add per-note probability similar to per-note volume 
 (but how to keep control of this simple/easy?) -- think about using 3rd button and/or mousewheel 
@@ -40,8 +38,6 @@ SEQUENCER - really should be TRACK?
 
 
 MASTER (really just SEQUENCER?)
-% jump to random step/beat/measure
-% repeat current step/beat/measure (# of repeats also?)
 -clear all tracks/randomize all tracks (smart random based on beats/measures)
 
 --randomize tempo slider (subtle to CRAZY)  (maybe a # of steps per change option too?)
