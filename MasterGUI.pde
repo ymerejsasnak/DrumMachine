@@ -24,7 +24,7 @@ class MasterGUI {
        .setPosition(PADDING, y + PADDING)
        .setSize(MASTER_BUTTON_WIDTH, MASTER_BUTTON_HEIGHT)
        .plugTo(this)
-       .moveTo("global") // always visible (tabs)
+       .moveTo("global") // global means always visible when using tabs
     ;
     cp5.addButton("stopIt") //can't name it stop
        .setCaptionLabel("STOP")
@@ -45,7 +45,7 @@ class MasterGUI {
     ;
     
    
-    
+    // sliders for restart probability
     cp5.addSlider("restartOnStep")
       
       .setPosition(500, 700)
@@ -72,7 +72,7 @@ class MasterGUI {
       .moveTo("global")
     ;
     
-    
+    // sliders for repeat probability
     cp5.addSlider("repeatStep")
       
       .setPosition(500, 750)
@@ -98,18 +98,23 @@ class MasterGUI {
       .plugTo(this)
       .moveTo("global")
     ;
+    
+    // sliders for random probability
   }
   
  
+  // start it playing when user hits play but using playnote with new samplerinstrument
+  // (note: each samplerinstrument actually takes care of ALL tracks at once, makes a new one each step)
   public void play() {
-    if (!playing) {
+   if (!playing) {
       out.setTempo(tempo);
-      out.playNote(0, SIXTEENTH, new SampleInstrument());
+      out.playNote(0, SIXTEENTH, new SamplerInstrument());
       playing = true;
     }   
   }
   
   
+  // stop button: reset playing flags and current steps
   public void stopIt() {
     playing = false;
     for (int trackIndex = 0; trackIndex < TOTAL_TRACKS; trackIndex++) {

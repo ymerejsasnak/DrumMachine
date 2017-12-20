@@ -12,13 +12,9 @@ class SettingsGUI {
     this.trackIndex = trackIndex;
     this.x = 120 + SAMPLEGROUP_WIDTH;
     this.y = trackIndex * -(SAMPLEGROUP_TAB_HEIGHT+1);
+       
     
-    
-    // note try using array of ints to connect with range values and use THOSE in other class?????
-    
-    
-    
-    for (int rangeIndex = 0; rangeIndex < Setting.values().length; rangeIndex++) {
+    for (int rangeIndex = 0; rangeIndex < rangeSettings.length; rangeIndex++) {
     
       rangeSettings[rangeIndex] = cp5.addRange("randrange" + trackIndex + rangeIndex)
          .setCaptionLabel("")

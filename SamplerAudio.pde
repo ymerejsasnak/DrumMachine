@@ -12,15 +12,16 @@ class SamplerAudio {
   int lastPlayedIndex = -1;
   
   
+  //ugens to route audio through
   Summer sumUgen = new Summer();
   Pan panUgen = new Pan(0); // pan to center (assumes mono sound---any issues if not? use balance ugen if stereo??)
   MoogFilter filterUgen = new MoogFilter(22050, 0); // default cutoff, rez
   BitCrush crushUgen = new BitCrush(16, 44100);
   Delay delayUgen = new Delay(1.0, 0.0, true, true); //??
   
-  // constant ugens to control settings of above ugens
+  // constant ugens to control settings of above ugens (numbers are default values...need constants)
   Constant volume = new Constant(1);
-  Constant pitch = new Constant(1); //what value for default pitch???
+  Constant pitch = new Constant(1);
   Constant panning = new Constant(0);
   //Constant start = new Constant(0);
   //Constant filterType = new Constant(MoogFilter.Type.LP);
@@ -33,10 +34,10 @@ class SamplerAudio {
   
   // maybe don't need all these constant ugens?  can directly change some params with some ugen methods 
   
-  // temporary constructor for loading defaults
+  
   SamplerAudio(String baseName) {
     
-    //println(volume);
+    // this part is temporary...loads default wavs in an easy way...
     for (int samplerIndex = 0; samplerIndex < SAMPLES_PER_SAMPLEGROUP; samplerIndex++) {
       filenames[samplerIndex] = baseName + (samplerIndex + 1) + ".wav";
       samplers[samplerIndex] = new Sampler(filenames[samplerIndex], SAMPLER_VOICES, minim); //4 is # of voices
@@ -60,11 +61,12 @@ class SamplerAudio {
     delayTime.patch(delayUgen.delTime);
     delayFeedback.patch(delayUgen.delAmp);
     
-    //audio path
+    // output from pan is stereo so set subsequent ugens to be stereo too
     filterUgen.setChannelCount(2);
     crushUgen.setChannelCount(2);
     delayUgen.setChannelCount(2);
     
+    // patch audio path
     sumUgen.patch(panUgen);
     panUgen.patch(crushUgen);
     crushUgen.patch(filterUgen);
@@ -74,6 +76,7 @@ class SamplerAudio {
   }
   
   
+  // load file into sampler (from load button on sampler gui)
   void load(int sampleIndex, String filename) {
     samplers[sampleIndex] = new Sampler(filename, SAMPLER_VOICES, minim);
     samplers[sampleIndex].patch(sumUgen);
@@ -81,6 +84,7 @@ class SamplerAudio {
   }
   
   
+  // play method called from sequencer...this will trigger the actual audio
   void play(float volume) { 
     
     int indexToTrigger = int(random(0, SAMPLES_PER_SAMPLEGROUP));
@@ -102,74 +106,6 @@ class SamplerAudio {
     new Constant(volume).patch(samplers[indexToTrigger].amplitude);
     samplers[indexToTrigger].trigger();
     lastPlayedIndex = indexToTrigger;
-  }
-  
-}
-
-
-class SampleInstrument implements Instrument {
-  
-  
-  float stepValue = SIXTEENTH;
-  
-  void noteOn(float dur) {
-    for (int trackIndex = 0; trackIndex < TOTAL_TRACKS; trackIndex++) {
-      
-      if (sequencerGUI[trackIndex].getStep()) {
-        samplerAudio[trackIndex].play(sequencerGUI[trackIndex].getCurrentVolume());
-      } 
-      
-    }
-  }
-  
-  
-  void noteOff() {
-    if (!masterGUI.playing) { return; }
-    
-    
-    
-    boolean measureRestart = masterGUI.restartOnMeasure >= random(100);
-    boolean beatRestart = masterGUI.restartOnBeat >= random(100);
-    boolean stepRestart = masterGUI.restartOnStep >= random(100);
-    
-    boolean measureRepeat = masterGUI.repeatMeasure >= random(100);
-    boolean beatRepeat = masterGUI.repeatBeat >= random(100);
-    boolean stepRepeat = masterGUI.repeatStep >= random(100);
-    
-    
-    
-    
-    for (int trackIndex = 0; trackIndex < TOTAL_TRACKS; trackIndex++) {
-      SequencerGUI currentTrack = sequencerGUI[trackIndex];
-      boolean onMeasure = (currentTrack.currentStep + 1) % (currentTrack.beatsPerMeasure * currentTrack.stepsPerBeat) == 0;
-      boolean onBeat = (currentTrack.currentStep + 1) % (currentTrack.stepsPerBeat) == 0;
-      
-      //what order precedence should these have???
-      
-      if (onMeasure && measureRepeat) {
-        currentTrack.nextStep(StepType.REPEAT_MEASURE);
-      } 
-      else if (onBeat && beatRepeat) {
-        currentTrack.nextStep(StepType.REPEAT_BEAT);
-      } 
-      else if (stepRepeat) {
-        currentTrack.nextStep(StepType.REPEAT_STEP);
-      }     
-      
-      
-      else if ((onMeasure && measureRestart) || (onBeat && beatRestart) || stepRestart) {
-         currentTrack.nextStep(StepType.RESTART); // it's restarting
-      }      
-      
-      else {
-        currentTrack.nextStep(StepType.STANDARD);   //do normal 'nextstep'  
-      }
-    }
-    
-    
-    
-    out.setTempo(masterGUI.tempo);
-    out.playNote(0, stepValue, this); //play next step immediately        
   }
   
 }

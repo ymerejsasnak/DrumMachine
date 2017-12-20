@@ -18,7 +18,7 @@ public class SamplerGUI{
     
     samplerGroup = cp5.addGroup("sampler " + trackIndex).setBarHeight(SAMPLEGROUP_TAB_HEIGHT).setFont(sampleBarFont).hideArrow();
     
-    this.y = trackIndex * -(SAMPLEGROUP_TAB_HEIGHT + 1); // need to adjust otherwise accordion shifts each 1 down more and more
+    this.y = trackIndex * -(SAMPLEGROUP_TAB_HEIGHT + 1); // need to adjust otherwise accordion shifts each down according to its position in group list
     
     for (int sampleIndex = 0; sampleIndex < SAMPLES_PER_SAMPLEGROUP; sampleIndex++) {
       int sampleY = y + sampleIndex * SAMPLE_HEIGHT; 
@@ -49,12 +49,13 @@ public class SamplerGUI{
        ;
     }
     
-    
+    // control to set how it randomly chooses which sample from the group to play
     cp5.addRadioButton("randomType" + trackIndex)
        .setItemsPerRow(1)
        .addItem("Random" + trackIndex, RandomType.RANDOM.ordinal())
        .addItem("Avoid Previous" + trackIndex, RandomType.AVOID_PREVIOUS.ordinal())
        .addItem("Cycle" + trackIndex, RandomType.CYCLE.ordinal())
+       .activate(0)
        .setPosition(x + PADDING, y + (SAMPLE_HEIGHT + PADDING) * 4)
        .plugTo(this, "chooseRandom")
        .moveTo(samplerGroup)
@@ -64,12 +65,14 @@ public class SamplerGUI{
        
   }
  
-    
+  
+  // directly play the file to audition it (see note in TODO)
   void playFile(int sampleIndex) {
     samplerAudio[trackIndex].samplers[sampleIndex].trigger();
   }
  
  
+  // load the file...but note that selectInput has to call another function (selector in this case, below this) which is run in a separate thread
   void loadFile(int sampleIndex) {
     currentSampleIndex = sampleIndex; // save it 'globally' in class to use in other method below (bad way? but how else??)
     selectInput("Select a sample to load:", "selector", dataFile("data"), this);   
@@ -81,15 +84,15 @@ public class SamplerGUI{
      
        String path = selection.getAbsolutePath();    
        samplerAudio[trackIndex].load(currentSampleIndex, path); 
-       String text = path.substring(path.lastIndexOf("/") + 1);
+       String text = path.substring(path.lastIndexOf("/") + 1); // cut out path and just show filename itself
        samplerGUI[trackIndex].sampleLabels[currentSampleIndex].setText(text);      
     }
   }
   
   
+  // set randomtype in sampler audio based on radio button for each sample group
   void chooseRandom(int randomTypeIndex) {
     samplerAudio[trackIndex].randomType = RandomType.values()[randomTypeIndex];
-    println(samplerAudio[trackIndex].randomType);
   }
  
 }

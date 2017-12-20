@@ -2,7 +2,7 @@
 final int PADDING = 10;
 
 // dimensions of main tab buttons ('sequencer' or 'sampler')
-final int TAB_WIDTH = 100;
+final int TAB_WIDTH = 200;
 final int TAB_HEIGHT = 50;
 
 // for SAMPLERS and SAMPLEGROUPS

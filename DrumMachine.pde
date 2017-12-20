@@ -3,8 +3,9 @@
 /* TO DO:
 
 NEXT
--endless: code cleanup, comments, refactoring, gui improvements
-#1 - pull step class out of seq file and put it in its own file!
+MAJOR CODE CLEANUP : commenting/magic numbers/things where they should be, etc
+
+-sample play button should just play straight sample, not through any of the 'settings'....right?
 
 -implement last settings: start offset and filter type (just do filter type per samplegroup, not in 'settings')
 -begin making more samples to use (and hardcode an easy way to load themfor now)
@@ -12,6 +13,7 @@ NEXT
 -reversable samples
 -for some of above: initially also(?) load file as audiosample in order to get sample array information
    (or figure out how to do this w/ buffer?)
+   (or load files as audiosamples...and send buffer info to sampler ugen for playing)
 -patch and unpatch new ugens for each setting so changes don't affect samples already playing?
     (actually, having it be an option either way is good, both sound good in certain situations)
 
@@ -26,9 +28,7 @@ SAMPLER
 
 SAMPLER SETTINGS
 -initialize settings/randomize settings
---note retrigger (% prob, rate, # retrigs) (best way - make second instrument that does the retrigger, calls itself x times)
-  (while internally more of a seq thing, acts like more of an effect, so at least gui-wise put it in settings...
-     ... but internally maybe handle it in sequencer???)
+
 
 
 SEQUENCER - really should be TRACK?
@@ -182,6 +182,9 @@ void mousePressed() {
   if (!sequencerTab.isActive()) {
     return;
   }
+  // this runs through all tracks, then all steps in each track, to determine if a step was clicked on
+  // there is no discernable performance issue (probably because audio runs in its own threa)
+  // but there are 8 * 64 steps to check (512?) - do I need a better way to do this?
   for(int trackIndex = 0; trackIndex < TOTAL_TRACKS; trackIndex++) {
     sequencerGUI[trackIndex].clickCheck(mouseX, mouseY, mouseButton); 
   }

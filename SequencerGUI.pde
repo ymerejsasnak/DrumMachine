@@ -14,13 +14,12 @@ class SequencerGUI { //rename/refactor?  this is actually gui for individual tra
   
   int currentStep = 0;
   int activeSteps = MAX_STEPS;
-  int[] stepCounters = new int[12]; //total # of settings that need to count steps
+  int[] stepCounters = new int[Setting.values().length]; //total # of settings that need to count steps
   
   int stepsPerBeat = DEFAULT_STEPS_PER_BEAT;    // for now just pass these along to step class
   int beatsPerMeasure = DEFAULT_BEATS_PER_MEASURE;
   
     
-  
   SequencerGUI(int trackIndex) {
     this.trackIndex = trackIndex;
     x = 0;
@@ -29,7 +28,6 @@ class SequencerGUI { //rename/refactor?  this is actually gui for individual tra
     for (int stepIndex = 0; stepIndex < MAX_STEPS; stepIndex++) {
       steps[stepIndex] = new Step(stepIndex, y); 
     }    
-    
     
     cp5.addSlider("stepsPerBeat" + trackIndex)
        .setCaptionLabel("")
@@ -58,9 +56,6 @@ class SequencerGUI { //rename/refactor?  this is actually gui for individual tra
     
     //cp5.add
     //step value
-    
-   
-   
        
     cp5.addButton("clear" + trackIndex)
        .setCaptionLabel("X")
@@ -77,23 +72,18 @@ class SequencerGUI { //rename/refactor?  this is actually gui for individual tra
     stepsPerBeat = stepsNumber;
   }
   
+  
   void setBeatsPerMeasure(int beatsNumber) {
     beatsPerMeasure = beatsNumber;
   }
 
 
-  
-  
   void clearTrack() {
     for (int stepIndex = 0; stepIndex < MAX_STEPS; stepIndex++) {
       steps[stepIndex].on = false; 
     }
   }
   
-  
-
-
-
   
   void drawGUI() {
     for (int stepIndex = 0; stepIndex < MAX_STEPS; stepIndex++) {
@@ -103,6 +93,7 @@ class SequencerGUI { //rename/refactor?  this is actually gui for individual tra
   }
   
   
+  // runs through all steps
   void clickCheck(int _mouseX, int _mouseY, int _mouseButton) {
     for (int stepIndex = 0; stepIndex < MAX_STEPS; stepIndex++) {
       steps[stepIndex].clickCheck(_mouseX, _mouseY, _mouseButton, trackIndex); 
@@ -116,6 +107,9 @@ class SequencerGUI { //rename/refactor?  this is actually gui for individual tra
   }
   
   
+  // this should probably be split up into various things
+  // currently it increments counters for settings randomization, then sets a new value for any setting whose counter is up,
+  // then sets current to not playing, then increments beat based on steptype...yikes
   void nextStep(StepType stepType) {
     for (int settingsIndex = 0; settingsIndex < Setting.values().length; settingsIndex++) {
       stepCounters[settingsIndex]++;
@@ -195,91 +189,6 @@ class SequencerGUI { //rename/refactor?  this is actually gui for individual tra
   
   float getCurrentVolume() {
     return steps[currentStep].volume;
-  }
-  
-}
-
-
-class Step {
-  
-  int x, y;
-  int stepIndex;
-  
-  boolean on = false;
-  boolean playing = false;
-  
-  float volume = 0.0;
-  
-   
-  Step(int stepIndex, int y) {
-    this.stepIndex = stepIndex;
-    this.x = PADDING * 2 + CLEAR_BUTTON_WIDTH + stepIndex * STEP_WIDTH + stepIndex * STEP_SPACING;
-    this.y = y;
-  }
-  
-  
-  void display(int activeSteps, int stepsPerBeat, int beatsPerMeasure) {
-    // highlight start of each 'measure'
-    if (stepIndex % (stepsPerBeat * beatsPerMeasure) == 0) {
-      stroke(120, 120, 250);
-    }
-    // highlight start of each beat
-    else if (stepIndex % stepsPerBeat == 0) {
-      stroke(80, 80, 170); 
-    }
-    // no highlight for other steps
-    else {
-      noStroke();
-    }
-    
-    // gray out inactive steps
-    if (stepIndex > activeSteps - 1) {
-      if (on) {
-        fill(100);
-      }
-      else {
-        fill(60);
-      }
-    }
-    
-    // active steps are blue-ish
-    else {
-      if (on) {
-        fill(100, 100, 200);
-      }
-      else {
-        fill(50, 50, 150);
-      }
-    }
-    
-    // light gray to highlight playing step
-    if (playing) {
-      fill(150, 150, 150);
-    }  
-    
-    strokeWeight(2);
-    rect(x, y, STEP_WIDTH, STEP_HEIGHT, 25);
-        
-    // draw volume (only for on steps):
-    if (on) {
-      fill(0, 0, 100);
-      noStroke();
-      rect(x + STEP_WIDTH / 2 - 2, y + STEP_HEIGHT - STEP_HEIGHT * volume, 4, STEP_HEIGHT * volume);
-    }
-  }
-  
-  
-  void clickCheck(int _mouseX, int _mouseY, int _mouseButton, int sequencerIndex) {
-    if (_mouseX >= x && _mouseX <= x + STEP_WIDTH && _mouseY >= y && _mouseY <= y + STEP_HEIGHT){
-      if (_mouseButton == LEFT) {
-        on = !on;
-        // set volume based on y value of click
-        volume = map(_mouseY, y + STEP_HEIGHT, y, 0.0, 1.0);
-      }
-      else if (_mouseButton == RIGHT) {
-        sequencerGUI[sequencerIndex].activeSteps = stepIndex + 1;
-      }
-    }
   }
   
 }
