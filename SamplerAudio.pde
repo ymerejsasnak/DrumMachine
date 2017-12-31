@@ -14,13 +14,17 @@ class SamplerAudio {
   int trackIndex;
   
   //ugens to route audio through
-  Summer sumUgen = new Summer();
+  Summer samplerSummerUgen = new Summer();
+  Gain settingsGainUgen = new Gain();
+  Gain sequenceGainUgen = new Gain();
+  
+  //Multiplier gainMultiplier = new Multiplier();
   Pan panUgen = new Pan(0); // pan to center (assumes mono sound---any issues if not? use balance ugen if stereo??)
   MoogFilter filterUgen = new MoogFilter(22050, 0); // default cutoff, rez
   BitCrush crushUgen = new BitCrush(16, 44100);
   Delay delayUgen = new Delay(1.0, 0.0, true, true); //??
   
-  // constant ugens to control settings of above ugens (numbers are default values...need constants)
+  /*// constant ugens to control settings of above ugens (numbers are default values...need constants)
   Constant volume = new Constant(1);
   Constant pitch = new Constant(1);
   Constant panning = new Constant(0);
@@ -31,7 +35,7 @@ class SamplerAudio {
   Constant bitDepth = new Constant(16);
   Constant bitRate = new Constant(44100);
   Constant delayTime = new Constant(1);//?
-  Constant delayFeedback = new Constant(0);//?
+  Constant delayFeedback = new Constant(0);//?*/
   
   // maybe don't need all these constant ugens?  can directly change some params with some ugen methods 
   
@@ -52,16 +56,16 @@ class SamplerAudio {
     //  pitch.patch(samplers[sampleIndex].rate);
     //}
     
-    panning.patch(panUgen.pan);
+    //panning.patch(panUgen.pan);
     
-    bitDepth.patch(crushUgen.bitRes);
-    bitRate.patch(crushUgen.bitRate);
+    //bitDepth.patch(crushUgen.bitRes);
+   // bitRate.patch(crushUgen.bitRate);
     
-    filterFreq.patch(filterUgen.frequency);
-    filterRez.patch(filterUgen.resonance);
+    //filterFreq.patch(filterUgen.frequency);
+   // filterRez.patch(filterUgen.resonance);
     
-    delayTime.patch(delayUgen.delTime);
-    delayFeedback.patch(delayUgen.delAmp);
+    //delayTime.patch(delayUgen.delTime);
+    //delayFeedback.patch(delayUgen.delAmp);
     
     // output from pan is stereo so set subsequent ugens to be stereo too
     filterUgen.setChannelCount(2);
@@ -69,11 +73,17 @@ class SamplerAudio {
     delayUgen.setChannelCount(2);
     
     // patch audio path
-    sumUgen.patch(panUgen);
-    panUgen.patch(crushUgen);
-    crushUgen.patch(filterUgen);
-    filterUgen.patch(delayUgen);
-    delayUgen.patch(out);
+   
+    
+    samplerSummerUgen.patch(sequenceGainUgen)
+                     .patch(settingsGainUgen)
+                     
+                     .patch(panUgen)
+                     .patch(crushUgen)
+                     .patch(filterUgen)
+                     .patch(delayUgen)
+                     .patch(out);
+    
     
   }
   
@@ -81,7 +91,7 @@ class SamplerAudio {
   // load file into sampler (from load button on sampler gui)
   void load(int sampleIndex, String filename) {
     samplers[sampleIndex] = new Sampler(filename, SAMPLER_VOICES, minim);
-    samplers[sampleIndex].patch(sumUgen);
+    samplers[sampleIndex].patch(samplerSummerUgen);
     //volume.patch(samplers[sampleIndex].amplitude);
   }
   
@@ -101,6 +111,7 @@ class SamplerAudio {
       
     }
     
+    // exit if NO samples loaded
     if (validIndexes.size() == 0) {
       return;
     }
@@ -124,12 +135,13 @@ class SamplerAudio {
         break;     
     }
     
+    // skip over empty sample slots
     while(!validIndexes.contains(indexToTrigger)) {
       indexToTrigger = (indexToTrigger + 1) % SAMPLES_PER_SAMPLEGROUP;
     }
     
     
-    new Constant(volume).patch(samplers[indexToTrigger].amplitude);
+    new Constant(volume).patch(sequenceGainUgen.gain);
     samplers[indexToTrigger].trigger();
     lastPlayedIndex = indexToTrigger;
   }

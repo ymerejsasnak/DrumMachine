@@ -8,12 +8,9 @@ NEXT
 -fix randomstep volume (gets unpatched because of patching in per-step volume) need to patch both to multiplier ugen? or something like that
 
 -implement last settings: start offset and filter type (just do filter type per samplegroup, not in 'settings')
--begin making more samples to use (and hardcode an easy way to load themfor now)
+-begin making more samples to use 
 -implement line ugens for value changes so as to avoid sudden sharp changes (and thus clicks in more pure sounds)
 -reversable samples
--for some of above: initially also(?) load file as audiosample in order to get sample array information
-   (or figure out how to do this w/ buffer?)
-   (or load files as audiosamples...and send buffer info to sampler ugen for playing)
 -patch and unpatch new ugens for each setting so changes don't affect samples already playing- yes it should be PER sample triggered
  (but maybe have a second delay that acts - as is now - PER STEP, since the changing delay sounds glitchy in a cool way)
 
@@ -22,8 +19,7 @@ SAMPLER
 -each *individual* sample should also at least have it's own volume knob ... and filter TYPE
 -save file path from loading file so selection dialog goes back to last folder used (maybe not if sdrop)
 -unload/clear sample, unload/clear samplegroup, unload/clear all samplegroups
--make sure with multiple samples there are no issues (ie some empty, none loaded, etc) (maybe use arraylist instead?)
--better/cleaner loading of default samples
+-better/cleaner loading of default samples (just save this for when presets are implemented?)
 -use sDrop for drag+drop of samples into sampler (much easier!) -- maybe even make a file browser window as part of this if possible?
 
 
@@ -40,7 +36,7 @@ SEQUENCER - really should be TRACK?
 -per track restart and repeat (not just all) - more randomize options too?
 
 MASTER (really just SEQUENCER?)
--clear all tracks/randomize all tracks (smart random based on beats/measures)
+-clear all tracks/randomize all tracks (smart random based on beats/measures - on beat or syncopated)
 
 --randomize tempo slider (subtle to CRAZY)  (maybe a # of steps per change option too?) or do by step/beat/measure like other stuff?
 - master volume too?
@@ -58,7 +54,7 @@ WAVS/PRESETS: (and so many more possible)
 -experimental/glitch/noise(but rhythmic)
 -extreme chaotic abstract/noise/sound collage
 -ambient (tonal samples)
--minimalist (drums + tonal)
+-generative minimalist (drums + tonal)
 
 FUTURE/OTHER
 -sequencer can be arbitrarily big with scrolling window and zoom in/out ?????

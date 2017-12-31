@@ -10,7 +10,7 @@ class Step {
   boolean on = false;
   boolean playing = false;
   
-  float volume = 1.0;
+  float stepGain = 0;
   int probability = 100;
   
    
@@ -69,7 +69,8 @@ class Step {
     if (on) {
       noStroke();
       fill(0, 0, 100);
-      rect(x + STEP_WIDTH / 2 - 4, y + STEP_HEIGHT - STEP_HEIGHT * volume, 4, STEP_HEIGHT * volume);
+      float gdraw = map(stepGain, -10.0, 0.0, 0.0, 1.0);
+      rect(x + STEP_WIDTH / 2 - 4, y + STEP_HEIGHT - STEP_HEIGHT * gdraw, 4, STEP_HEIGHT * gdraw);
       fill(0, 100, 150);
       float pdraw = map(probability, 0, 100, 0, 1);
       rect(x + STEP_WIDTH / 2, y + STEP_HEIGHT - STEP_HEIGHT * pdraw, 4, STEP_HEIGHT * pdraw);
@@ -81,12 +82,12 @@ class Step {
     if (_mouseX >= x && _mouseX <= x + STEP_WIDTH && _mouseY >= y && _mouseY <= y + STEP_HEIGHT){
       // left button: step on - left half of step does volume, right half does probability (based on y)
       // right button: step off
-      // middle button: 
+      // middle button: last active step
       
       if (_mouseButton == LEFT) {
         on = true;
         if (_mouseX <= x + STEP_WIDTH / 2) {
-          volume = map(_mouseY, y + STEP_HEIGHT, y, 0.0, 1.0);
+          stepGain = map(_mouseY, y + STEP_HEIGHT, y, -10.0, 0);
         }
         else {
           probability = int(map(_mouseY, y + STEP_HEIGHT, y, 0, 100));

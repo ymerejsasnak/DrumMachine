@@ -44,9 +44,9 @@ class SettingsGUI {
     }
     
     //set specific ranges and default values (ie off)
-    rangeSettings[Setting.VOLUME.ordinal()]
-      .setRange(0.0, 1.0)
-      .setRangeValues(1.0, 1.0);
+    rangeSettings[Setting.GAIN.ordinal()]
+      .setRange(-20.0, 10.0)
+      .setRangeValues(0.0, 0.0);
     rangeSettings[Setting.PITCH.ordinal()]
       .setRange(0.5, 2.0)
       .setRangeValues(1.0, 1.0);

@@ -124,39 +124,42 @@ class SequencerGUI { //rename/refactor?  this is actually gui for individual tra
         float value = random(settingsGUI[trackIndex].rangeSettings[settingsIndex].getLowValue(),
                              settingsGUI[trackIndex].rangeSettings[settingsIndex].getHighValue());
         
+        SamplerAudio currentAudio = samplerAudio[trackIndex];
+        
         switch (setting) {
-          
-          case VOLUME:
-            samplerAudio[trackIndex].volume.setConstant(value); 
-            break;
           case PITCH:
-            samplerAudio[trackIndex].pitch.setConstant(value);
+            break;
+            
+          case START:
+            break;
+          
+          case GAIN:
+            new Constant(value).patch(currentAudio.settingsGainUgen.gain);
             break;
           case PAN:
-            samplerAudio[trackIndex].panning.setConstant(value);
+            new Constant(value).patch(currentAudio.panUgen.pan);
             break;
             
             
           case FILTER_FREQ:
-            samplerAudio[trackIndex].filterFreq.setConstant(value);
+            new Constant(value).patch(currentAudio.filterUgen.frequency);
             break;
           case FILTER_REZ:
-            samplerAudio[trackIndex].filterRez.setConstant(value);
+            new Constant(value).patch(currentAudio.filterUgen.resonance);
             break;
             
           case BIT_DEPTH:
-            samplerAudio[trackIndex].bitDepth.setConstant(value);
+            new Constant(value).patch(currentAudio.crushUgen.bitRes);
             break;
           case BIT_RATE:
-            samplerAudio[trackIndex].bitRate.setConstant(value);
+            new Constant(value).patch(currentAudio.crushUgen.bitRate);
             break;
             
           case DELAY_TIME:
-            samplerAudio[trackIndex].delayTime.setConstant(value);
-            
+            new Constant(value).patch(currentAudio.delayUgen.delTime);            
             break;
           case DELAY_FEEDBACK:
-            samplerAudio[trackIndex].delayFeedback.setConstant(value);
+            new Constant(value).patch(currentAudio.delayUgen.delAmp);
             break;
             
         }
@@ -197,7 +200,7 @@ class SequencerGUI { //rename/refactor?  this is actually gui for individual tra
   }
   
   float getCurrentVolume() {
-    return steps[currentStep].volume;
+    return steps[currentStep].stepGain;
   }
   
 }
