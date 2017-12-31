@@ -35,8 +35,9 @@ SEQUENCER - really should be TRACK?
 -mute/solo buttons?
 -????step note value (not just 16th, also 8th, dotted, triplet, etc) - even more complex ones? (5/7/etc)
  (how do i do this cleanly???)
+ -swing notes?
  -per track volume/gain also for more fine tuning?
-
+-per track restart and repeat (not just all) - more randomize options too?
 
 MASTER (really just SEQUENCER?)
 -clear all tracks/randomize all tracks (smart random based on beats/measures)
@@ -66,6 +67,7 @@ FUTURE/OTHER
       -and then have 3rd tab(song?) for sequencing the sequencers! (using completely configurable step#s and loop times?)
       -each sequencer can have its own tempo?
       -or settable (or drawable!) tempo map that controls tempo over course of playlist (auto set to default tempo? or what?)
+         (ie a single sequence can be given various tempos depending on how its defined in this song page)
       -also, when inputing individual sequences into pattern, can choose which tracks are muted on a per seq instance in pattern basis) 
         (ie same pattern easily reusable with just less/more elements cause they're all actually in one sequence)
 */
@@ -113,7 +115,7 @@ void setup() {
   tabFont = new ControlFont(createFont("Arial", 15));
   
   
-  // hardcoded default loading for now, depends on names being the same with different indexs as part of filenmaes
+  /*// hardcoded default loading for now, depends on names being the same with different indexs as part of filenmaes
   samplerAudio[0] = new SamplerAudio("kick");
   samplerAudio[1] = new SamplerAudio("snareA");
   samplerAudio[2] = new SamplerAudio("snareB");
@@ -121,7 +123,7 @@ void setup() {
   samplerAudio[4] = new SamplerAudio("bongo");
   samplerAudio[5] = new SamplerAudio("shaker");
   samplerAudio[6] = new SamplerAudio("stick");
-  samplerAudio[7] = new SamplerAudio("can");
+  samplerAudio[7] = new SamplerAudio("can");*/
   
   
   cp5.getTab("default").hide(); //not using default tab
@@ -148,6 +150,8 @@ void setup() {
                     
   
   for (int trackIndex = 0; trackIndex < TOTAL_TRACKS; trackIndex++) {
+    
+    samplerAudio[trackIndex] = new SamplerAudio(trackIndex);
     
     samplerGUI[trackIndex] = new SamplerGUI(trackIndex);
     

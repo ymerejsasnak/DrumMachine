@@ -11,6 +11,7 @@ class SamplerAudio {
   RandomType randomType = RandomType.RANDOM;
   int lastPlayedIndex = -1;
   
+  int trackIndex;
   
   //ugens to route audio through
   Summer sumUgen = new Summer();
@@ -35,20 +36,21 @@ class SamplerAudio {
   // maybe don't need all these constant ugens?  can directly change some params with some ugen methods 
   
   
-  SamplerAudio(String baseName) {
+  SamplerAudio(int trackIndex) {
     
+    this.trackIndex = trackIndex;
     // this part is temporary...loads default wavs in an easy way...
-    for (int samplerIndex = 0; samplerIndex < SAMPLES_PER_SAMPLEGROUP; samplerIndex++) {
-      filenames[samplerIndex] = baseName + (samplerIndex + 1) + ".wav";
-      samplers[samplerIndex] = new Sampler(filenames[samplerIndex], SAMPLER_VOICES, minim); //4 is # of voices
-      samplers[samplerIndex].patch(sumUgen); //patch all 4 samples to summer first 
-    }
+    //for (int samplerIndex = 0; samplerIndex < SAMPLES_PER_SAMPLEGROUP; samplerIndex++) {
+    //  filenames[samplerIndex] = baseName + (samplerIndex + 1) + ".wav";
+    //  samplers[samplerIndex] = new Sampler(filenames[samplerIndex], SAMPLER_VOICES, minim); //4 is # of voices
+    //  samplers[samplerIndex].patch(sumUgen); //patch all 4 samples to summer first 
+    //}
     
     //patching constants
-    for (int sampleIndex = 0; sampleIndex < SAMPLES_PER_SAMPLEGROUP; sampleIndex++) {
-      volume.patch(samplers[sampleIndex].amplitude);
-      pitch.patch(samplers[sampleIndex].rate);
-    }
+    //for (int sampleIndex = 0; sampleIndex < SAMPLES_PER_SAMPLEGROUP; sampleIndex++) {
+    //  volume.patch(samplers[sampleIndex].amplitude);
+    //  pitch.patch(samplers[sampleIndex].rate);
+    //}
     
     panning.patch(panUgen.pan);
     
@@ -80,14 +82,32 @@ class SamplerAudio {
   void load(int sampleIndex, String filename) {
     samplers[sampleIndex] = new Sampler(filename, SAMPLER_VOICES, minim);
     samplers[sampleIndex].patch(sumUgen);
-    volume.patch(samplers[sampleIndex].amplitude);
+    //volume.patch(samplers[sampleIndex].amplitude);
   }
   
   
   // play method called from sequencer...this will trigger the actual audio
   void play(float volume) { 
     
-    int indexToTrigger = int(random(0, SAMPLES_PER_SAMPLEGROUP));
+    //first need list of valid indexes (some samples may not be loaded)  -- should be sep method
+    //then must randomly choose from those
+    
+    ArrayList<Integer> validIndexes = new ArrayList<Integer>();
+    
+    for (int sampleIndex = 0; sampleIndex < SAMPLES_PER_SAMPLEGROUP; sampleIndex++) {
+      if (samplers[sampleIndex] != null){
+        validIndexes.add(sampleIndex);
+      }
+      
+    }
+    
+    if (validIndexes.size() == 0) {
+      return;
+    }
+    
+    int choice = int(random(validIndexes.size()));
+    
+    int indexToTrigger = validIndexes.get(choice);//int(random(0, SAMPLES_PER_SAMPLEGROUP));
     switch (randomType) {
       case RANDOM:
         //do nothing, pure random
@@ -103,6 +123,12 @@ class SamplerAudio {
         indexToTrigger = (lastPlayedIndex + 1) % SAMPLES_PER_SAMPLEGROUP;
         break;     
     }
+    
+    while(!validIndexes.contains(indexToTrigger)) {
+      indexToTrigger = (indexToTrigger + 1) % SAMPLES_PER_SAMPLEGROUP;
+    }
+    
+    
     new Constant(volume).patch(samplers[indexToTrigger].amplitude);
     samplers[indexToTrigger].trigger();
     lastPlayedIndex = indexToTrigger;

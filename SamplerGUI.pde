@@ -42,11 +42,16 @@ public class SamplerGUI{
          ;
          
        sampleLabels[sampleIndex] = cp5.addTextlabel("filename " + trackIndex * 10 + sampleIndex)
-          .setText(samplerAudio[trackIndex].filenames[sampleIndex])
+          .setText("--")
           .setPosition(x + SAMPLEGROUP_BUTTON_SIZE * 2 + PADDING * 3, sampleY + PADDING)
           .setFont(createFont("Arial", 20))
           .moveTo(samplerGroup)
        ;
+       
+       if (samplerAudio[trackIndex].filenames[sampleIndex] != null) {
+         sampleLabels[sampleIndex].setText(samplerAudio[trackIndex].filenames[sampleIndex]);
+       }
+       
     }
     
     // control to set how it randomly chooses which sample from the group to play
