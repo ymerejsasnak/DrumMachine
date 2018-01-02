@@ -54,6 +54,18 @@ public class SamplerGUI{
        
     }
     
+    cp5.addRadioButton("filterType" + trackIndex)
+       .setItemsPerRow(1)
+       .addItem("Low Pass" + trackIndex, 0)
+       .addItem("Band Pass" + trackIndex, 1)
+       .addItem("High Pass" + trackIndex, 2)
+       .activate(0)
+       .setNoneSelectedAllowed(false)
+       .setPosition(x + PADDING * 2 + 70, y + (SAMPLE_HEIGHT + PADDING) * 4)
+       .plugTo(this, "changeFilterType")
+       .moveTo(samplerGroup)
+    ;
+    
     // control to set how it randomly chooses which sample from the group to play
     cp5.addRadioButton("randomType" + trackIndex)
        .setItemsPerRow(1)
@@ -61,6 +73,7 @@ public class SamplerGUI{
        .addItem("Avoid Previous" + trackIndex, RandomType.AVOID_PREVIOUS.ordinal())
        .addItem("Cycle" + trackIndex, RandomType.CYCLE.ordinal())
        .activate(0)
+       .setNoneSelectedAllowed(false)
        .setPosition(x + PADDING, y + (SAMPLE_HEIGHT + PADDING) * 4)
        .plugTo(this, "chooseRandom")
        .moveTo(samplerGroup)
@@ -100,6 +113,21 @@ public class SamplerGUI{
   // set randomtype in sampler audio based on radio button for each sample group
   void chooseRandom(int randomTypeIndex) {
     samplerAudio[trackIndex].randomType = RandomType.values()[randomTypeIndex];
+  }
+  
+  // 
+  void changeFilterType(int filterIndex) {
+    switch (filterIndex) {
+      case 0:
+        samplerAudio[trackIndex].filterUgen.type = MoogFilter.Type.LP;
+        break;
+      case 1:
+        samplerAudio[trackIndex].filterUgen.type = MoogFilter.Type.BP;
+        break;
+      case 2:
+        samplerAudio[trackIndex].filterUgen.type = MoogFilter.Type.HP;
+        break;
+    }
   }
  
 }

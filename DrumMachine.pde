@@ -1,11 +1,6 @@
 /* TO DO:
 
 NEXT
--sample play button should just play straight sample, not through any of the 'settings'
-(easy - just patch directly to out in the method for the play button, trigger, then unpatch?)
-(or maybe could wrap whole fx chain in a bypass and switch that on or off?)
-
--(re)implement start offset (get end value from end.lastValues or something) and pitch in settings
 -add choice of filter type to samplegroup
 -add volume knob to individual samples
 -add button to reverse samples (try negative play rate?)
@@ -23,7 +18,7 @@ SAMPLER
 -unload/clear sample, unload/clear samplegroup, unload/clear all samplegroups
 -better/cleaner loading of default samples (just save this for when presets are implemented?)
 -use sDrop for drag+drop of samples into sampler (much easier!) -- maybe even make a file browser window as part of this if possible?
-
+-should individual sample play button play clean or play based on settings??? (currently settings)
 
 SAMPLER SETTINGS
 -initialize settings/randomize settings
