@@ -128,9 +128,21 @@ class SequencerGUI { //rename/refactor?  this is actually gui for individual tra
         
         switch (setting) {
           case PITCH:
+            for (int sampleIndex = 0; sampleIndex < SAMPLES_PER_SAMPLEGROUP; sampleIndex++) {
+              if (currentAudio.samplers[sampleIndex] != null) {
+                new Constant(value).patch(currentAudio.samplers[sampleIndex].rate); 
+              }
+            }
             break;
             
           case START:
+            for (int sampleIndex = 0; sampleIndex < SAMPLES_PER_SAMPLEGROUP; sampleIndex++) {
+              if (currentAudio.samplers[sampleIndex] != null) {
+                float sampleLength = currentAudio.samplers[sampleIndex].end.getLastValues()[0];
+                value = map(value, 0, 100, 0, sampleLength);
+                new Constant(value).patch(currentAudio.samplers[sampleIndex].begin); 
+              }
+            }
             break;
           
           case GAIN:

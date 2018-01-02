@@ -1,22 +1,24 @@
-// IDM: Idiosyncratic Drum Machine
-
 /* TO DO:
 
 NEXT
--sample play button should just play straight sample, not through any of the 'settings'....right?
+-sample play button should just play straight sample, not through any of the 'settings'
+(easy - just patch directly to out in the method for the play button, trigger, then unpatch?)
+(or maybe could wrap whole fx chain in a bypass and switch that on or off?)
 
--fix randomstep volume (gets unpatched because of patching in per-step volume) need to patch both to multiplier ugen? or something like that
-
--implement last settings: start offset and filter type (just do filter type per samplegroup, not in 'settings')
--begin making more samples to use 
+-(re)implement start offset (get end value from end.lastValues or something) and pitch in settings
+-add choice of filter type to samplegroup
+-add volume knob to individual samples
+-add button to reverse samples (try negative play rate?)
+-begin making more samples to use (at least a good default set)
 -implement line ugens for value changes so as to avoid sudden sharp changes (and thus clicks in more pure sounds)
--reversable samples
+
 -patch and unpatch new ugens for each setting so changes don't affect samples already playing- yes it should be PER sample triggered
+ (ie per voice not per track)
  (but maybe have a second delay that acts - as is now - PER STEP, since the changing delay sounds glitchy in a cool way)
+(or have switch for static/dynamic type for ALL settings)
 
 
 SAMPLER
--each *individual* sample should also at least have it's own volume knob ... and filter TYPE
 -save file path from loading file so selection dialog goes back to last folder used (maybe not if sdrop)
 -unload/clear sample, unload/clear samplegroup, unload/clear all samplegroups
 -better/cleaner loading of default samples (just save this for when presets are implemented?)
@@ -35,15 +37,17 @@ SEQUENCER - really should be TRACK?
  -per track volume/gain also for more fine tuning?
 -per track restart and repeat (not just all) - more randomize options too?
 
+
 MASTER (really just SEQUENCER?)
 -clear all tracks/randomize all tracks (smart random based on beats/measures - on beat or syncopated)
 
 --randomize tempo slider (subtle to CRAZY)  (maybe a # of steps per change option too?) or do by step/beat/measure like other stuff?
 - master volume too?
 
+
 MASTER (or is this seq stuff and seq individual stuff is really TRACK class????)
 -record to file
--preset saving/loading (also able to save/load sequencer sequence (w/ settings?) separately?)
+-preset saving/loading (also able to save/load parts separately: sequence, settings, samples?)
 -initialize all/randomize all
 -add limiter to end of audio chain for all?  -add basic level monitor?  -basic output waveform drawing?
 
@@ -55,6 +59,7 @@ WAVS/PRESETS: (and so many more possible)
 -extreme chaotic abstract/noise/sound collage
 -ambient (tonal samples)
 -generative minimalist (drums + tonal)
+
 
 FUTURE/OTHER
 -sequencer can be arbitrarily big with scrolling window and zoom in/out ?????

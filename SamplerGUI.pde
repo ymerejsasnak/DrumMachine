@@ -73,7 +73,9 @@ public class SamplerGUI{
   
   // directly play the file to audition it (see note in TODO)
   void playFile(int sampleIndex) {
+    
     samplerAudio[trackIndex].samplers[sampleIndex].trigger();
+  
   }
  
  

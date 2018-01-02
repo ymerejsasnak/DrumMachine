@@ -53,6 +53,9 @@ class SettingsGUI {
     rangeSettings[Setting.PAN.ordinal()]
       .setRange(-1.0, 1.0)
       .setRangeValues(0, 0);
+    rangeSettings[Setting.START.ordinal()]
+      .setRange(0, 100) //% of sound length
+      .setRangeValues(0, 0);
             
     rangeSettings[Setting.BIT_DEPTH.ordinal()]
       .setRange(1.0, 16)
