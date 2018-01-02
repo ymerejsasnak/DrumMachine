@@ -1,8 +1,6 @@
 /* TO DO:
 
 NEXT
--add choice of filter type to samplegroup
--add volume knob to individual samples
 -add button to reverse samples (try negative play rate?)
 -begin making more samples to use (at least a good default set)
 -implement line ugens for value changes so as to avoid sudden sharp changes (and thus clicks in more pure sounds)
@@ -12,13 +10,16 @@ NEXT
  (but maybe have a second delay that acts - as is now - PER STEP, since the changing delay sounds glitchy in a cool way)
 (or have switch for static/dynamic type for ALL settings)
 
+-consider changing some sliders to knobs - more room!
+
 
 SAMPLER
 -save file path from loading file so selection dialog goes back to last folder used (maybe not if sdrop)
 -unload/clear sample, unload/clear samplegroup, unload/clear all samplegroups
 -better/cleaner loading of default samples (just save this for when presets are implemented?)
 -use sDrop for drag+drop of samples into sampler (much easier!) -- maybe even make a file browser window as part of this if possible?
--should individual sample play button play clean or play based on settings??? (currently settings)
+? should individual sample play button play clean or play based on settings??? (currently settings)
+? individual volume knob for each sample?
 
 SAMPLER SETTINGS
 -initialize settings/randomize settings

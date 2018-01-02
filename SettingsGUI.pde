@@ -29,10 +29,10 @@ class SettingsGUI {
                       y + (SETTINGS_SLIDER_HEIGHT + PADDING) * rangeIndex)
          .setSize(SETTINGS_SLIDER_WIDTH, SETTINGS_SLIDER_HEIGHT)
          .setRange(1, 64)
-         .setValue(4)
          .setNumberOfTickMarks(64)
-         .snapToTickMarks(true)
          .showTickMarks(false)
+         .snapToTickMarks(true)
+         .setValue(4)
          .setSliderMode(Slider.FLEXIBLE)
          .moveTo(samplerGUI[trackIndex].samplerGroup)
          ;

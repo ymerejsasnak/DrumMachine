@@ -125,13 +125,16 @@ class MasterGUI {
   }
   
   
-  // stop button: reset playing flags and current steps
+  // stop button: reset playing flags and current steps and settings change counters
   public void stopIt() {
     playing = false;
     for (int trackIndex = 0; trackIndex < TOTAL_TRACKS; trackIndex++) {
       SequencerGUI thisTrack = sequencerGUI[trackIndex];
       thisTrack.steps[thisTrack.currentStep].playing = false;
       thisTrack.currentStep = 0;
+      for (int counterIndex = 0; counterIndex < Setting.values().length; counterIndex++) {
+        thisTrack.stepCounters[counterIndex] = 0;
+      }
     }    
   } 
 

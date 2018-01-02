@@ -41,13 +41,24 @@ public class SamplerGUI{
          .moveTo(samplerGroup)
          ;
          
-       sampleLabels[sampleIndex] = cp5.addTextlabel("filename " + trackIndex * 10 + sampleIndex)
-          .setText("--")
-          .setPosition(x + SAMPLEGROUP_BUTTON_SIZE * 2 + PADDING * 3, sampleY + PADDING)
-          .setFont(createFont("Arial", 20))
-          .moveTo(samplerGroup)
-       ;
-       
+        
+      sampleLabels[sampleIndex] = cp5.addTextlabel("filename " + trackIndex * 10 + sampleIndex)
+        .setText("--")
+        .setPosition(x + SAMPLEGROUP_BUTTON_SIZE * 2 + PADDING * 3, sampleY + PADDING)
+        .setFont(createFont("Arial", 20))
+        .moveTo(samplerGroup)
+      ;
+      
+      /*cp5.addKnob("volume" + trackIndex * 10 + sampleIndex)
+        .setValue(1)
+        .setId(sampleIndex)
+        .setCaptionLabel("volume")
+        .setPosition(x + SAMPLEGROUP_BUTTON_SIZE * 2 + PADDING * 3 + 100, sampleY + PADDING)
+        .setRadius(10)
+        .plugTo(this, "adjustVolume")
+        .moveTo(samplerGroup)
+        ;*/
+     
        if (samplerAudio[trackIndex].filenames[sampleIndex] != null) {
          sampleLabels[sampleIndex].setText(samplerAudio[trackIndex].filenames[sampleIndex]);
        }
@@ -129,5 +140,7 @@ public class SamplerGUI{
         break;
     }
   }
+  
+  
  
 }
