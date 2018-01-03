@@ -24,57 +24,18 @@ class SamplerAudio {
   BitCrush crushUgen = new BitCrush(16, 44100);
   Delay delayUgen = new Delay(1.0, 0.0, true, true); //??
   
-  /*// constant ugens to control settings of above ugens (numbers are default values...need constants)
-  Constant volume = new Constant(1);
-  Constant pitch = new Constant(1);
-  Constant panning = new Constant(0);
-  //Constant start = new Constant(0);
-  //Constant filterType = new Constant(MoogFilter.Type.LP);
-  Constant filterFreq = new Constant(22050);
-  Constant filterRez = new Constant(0);
-  Constant bitDepth = new Constant(16);
-  Constant bitRate = new Constant(44100);
-  Constant delayTime = new Constant(1);//?
-  Constant delayFeedback = new Constant(0);//?*/
-  
-  // maybe don't need all these constant ugens?  can directly change some params with some ugen methods 
-  
+   
   
   SamplerAudio(int trackIndex) {
     
     this.trackIndex = trackIndex;
-    // this part is temporary...loads default wavs in an easy way...
-    //for (int samplerIndex = 0; samplerIndex < SAMPLES_PER_SAMPLEGROUP; samplerIndex++) {
-    //  filenames[samplerIndex] = baseName + (samplerIndex + 1) + ".wav";
-    //  samplers[samplerIndex] = new Sampler(filenames[samplerIndex], SAMPLER_VOICES, minim); //4 is # of voices
-    //  samplers[samplerIndex].patch(sumUgen); //patch all 4 samples to summer first 
-    //}
-    
-    //patching constants
-    //for (int sampleIndex = 0; sampleIndex < SAMPLES_PER_SAMPLEGROUP; sampleIndex++) {
-    //  volume.patch(samplers[sampleIndex].amplitude);
-    //  pitch.patch(samplers[sampleIndex].rate);
-    //}
-    
-    //panning.patch(panUgen.pan);
-    
-    //bitDepth.patch(crushUgen.bitRes);
-   // bitRate.patch(crushUgen.bitRate);
-    
-    //filterFreq.patch(filterUgen.frequency);
-   // filterRez.patch(filterUgen.resonance);
-    
-    //delayTime.patch(delayUgen.delTime);
-    //delayFeedback.patch(delayUgen.delAmp);
-    
+        
     // output from pan is stereo so set subsequent ugens to be stereo too
     filterUgen.setChannelCount(2);
     crushUgen.setChannelCount(2);
     delayUgen.setChannelCount(2);
     
     // patch audio path
-   
-    
     samplerSummerUgen.patch(sequenceGainUgen)
                      .patch(settingsGainUgen)
                      
@@ -144,6 +105,15 @@ class SamplerAudio {
     new Constant(volume).patch(sequenceGainUgen.gain);
     samplers[indexToTrigger].trigger();
     lastPlayedIndex = indexToTrigger;
+  }
+  
+  
+  // method to change settings using a line so no sudden clicks in purer sounds
+  void patchLine(UGen.UGenInput input, float newValue) { 
+    Line line = new Line(0.1, input.getLastValues()[0], newValue);
+    line.patch(input);
+    line.setLineTime(0.1);
+    line.activate();
   }
   
 }

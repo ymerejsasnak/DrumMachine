@@ -130,7 +130,7 @@ class SequencerGUI { //rename/refactor?  this is actually gui for individual tra
           case PITCH:
             for (int sampleIndex = 0; sampleIndex < SAMPLES_PER_SAMPLEGROUP; sampleIndex++) {
               if (currentAudio.samplers[sampleIndex] != null) {
-                new Constant(value).patch(currentAudio.samplers[sampleIndex].rate); 
+                currentAudio.patchLine(currentAudio.samplers[sampleIndex].rate, value); 
               }
             }
             break;
@@ -140,38 +140,39 @@ class SequencerGUI { //rename/refactor?  this is actually gui for individual tra
               if (currentAudio.samplers[sampleIndex] != null) {
                 float sampleLength = currentAudio.samplers[sampleIndex].end.getLastValues()[0];
                 value = map(value, 0, 100, 0, sampleLength);
-                new Constant(value).patch(currentAudio.samplers[sampleIndex].begin); 
+                currentAudio.patchLine(currentAudio.samplers[sampleIndex].begin, value); 
               }
             }
             break;
           
           case GAIN:
-            new Constant(value).patch(currentAudio.settingsGainUgen.gain);
+            currentAudio.patchLine(currentAudio.settingsGainUgen.gain, value);
+            
             break;
           case PAN:
-            new Constant(value).patch(currentAudio.panUgen.pan);
+            currentAudio.patchLine(currentAudio.panUgen.pan, value);
             break;
             
             
           case FILTER_FREQ:
-            new Constant(value).patch(currentAudio.filterUgen.frequency);
+            currentAudio.patchLine(currentAudio.filterUgen.frequency, value);
             break;
           case FILTER_REZ:
-            new Constant(value).patch(currentAudio.filterUgen.resonance);
+            currentAudio.patchLine(currentAudio.filterUgen.resonance, value);
             break;
             
           case BIT_DEPTH:
-            new Constant(value).patch(currentAudio.crushUgen.bitRes);
+            currentAudio.patchLine(currentAudio.crushUgen.bitRes, value);
             break;
           case BIT_RATE:
-            new Constant(value).patch(currentAudio.crushUgen.bitRate);
+            currentAudio.patchLine(currentAudio.crushUgen.bitRate, value);
             break;
             
           case DELAY_TIME:
-            new Constant(value).patch(currentAudio.delayUgen.delTime);            
+            currentAudio.patchLine(currentAudio.delayUgen.delTime, value);            
             break;
           case DELAY_FEEDBACK:
-            new Constant(value).patch(currentAudio.delayUgen.delAmp);
+            currentAudio.patchLine(currentAudio.delayUgen.delAmp, value);
             break;
             
         }

@@ -1,6 +1,9 @@
 /* TO DO:
 
 NEXT
+-CLEANUP
+-rename/restructure classes?
+-add adsr (or damp?) with attack and decay added to settings (think about how to make this work best)
 -add button to reverse samples (try negative play rate?)
 -begin making more samples to use (at least a good default set)
 -implement line ugens for value changes so as to avoid sudden sharp changes (and thus clicks in more pure sounds)
@@ -112,15 +115,6 @@ void setup() {
   tabFont = new ControlFont(createFont("Arial", 15));
   
   
-  /*// hardcoded default loading for now, depends on names being the same with different indexs as part of filenmaes
-  samplerAudio[0] = new SamplerAudio("kick");
-  samplerAudio[1] = new SamplerAudio("snareA");
-  samplerAudio[2] = new SamplerAudio("snareB");
-  samplerAudio[3] = new SamplerAudio("hihat");
-  samplerAudio[4] = new SamplerAudio("bongo");
-  samplerAudio[5] = new SamplerAudio("shaker");
-  samplerAudio[6] = new SamplerAudio("stick");
-  samplerAudio[7] = new SamplerAudio("can");*/
   
   
   cp5.getTab("default").hide(); //not using default tab
