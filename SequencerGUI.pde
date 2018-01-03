@@ -19,8 +19,15 @@ class SequencerGUI { //rename/refactor?  this is actually gui for individual tra
   int stepsPerBeat = DEFAULT_STEPS_PER_BEAT;    // for now just pass these along to step class
   int beatsPerMeasure = DEFAULT_BEATS_PER_MEASURE;
   
+  float stepValue = SIXTEENTH;
     
   SequencerGUI(int trackIndex) {
+    
+    //temp - testing
+    //if (trackIndex == 0) {
+    //  stepValue = EIGHTH_TRIPLET;
+   // }
+    
     this.trackIndex = trackIndex;
     x = 0;
     y = trackIndex * (h + PADDING * 2) + PADDING * 2;

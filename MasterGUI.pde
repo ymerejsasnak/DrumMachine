@@ -118,8 +118,11 @@ class MasterGUI {
   // (note: each samplerinstrument actually takes care of ALL tracks at once, makes a new one each step)
   public void play() {
    if (!playing) {
-      out.setTempo(tempo);
-      out.playNote(0, SIXTEENTH, new SamplerInstrument());
+      
+      for (int trackIndex = 0; trackIndex < TOTAL_TRACKS; trackIndex++) {
+        out.setTempo(tempo);
+        out.playNote(0, sequencerGUI[trackIndex].stepValue, new SamplerInstrument(trackIndex, sequencerGUI[trackIndex].stepValue));
+      }
       playing = true;
     }   
   }

@@ -31,9 +31,6 @@ enum Setting {
 
 
 // for SEQUENCER
-//final int SEQUENCER_VERTICAL_OFFSET = 100;
-
-
 final int MAX_STEPS = 64;
 final int STEP_WIDTH = 16;
 final int STEP_SPACING = 1;
@@ -43,13 +40,13 @@ final int SEQUENCER_TRACK_WIDTH = MAX_STEPS * (STEP_WIDTH + STEP_SPACING);
 final int SEQUENCER_TRACK_HEIGHT = STEP_HEIGHT;
 
 final int CLEAR_BUTTON_WIDTH = 10;
-final int SLIDER_WIDTH = 50;
+final int SLIDER_WIDTH = 30;
 final int SLIDER_HEIGHT = 10;
 
 final int DEFAULT_STEPS_PER_BEAT = 4;
 final int DEFAULT_BEATS_PER_MEASURE = 4;
 final int MIN_STEPS_PER_BEAT = 2;
-final int MAX_STEPS_PER_BEAT = 8; //maybe
+final int MAX_STEPS_PER_BEAT = 8; //maybe?
 final int MIN_BEATS_PER_MEASURE = 2;
 final int MAX_BEATS_PER_MEASURE = 8; // maybe?
 
@@ -77,13 +74,15 @@ final float SIXTEENTH = 0.25f;
 final float EIGHTH = 0.5f;
 final float QUARTER = 1.0f;
 
-final float DOTTED_SIXTEENTH = 0.375f;
-final float DOTTED_EIGHTH = 0.75f;
-final float DOTTED_QUARTER = 1.5f;
+final float SIXTEENTH_DOTTED = 0.375f;
+final float EIGHTH_DOTTED = 0.75f;
+final float QUARTER_DOTTED = 1.5f;
 
-final float TRIPLET = 0.333333f;
+final float QUARTER_TRIPLET = 0.666666f;
+final float EIGHTH_TRIPLET = 0.3333333f;
+final float SIXTEENTH_TRIPLET = 0.1666666f;
 
-//need triplets...also maybe put all these in enum
+//maybe put all these in enum
 
 
 // COLORS

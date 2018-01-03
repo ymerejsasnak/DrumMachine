@@ -4,20 +4,25 @@
 
 class SamplerInstrument implements Instrument {
   
+  int trackIndex;
+  float stepValue;
   
-  float stepValue = SIXTEENTH;
-  
+  SamplerInstrument(int trackIndex, float stepValue) {
+    this.trackIndex = trackIndex;
+    this.stepValue = stepValue;
+  }
   
   // each step, this gets a note on command, and plays if step is active  (float dur parameter currently not used, but may need it for diff step values)
   // note: original playnote is called from mastergui from play button
   void noteOn(float dur) {
-    for (int trackIndex = 0; trackIndex < TOTAL_TRACKS; trackIndex++) {
+        
+    //for (int trackIndex = 0; trackIndex < TOTAL_TRACKS; trackIndex++) {
       
       if (sequencerGUI[trackIndex].getStep()) {
         samplerAudio[trackIndex].play(sequencerGUI[trackIndex].getCurrentVolume());
       } 
       
-    }
+    //}
   }
   
   
@@ -42,7 +47,7 @@ class SamplerInstrument implements Instrument {
     
     
       
-    for (int trackIndex = 0; trackIndex < TOTAL_TRACKS; trackIndex++) {
+    //for (int trackIndex = 0; trackIndex < TOTAL_TRACKS; trackIndex++) {
       SequencerGUI currentTrack = sequencerGUI[trackIndex];
       
       boolean onMeasure = (currentTrack.currentStep + 1) % (currentTrack.beatsPerMeasure * currentTrack.stepsPerBeat) == 0;
@@ -74,7 +79,7 @@ class SamplerInstrument implements Instrument {
       else {
         currentTrack.nextStep(StepType.STANDARD);   //do normal 'nextstep'  
       }
-    }
+   // }
     
     
     
